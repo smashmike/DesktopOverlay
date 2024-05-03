@@ -55,7 +55,21 @@
             <Grid x:Name="itemGrid" Margin="0,37,0,0">
                 <ui:DynamicScrollViewer  >
                     <StackPanel x:Name="itemStackPanel" Orientation="Vertical">
-
+                        <ui:Button VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" >
+                            <ui:Button.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Edit"/>
+                                    <MenuItem Header="Delete" Click="deleteItem"/>
+                                </ContextMenu>
+                            </ui:Button.ContextMenu>
+                            <ui:Button.Content>
+                                <Grid>
+                                    <ui:TextBox>
+                                        
+                                    </ui:TextBox>
+                                </Grid>
+                            </ui:Button.Content>
+                        </ui:Button>
                     </StackPanel>
                 </ui:DynamicScrollViewer>
                 
