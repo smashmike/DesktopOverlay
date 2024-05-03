@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:DesktopOverlayUI"
              StartupUri="MainWindow.xaml"
+             
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -10,8 +11,16 @@
                 <ui:ThemesDictionary Theme="Light" />
 
                 <ui:ControlsDictionary />
-                
+
             </ResourceDictionary.MergedDictionaries>
+            <ControlTemplate x:Key="pageTemplate">
+                <Grid>
+                    <ui:ToggleSwitch  Content="Show Element" Margin="10,61,0,0" VerticalAlignment="Top" IsChecked="False"/>
+                </Grid>
+            </ControlTemplate>
+            <ControlTemplate x:Key="itemButtonTemplate">
+                <ui:Button Content="Item" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120"/>
+            </ControlTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

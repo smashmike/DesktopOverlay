@@ -17,6 +17,8 @@ using System.IO;
 using System.Windows.Markup;
 using DesktopOverlayUI.pages;
 using Wpf.Ui.Controls;
+using System.Xml.Serialization;
+using TextBlock = Wpf.Ui.Controls.TextBlock;
 
 
 namespace DesktopOverlayUI
@@ -48,7 +50,8 @@ namespace DesktopOverlayUI
             //navMenu.MenuItems.Add(testItem);
             //Console.WriteLine("test");
             //navMenu.Navigate("test");
-            
+            testWindow testWindow  = new testWindow();
+            testWindow.Show();
 
         }
 
@@ -63,7 +66,9 @@ namespace DesktopOverlayUI
             
             
             navMenu.MenuItems.Add(element.getItem());
+
             Console.WriteLine(navMenu.MenuItems.Count);
+            
             
 
         
@@ -75,7 +80,8 @@ namespace DesktopOverlayUI
         {
             public Page elementPage;
             private NavigationViewItem navItem;
-
+            private ElementData data;
+            
             
             
             public OverlayElement(NavigationView views)
@@ -83,28 +89,53 @@ namespace DesktopOverlayUI
                 Uri templateUri = new Uri("/pages/template.xaml", UriKind.Relative);
                 template template = new template();
 
+                data = new ElementData();
+
                 if (templateUri != null)
                 {
                     elementPage = new Page();
                     Page templatePage = (Page)Application.LoadComponent(templateUri);
                     ContentControl control = new ContentControl();
                     control.Content = null;
+                    Grid grid = new Grid();
 
-                    // Clone the template page
-                    elementPage = XamlClone(templatePage);
+                    
                 }
                 else
                 {
                     elementPage = new Page();
                 }
+                elementPage = new Page();
+                elementPage.Content = new Grid();
+                
+                elementPage.Template = Application.Current.FindResource("pageTemplate") as ControlTemplate;
 
+
+                Frame frame = new Frame();
+                frame.Content = elementPage;
                 navItem = new NavigationViewItem();
                 navItem.NavigationCacheMode = NavigationCacheMode.Required;
-
+                Grid grid1 = new Grid();
                 navItem.Template = views.ItemTemplate;
-                navItem.TargetPageType = elementPage.GetType();
+
+                Page page = new Page();
+                StackPanel stackPanel = new StackPanel();
+                TextBlock textBlock = new TextBlock();
+                textBlock.Text = "Hello, world!";
+                stackPanel.Children.Add(textBlock);
+                page.Content = stackPanel;
+                
+
+                navItem.TargetPageType = page.GetType();
+                
+                
+
+                
 
                 navItem.Content = "test" + views.MenuItems.Count;
+
+                
+                
             }
             public T XamlClone<T>(T source)
             {
@@ -117,6 +148,20 @@ namespace DesktopOverlayUI
 
                 return target;
             }
+
+            public void togglePage(NavigationView navigationView)
+            {
+                if (navigationView.MenuItems.IndexOf(elementPage) != -1)
+                {
+                    navigationView.MenuItems.Remove(elementPage);
+                }
+                else
+                {
+                    navigationView.MenuItems.Add(elementPage);
+                }
+            }
+
+            
 
             public NavigationViewItem getItem()
             {

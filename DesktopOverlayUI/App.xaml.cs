@@ -13,5 +13,9 @@ namespace DesktopOverlayUI
     /// </summary>
     public partial class App : Application
     {
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
