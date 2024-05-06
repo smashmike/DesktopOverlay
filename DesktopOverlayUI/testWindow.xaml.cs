@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Microsoft.UI.Xaml.Controls.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,10 +23,10 @@ namespace DesktopOverlayUI
     public partial class testWindow
     {
 
-
         public testWindow()
         {
             InitializeComponent();
+            
         }
 
         private void newItem(object sender, RoutedEventArgs e)
@@ -64,18 +66,24 @@ namespace DesktopOverlayUI
 
                 ContextMenu cm = new ContextMenu();
 
+
                 System.Windows.Controls.MenuItem deleteBtn = new();
                 deleteBtn.Header = "Delete";
                 deleteBtn.Click += deleteItem;
                 cm.Items.Add(deleteBtn);
 
                 System.Windows.Controls.MenuItem editBtn = new();
-                editBtn.Header = "Edit";
+                editBtn.Header = "Rename";
+                editBtn.Click += editItem;
                 cm.Items.Add(editBtn);
+
+
+                
 
                 this.Template = template;
                 this.Name = "item" + stackPanel.Children.Count;
                 this.ContextMenu = cm;
+                this.Click
             }
 
 
@@ -84,10 +92,25 @@ namespace DesktopOverlayUI
                 itemStackPanel.Children.Remove(this);
             }
 
-            private void editItem(object sender, RoutedEventArgs e)
+            private async void editItem(object sender, RoutedEventArgs e)
             {
                 
             }
+
+            private void selectItem(object sender, RoutedEventArgs e)
+            {
+                if (isSelected)
+                {
+                    isSelected = false;
+                    this.Background = Brushes.Transparent;
+                }
+                else
+                {
+                    isSelected = true;
+                    this.Background ;
+                }
+            }
+            
         }
     }
 }

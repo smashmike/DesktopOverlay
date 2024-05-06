@@ -33,18 +33,12 @@
                 </ui:Button>
             </ControlTemplate>
             <DataTemplate x:Key="itemTemplateTest">
-                <ui:Button Content="Item" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" >
-                    <ui:Button.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Edit"/>
-                            <MenuItem Header="Delete" Click="deleteItem"/>
-                        </ContextMenu>
-                    </ui:Button.ContextMenu>
-                </ui:Button>
+                <ui:Button Content="Item" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" />
+
             </DataTemplate>
         </ResourceDictionary>
     </ui:FluentWindow.Resources>
-    
+
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -55,24 +49,11 @@
             <Grid x:Name="itemGrid" Margin="0,37,0,0">
                 <ui:DynamicScrollViewer  >
                     <StackPanel x:Name="itemStackPanel" Orientation="Vertical">
-                        <ui:Button VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" >
-                            <ui:Button.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Edit"/>
-                                    <MenuItem Header="Delete" Click="deleteItem"/>
-                                </ContextMenu>
-                            </ui:Button.ContextMenu>
-                            <ui:Button.Content>
-                                <Grid>
-                                    <ui:TextBox>
-                                        
-                                    </ui:TextBox>
-                                </Grid>
-                            </ui:Button.Content>
-                        </ui:Button>
+                        <ui:Button VerticalAlignment="Top" HorizontalAlignment="Center" Content="Item" Width="120" Appearance="Secondary" />
+
                     </StackPanel>
                 </ui:DynamicScrollViewer>
-                
+
             </Grid>
             <ui:Button Content="New" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" Click="newItem"/>
         </Grid>
