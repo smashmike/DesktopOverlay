@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesktopOverlayUI"
         xmlns:pages="clr-namespace:DesktopOverlayUI.pages"
-       
+        
+        
 		xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         mc:Ignorable="d"
 		ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -22,8 +23,9 @@
 				 >
     <ui:FluentWindow.Resources>
         <ResourceDictionary>
-            <ControlTemplate x:Key="itemButtonTemplate">
-                <ui:Button Content="Item" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" Click="selectItem">
+            <ControlTemplate x:Key="itemButtonTemplate" TargetType="local:NavigationItem">
+                <ui:Button  Appearance="{TemplateBinding Appearance}" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" >
+                    <ContentPresenter Content="{TemplateBinding Content}"/>
                     <!--<ui:Button.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Edit"/>

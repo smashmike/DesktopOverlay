@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Markup;
 using Button = Wpf.Ui.Controls.Button;
 namespace DesktopOverlayUI
 {
@@ -22,7 +24,8 @@ namespace DesktopOverlayUI
     /// </summary>
     public partial class testWindow
     {
-
+        public static List<int> history = new List<int>();
+        
         public testWindow()
         {
             InitializeComponent();
@@ -39,78 +42,15 @@ namespace DesktopOverlayUI
             NavigationItem btn = new NavigationItem(itemStackPanel,template);
             btn.Name = "item" + itemStackPanel.Children.Count;
             itemStackPanel.Children.Add(btn);
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
+            history.Add(itemStackPanel.Children.IndexOf(btn));
+            if (history.Count > 10)
+            {
+                history.RemoveAt(0);
+            }
         }
 
         
 
-        private void selectItem(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        public class NavigationItem : Button
-        {
-            
-            private StackPanel itemStackPanel;
-            private Boolean isSelected;
-
-            public NavigationItem(StackPanel stackPanel, ControlTemplate template)
-            {
-                itemStackPanel = stackPanel;
-                isSelected = false;
-
-                ContextMenu cm = new ContextMenu();
-
-
-                System.Windows.Controls.MenuItem deleteBtn = new();
-                deleteBtn.Header = "Delete";
-                deleteBtn.Click += deleteItem;
-                cm.Items.Add(deleteBtn);
-
-                System.Windows.Controls.MenuItem editBtn = new();
-                editBtn.Header = "Rename";
-                editBtn.Click += editItem;
-                cm.Items.Add(editBtn);
-
-
-                
-
-                this.Template = template;
-                this.Name = "item" + stackPanel.Children.Count;
-                this.ContextMenu = cm;
-                this.Click
-            }
-
-
-            private void deleteItem(object sender, RoutedEventArgs e)
-            {
-                itemStackPanel.Children.Remove(this);
-            }
-
-            private async void editItem(object sender, RoutedEventArgs e)
-            {
-                
-            }
-
-            private void selectItem(object sender, RoutedEventArgs e)
-            {
-                if (isSelected)
-                {
-                    isSelected = false;
-                    this.Background = Brushes.Transparent;
-                }
-                else
-                {
-                    isSelected = true;
-                    this.Background ;
-                }
-            }
-            
-        }
+        
     }
 }
