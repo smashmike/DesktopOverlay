@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,10 +26,13 @@ namespace DesktopOverlayUI
     public partial class testWindow
     {
         public static List<int> history = new List<int>();
+        public static List<NavigationItem> navigationItems = new List<NavigationItem>();
         
         public testWindow()
         {
             InitializeComponent();
+            frameDisplay.Source = new Uri("/pages/template.xaml", UriKind.Relative);
+
             
         }
 
@@ -39,7 +43,7 @@ namespace DesktopOverlayUI
             //btn.Name = "test";
             
             //itemStackPanel.Children.Add(btn);
-            NavigationItem btn = new NavigationItem(itemStackPanel,template);
+            NavigationItem btn = new NavigationItem(itemStackPanel,template,this);
             btn.Name = "item" + itemStackPanel.Children.Count;
             itemStackPanel.Children.Add(btn);
             history.Add(itemStackPanel.Children.IndexOf(btn));
@@ -47,6 +51,16 @@ namespace DesktopOverlayUI
             {
                 history.RemoveAt(0);
             }
+        }
+
+        public void setView(Uri uri)
+        {
+            frameDisplay.Source = uri;
+        }
+        
+        public void setView(Page page)
+        {
+            frameDisplay.Content = page;
         }
 
         

@@ -8,7 +8,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ui:ThemesDictionary Theme="Light" />
+                <ui:ThemesDictionary x:Name="LightTheme" Theme="Light" />
 
                 <ui:ControlsDictionary />
 
@@ -21,6 +21,8 @@
             <ControlTemplate x:Key="itemButtonTemplate">
                 <ui:Button Content="Item" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120"/>
             </ControlTemplate>
+
+            <FontFamily x:Key="SegoeFluentIcons">pack://application:,,,/;component/Fonts/#Segoe Fluent Icons</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

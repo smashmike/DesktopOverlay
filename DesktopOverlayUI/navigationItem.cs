@@ -1,4 +1,5 @@
 ﻿
+using DesktopOverlayUI.pages;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.Collections.Generic;
@@ -21,14 +22,24 @@ namespace DesktopOverlayUI
 {
     public class NavigationItem : Button
     {
+        private testWindow currentWindow;
 
         private StackPanel itemStackPanel;
         private Boolean isSelected;
 
-        public NavigationItem(StackPanel stackPanel, ControlTemplate template)
+        private Page page;
+        private Uri pageUri;
+
+
+        public NavigationItem(StackPanel stackPanel, ControlTemplate template, testWindow testWindow)
         {
+            currentWindow = testWindow;
             itemStackPanel = stackPanel;
             isSelected = false;
+
+            page = new pages.template();
+            pageUri = new Uri("/pages/template.xaml", UriKind.Relative);
+
 
             ContextMenu cm = new ContextMenu();
 
@@ -64,7 +75,7 @@ namespace DesktopOverlayUI
             Click += selectItem;
             Appearance = ControlAppearance.Secondary;
 
-
+            
         }
 
 
@@ -98,7 +109,7 @@ namespace DesktopOverlayUI
                     }
                 }
                 Appearance = ControlAppearance.Primary;
-                
+                currentWindow.setView(page);
             }
         }
 
@@ -122,6 +133,7 @@ namespace DesktopOverlayUI
                     }
                 }
                 Appearance = ControlAppearance.Primary;
+                currentWindow.setView(page);
                 
             }
         }

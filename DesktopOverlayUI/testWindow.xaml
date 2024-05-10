@@ -15,7 +15,7 @@
         Title="MainWindow" Height="450" Width="800" 
         WindowCornerPreference="Round"
         ExtendsContentIntoTitleBar="True"
-        WindowBackdropType="Acrylic" WindowStyle="None"
+        WindowBackdropType="Acrylic" WindowStyle="None" ResizeMode="NoResize"
         
         
         
@@ -24,7 +24,7 @@
     <ui:FluentWindow.Resources>
         <ResourceDictionary>
             <ControlTemplate x:Key="itemButtonTemplate" TargetType="local:NavigationItem">
-                <ui:Button  Appearance="{TemplateBinding Appearance}" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" >
+                <ui:Button  Appearance="{TemplateBinding Appearance}" VerticalAlignment="Top" HorizontalAlignment="Center" Width="125" CornerRadius="0">
                     <ContentPresenter Content="{TemplateBinding Content}"/>
                     <!--<ui:Button.ContextMenu>
                         <ContextMenu>
@@ -46,20 +46,36 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ui:TitleBar HorizontalAlignment="Right" Height="32" Width="800" />
-        <Grid Margin="0,37,680,0">
-            <Grid x:Name="itemGrid" Margin="0,37,0,0">
-                <ui:DynamicScrollViewer  >
+        <ui:TitleBar HorizontalAlignment="Right" Height="32" Width="800"/>
+        <Grid Margin="0,56,675,12">
+            <Grid x:Name="itemGrid" Margin="0,48,0,48">
+                <ui:DynamicScrollViewer Margin="0,0,0,25">
                     <StackPanel x:Name="itemStackPanel" Orientation="Vertical">
-                        <ui:Button VerticalAlignment="Top" HorizontalAlignment="Center" Content="Item" Width="120" Appearance="Secondary" />
+                        <!--<ui:Button VerticalAlignment="Top" HorizontalAlignment="Center" Content="Item" Width="120" Appearance="Secondary" />-->
 
                     </StackPanel>
                 </ui:DynamicScrollViewer>
 
             </Grid>
-            <ui:Button Content="New" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" Click="newItem"/>
+            <ui:Button Content="New Element" VerticalAlignment="Top" Width="125" Click="newItem" Height="48" CornerRadius="4,4,0,0" BorderThickness="0,0,0,1" HorizontalAlignment="Center">
+                <ui:Button.Icon>
+                    <ui:SymbolIcon Symbol="Add48"/>
+                </ui:Button.Icon>
+            </ui:Button>
+            <ui:Button Content="Settings" VerticalAlignment="Top" Width="125" Height="48" Click="newItem" Margin="0,334,0,0" Appearance="Secondary" CornerRadius="0,0,4,4" BorderThickness="0,1,0,0" HorizontalAlignment="Center">
+                <ui:Button.Icon>
+                    <ui:SymbolIcon Symbol="Settings48"/>
+                </ui:Button.Icon>
+            </ui:Button>
         </Grid>
-        <Grid x:Name="debugBox" Margin="277,85,72,48"/>
+        <Grid  x:Name="frameGrid" Margin="130,37,10,10">
+            <Border  Background="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush }" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="10" x:Name="frameBorder"  Height="402" BorderThickness="1,1,1,1" >
+                <Frame x:Name="frameDisplay" NavigationUIVisibility="Hidden" Margin="0,0,0,0"/>
+            </Border>
+
+        </Grid>
+
+        <!--<Grid x:Name="debugBox" Margin="277,85,72,48"/>-->
 
 
     </Grid>
