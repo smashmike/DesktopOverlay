@@ -23,32 +23,69 @@
 				 >
     <ui:FluentWindow.Resources>
         <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
             <ControlTemplate x:Key="itemButtonTemplate" TargetType="local:NavigationItem">
-                <ui:Button  Appearance="{TemplateBinding Appearance}" Background="{TemplateBinding Background}" VerticalAlignment="Top" HorizontalAlignment="Center" Width="125" CornerRadius="0">
+                <ui:Button  
+                    VerticalAlignment="Top" 
+                    HorizontalAlignment="Center" 
+                    Width="125" 
+                    CornerRadius="4" 
+                    Padding="0,0,0,0" 
+                    HorizontalContentAlignment="Left" 
+                    MinHeight="40" 
+                    Background="{TemplateBinding Background}" 
+                    MouseOverBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}" 
+                    PressedBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}" Margin="0,1,0,1" BorderBrush="#00000000" 
+                    
+                    >
                     <ui:Button.Content>
-                        <Grid Margin="0" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <ui:SymbolIcon Symbol="Add48" Grid.Column="0" HorizontalAlignment="Left" />
-                            <Rectangle
-x:Name="ActiveRectangle"
-Grid.Column="0"
-Width="3"
-Height="16"
-Margin="0"
-HorizontalAlignment="Left"
-VerticalAlignment="Center"
-Fill="{ui:ThemeResource AccentTextFillColorSecondaryBrush}"
-RadiusX="2"
-RadiusY="2" />
-                            <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Border x:Name="ContentBorder" Padding="0" Margin="0" Grid.Row="0" >
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0">
+                                        <ContentControl
+                                            x:Name="IconContentPresenter"
+                                            Margin="-1,0,0,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"/>
+                                    </Grid>
+                                    <Rectangle
+                                        x:Name="ActiveRectangle"
+                                        Grid.Column="0"
+                                        Width="3"
+                                        Height="16"
+                                        Margin="0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Fill="{ui:ThemeResource AccentTextFillColorSecondaryBrush}"
+                                        Visibility="{Binding Path=IsSelected, Converter={StaticResource BooleanToVisibilityConverter }}"
+                                        Opacity="0"
+                                        RadiusX="2"
+                                        RadiusY="2"/>      
+                                    <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
                         </Grid>
                     </ui:Button.Content>
+
                 </ui:Button>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsSelected" Value="true">
+                        <Setter TargetName="ActiveRectangle" Property="Opacity" Value="1"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
             </ControlTemplate>
             <DataTemplate x:Key="itemTemplateTest">
                 <ui:Button Content="Item" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" />
@@ -68,7 +105,7 @@ RadiusY="2" />
                 <ui:DynamicScrollViewer Margin="0,0,0,25">
                     <StackPanel x:Name="itemStackPanel" Orientation="Vertical">
                         <!--<ui:Button VerticalAlignment="Top" HorizontalAlignment="Center" Content="Item" Width="120" Appearance="Secondary" />-->
-                        <ui:Button VerticalAlignment="Top" HorizontalAlignment="Center" Width="125" CornerRadius="0">
+                        <!--<ui:Button Background="{ui:ThemeResource ControlFillColorTertiaryBrush    }" VerticalAlignment="Top" HorizontalAlignment="Center" Width="125" CornerRadius="0" Padding="0,0,0,0" HorizontalContentAlignment="Left" MinHeight="40">
                             <ui:Button.Content>
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -77,21 +114,21 @@ RadiusY="2" />
                                     </Grid.RowDefinitions>
 
                                     <Border Padding="0" Margin="0" Grid.Row="0">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="40"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid Grid.Column="0">
-                                        <ContentControl
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0">
+                                                <ContentControl
                             x:Name="IconContentPresenter"
                             Margin="-1,0,0,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"/>
-                                    </Grid>
-                                    <Rectangle
+                                            </Grid>
+                                            <Rectangle
                         x:Name="ActiveRectangle"
                         Grid.Column="0"
                         Width="3"
@@ -102,19 +139,20 @@ RadiusY="2" />
                         Fill="{ui:ThemeResource AccentTextFillColorSecondaryBrush}"
                         RadiusX="2"
                         RadiusY="2" />
-                                    <ContentPresenter Grid.Column="1" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                </Grid>
+                                            <ContentPresenter Grid.Column="1" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        </Grid>
                                     </Border>
                                 </Grid>
                             </ui:Button.Content>
 
-                        </ui:Button>
+                        </ui:Button>-->
 
                     </StackPanel>
                 </ui:DynamicScrollViewer>
 
             </Grid>
             <ui:Button Content="New Element" VerticalAlignment="Top" Width="125" Click="newItem" Height="48" CornerRadius="4,4,0,0" BorderThickness="0,0,0,1" HorizontalAlignment="Center">
+
                 <ui:Button.Icon>
                     <ui:SymbolIcon Symbol="Add48"/>
                 </ui:Button.Icon>

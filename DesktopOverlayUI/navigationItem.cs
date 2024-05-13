@@ -1,6 +1,5 @@
 ﻿
 using DesktopOverlayUI.pages;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WinRT;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Markup;
@@ -22,7 +22,11 @@ using Button = Wpf.Ui.Controls.Button;
 namespace DesktopOverlayUI
 {
     public class NavigationItem : Button
+
+        
     {
+        public bool IsActive { get; set; }
+
         private testWindow currentWindow;
 
         private StackPanel itemStackPanel;
@@ -30,6 +34,10 @@ namespace DesktopOverlayUI
 
         private Page page;
         private Uri pageUri;
+
+        public static readonly DependencyProperty IsSelectedProperty =
+            DependencyProperty.Register("IsSelected", typeof(bool), typeof(NavigationItem), new PropertyMetadata(false));
+
 
 
         public NavigationItem(StackPanel stackPanel, ControlTemplate template, testWindow testWindow)
@@ -74,9 +82,8 @@ namespace DesktopOverlayUI
             }
             ContextMenu = cm;
             Click += selectItem;
-            ThemeResource theme = ThemeResource.ApplicationBackgroundBrush;
-            Background = Resources.FindName("ApplicationBackgroundBrush") as SolidColorBrush;
-            
+            Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+            //Opacity = 0.0;
             //Appearance = ControlAppearance.Secondary;
 
 
@@ -106,13 +113,18 @@ namespace DesktopOverlayUI
                 }
                 foreach (NavigationItem item in itemStackPanel.Children.OfType<NavigationItem>())
                 {
-                    if (!item.Equals(this) && item.IsSelected())
+                    if (!item.Equals(this) && item.IsItemSelected())
                     {
                         item.setSelected(false);
-                        item.Appearance = ControlAppearance.Secondary;
+                        //item.Appearance = ControlAppearance.Secondary;
+                        Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+                        //Opacity = 0.0;
                     }
                 }
                 //Appearance = ControlAppearance.Primary;
+                Background = FindResource("ControlStrokeColorDefaultBrush") as SolidColorBrush;
+                //Opacity = 1.0;
+
                 currentWindow.setView(page);
             }
         }
@@ -122,6 +134,8 @@ namespace DesktopOverlayUI
             if (!isSelected)
             {
                 isSelected = true;
+                IsSelected = true;
+
                 testWindow.history.Add(itemStackPanel.Children.IndexOf(this));
                 if (testWindow.history.Count > 10)
                 {
@@ -130,22 +144,32 @@ namespace DesktopOverlayUI
                 
                 foreach (NavigationItem item in itemStackPanel.Children.OfType<NavigationItem>())
                 {
-                    if (!item.Equals(this) && item.IsSelected())
+                    if (!item.Equals(this) && item.IsItemSelected())
                     {
                         item.setSelected(false);
-                        item.Appearance = ControlAppearance.Secondary;
+                        item.IsSelected = false;
+                        //item.Appearance = ControlAppearance.Secondary;
+                        Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+                        Opacity = 0.0;
                     }
                 }
                 //Appearance = ControlAppearance.Primary;
-                
+                Background = FindResource("ControlFillColorTertiaryBrush") as SolidColorBrush;
+                //Opacity = 1.0;
+
                 currentWindow.setView(page);
                 
             }
         }
 
-        public bool IsSelected()
+        public bool IsItemSelected()
         {
             return isSelected;
+        }
+        public bool IsSelected
+        {
+            get { return (bool)GetValue(IsSelectedProperty); }
+            set { SetValue(IsSelectedProperty, value); }
         }
 
         public void setSelected(bool selected)
@@ -154,7 +178,9 @@ namespace DesktopOverlayUI
 
             if (!selected)
             {
-                Appearance = ControlAppearance.Secondary;
+                //Appearance = ControlAppearance.Secondary;
+                Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+                //Opacity = 0.0;
             } else
             {
                 selectItem();
