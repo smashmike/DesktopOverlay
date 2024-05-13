@@ -30,7 +30,7 @@
             <ui:NavigationView.MenuItems >
                 <ui:NavigationViewItem x:Name="newElement" Content="New" Click="newElement_Click"/>
                 <ui:NavigationViewItemSeparator/>
-                <ui:NavigationViewItemHeader Text="AAAAA" HorizontalAlignment="Left"/>
+                <ui:NavigationViewItemHeader x:Name="debug" Text="AAAAA" HorizontalAlignment="Left"/>
                 <ui:NavigationViewItem x:Name="test1" Content="1" NavigationCacheMode="Enabled" TargetPageType="{x:Type pages:template}" />
                 <ui:NavigationViewItem x:Name="test2" Content="2" NavigationCacheMode="Required" TargetPageType="{x:Type pages:template}" />
                 <ui:NavigationViewItem Content="1" TargetPageType="{x:Type pages:template}"  />

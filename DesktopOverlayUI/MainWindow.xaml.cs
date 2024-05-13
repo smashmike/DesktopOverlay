@@ -63,8 +63,7 @@ namespace DesktopOverlayUI
             elements.Add(element);
             NavigationViewItem item = new NavigationViewItem();
             item.Template = navMenu.ItemTemplate;
-            
-            
+
             navMenu.MenuItems.Add(element.getItem());
 
             Console.WriteLine(navMenu.MenuItems.Count);

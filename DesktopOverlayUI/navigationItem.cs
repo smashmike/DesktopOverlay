@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Wpf.Ui;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Markup;
 using Button = Wpf.Ui.Controls.Button;
@@ -73,9 +74,12 @@ namespace DesktopOverlayUI
             }
             ContextMenu = cm;
             Click += selectItem;
-            Appearance = ControlAppearance.Secondary;
-
+            ThemeResource theme = ThemeResource.ApplicationBackgroundBrush;
+            Background = Resources.FindName("ApplicationBackgroundBrush") as SolidColorBrush;
             
+            //Appearance = ControlAppearance.Secondary;
+
+
         }
 
 
@@ -108,7 +112,7 @@ namespace DesktopOverlayUI
                         item.Appearance = ControlAppearance.Secondary;
                     }
                 }
-                Appearance = ControlAppearance.Primary;
+                //Appearance = ControlAppearance.Primary;
                 currentWindow.setView(page);
             }
         }
@@ -132,7 +136,8 @@ namespace DesktopOverlayUI
                         item.Appearance = ControlAppearance.Secondary;
                     }
                 }
-                Appearance = ControlAppearance.Primary;
+                //Appearance = ControlAppearance.Primary;
+                
                 currentWindow.setView(page);
                 
             }

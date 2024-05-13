@@ -24,14 +24,30 @@
     <ui:FluentWindow.Resources>
         <ResourceDictionary>
             <ControlTemplate x:Key="itemButtonTemplate" TargetType="local:NavigationItem">
-                <ui:Button  Appearance="{TemplateBinding Appearance}" VerticalAlignment="Top" HorizontalAlignment="Center" Width="125" CornerRadius="0">
-                    <ContentPresenter Content="{TemplateBinding Content}"/>
-                    <!--<ui:Button.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Edit"/>
-                            <MenuItem Header="Delete" Click="deleteItem"/>
-                        </ContextMenu>
-                    </ui:Button.ContextMenu>-->
+                <ui:Button  Appearance="{TemplateBinding Appearance}" Background="{TemplateBinding Background}" VerticalAlignment="Top" HorizontalAlignment="Center" Width="125" CornerRadius="0">
+                    <ui:Button.Content>
+                        <Grid Margin="0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Symbol="Add48" Grid.Column="0" HorizontalAlignment="Left" />
+                            <Rectangle
+x:Name="ActiveRectangle"
+Grid.Column="0"
+Width="3"
+Height="16"
+Margin="0"
+HorizontalAlignment="Left"
+VerticalAlignment="Center"
+Fill="{ui:ThemeResource AccentTextFillColorSecondaryBrush}"
+RadiusX="2"
+RadiusY="2" />
+                            <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ui:Button.Content>
                 </ui:Button>
             </ControlTemplate>
             <DataTemplate x:Key="itemTemplateTest">
@@ -52,6 +68,47 @@
                 <ui:DynamicScrollViewer Margin="0,0,0,25">
                     <StackPanel x:Name="itemStackPanel" Orientation="Vertical">
                         <!--<ui:Button VerticalAlignment="Top" HorizontalAlignment="Center" Content="Item" Width="120" Appearance="Secondary" />-->
+                        <ui:Button VerticalAlignment="Top" HorizontalAlignment="Center" Width="125" CornerRadius="0">
+                            <ui:Button.Content>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Padding="0" Margin="0" Grid.Row="0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0">
+                                        <ContentControl
+                            x:Name="IconContentPresenter"
+                            Margin="-1,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                                    </Grid>
+                                    <Rectangle
+                        x:Name="ActiveRectangle"
+                        Grid.Column="0"
+                        Width="3"
+                        Height="16"
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Fill="{ui:ThemeResource AccentTextFillColorSecondaryBrush}"
+                        RadiusX="2"
+                        RadiusY="2" />
+                                    <ContentPresenter Grid.Column="1" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                </Grid>
+                                    </Border>
+                                </Grid>
+                            </ui:Button.Content>
+
+                        </ui:Button>
 
                     </StackPanel>
                 </ui:DynamicScrollViewer>
