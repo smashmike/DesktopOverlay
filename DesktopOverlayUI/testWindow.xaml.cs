@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Wpf.Ui.Animations;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Markup;
 using Button = Wpf.Ui.Controls.Button;
@@ -30,8 +31,8 @@ namespace DesktopOverlayUI
         public testWindow()
         {
             InitializeComponent();
-            frameDisplay.Source = new Uri("/pages/template.xaml", UriKind.Relative);
-
+            //frameDisplay.Source = new Uri("/pages/template.xaml", UriKind.Relative);
+            
             
         }
 
@@ -54,16 +55,31 @@ namespace DesktopOverlayUI
 
         public void setView(Uri uri)
         {
+            applyTransition();
             frameDisplay.Source = uri;
         }
         
         public void setView(Page page)
         {
+            applyTransition();
             frameDisplay.Content = page;
         }
 
-        
+        public void applyTransition()
+        {
+            TransitionAnimationProvider.ApplyTransition(frameDisplay, Transition.FadeInWithSlide, 200);
+        }
 
-        
+
+        private void settingsView(object sender, RoutedEventArgs e)
+        {
+            foreach (NavigationItem item in itemStackPanel.Children.OfType<NavigationItem>())
+            {
+                item.setSelected(false);
+            }
+            setView(new Uri("/pages/SettingsPage.xaml", UriKind.Relative));
+        }
+
+       
     }
 }

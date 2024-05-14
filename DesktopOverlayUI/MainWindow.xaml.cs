@@ -86,7 +86,7 @@ namespace DesktopOverlayUI
             public OverlayElement(NavigationView views)
             {
                 Uri templateUri = new Uri("/pages/template.xaml", UriKind.Relative);
-                template template = new template();
+                ItemTemplate template = new ItemTemplate();
 
                 data = new ElementData();
 

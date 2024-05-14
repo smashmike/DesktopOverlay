@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,16 +14,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DesktopOverlayUI.pages
+namespace DesktopOverlayUI.pages.overlayMenu
 {
     /// <summary>
-    /// Interaction logic for template.xaml
+    /// Interaction logic for ImagesTab.xaml
     /// </summary>
-    public partial class template : Page
+    public partial class ImagesTab : Page
     {
-        public template()
+
+        public Collection<ImageItem> imageItems = new Collection<ImageItem>();
+
+        public ImagesTab()
         {
             InitializeComponent();
         }
+
     }
 }
