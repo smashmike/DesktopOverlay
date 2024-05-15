@@ -20,6 +20,7 @@ namespace DesktopOverlayUI.pages
     /// </summary>
     public partial class ItemTemplate : Page
     {
+        public string ItemName { get; set; }
         public ItemTemplate()
         {
             InitializeComponent();
