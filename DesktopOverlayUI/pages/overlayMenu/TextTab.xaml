@@ -18,7 +18,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Margin="16">
-            <ui:TextBlock Text="Overlay Text"  FontTypography="Subtitle" />
+            <ui:TextBlock Text="Overlay Text"  FontTypography="Subtitle"  Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
             <ui:RichTextBox x:Name="TextInputBox" Margin="8,8,8,0" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Stretch" MaxHeight="34" MaxWidth="368"/>
             <WrapPanel>
                 <ui:Button Content="Update" Margin="12,0,0,0" Appearance="Primary"/>
