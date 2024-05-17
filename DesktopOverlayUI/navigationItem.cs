@@ -157,7 +157,7 @@ namespace DesktopOverlayUI
 
             if (resultText == "Apply")
             {
-                resultText = (frame.Content as dialogViews.RenameView).getTextbox();
+                resultText = ((dialogViews.RenameView)frame.Content).getTextbox();
             } else
             {
                 resultText = "";
