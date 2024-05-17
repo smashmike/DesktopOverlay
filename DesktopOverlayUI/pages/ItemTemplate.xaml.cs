@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DesktopOverlayUI.pages.overlayMenu;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wpf.Ui;
+using Wpf.Ui.Controls;
+using Wpf.Ui.Extensions;
 
 namespace DesktopOverlayUI.pages
 {
@@ -20,10 +24,27 @@ namespace DesktopOverlayUI.pages
     /// </summary>
     public partial class ItemTemplate : Page
     {
-        public string ItemName { get; set; }
         public ItemTemplate()
         {
             InitializeComponent();
         }
+
+        public ItemTemplate(string itemType)
+        {
+            InitializeComponent();
+            if (itemType.Equals("Image"))
+            {
+                ImageTab.Visibility = Visibility.Visible;
+            } else if (itemType.Equals("Text"))
+            {
+                TextTab.Visibility = Visibility.Visible;
+                TextStyleTab textStyleTab = new TextStyleTab();
+                StyleTab.TargetPageType = typeof(TextStyleTab);
+            }
+
+
+        }
+
+        
     }
 }

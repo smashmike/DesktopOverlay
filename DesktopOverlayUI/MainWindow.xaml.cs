@@ -53,6 +53,7 @@ namespace DesktopOverlayUI
             testWindow testWindow  = new testWindow();
             testWindow.Show();
 
+            this.Close();
         }
 
         private void newElement_Click(object sender, RoutedEventArgs e)
@@ -67,7 +68,6 @@ namespace DesktopOverlayUI
             navMenu.MenuItems.Add(element.getItem());
 
             Console.WriteLine(navMenu.MenuItems.Count);
-            
             
 
         

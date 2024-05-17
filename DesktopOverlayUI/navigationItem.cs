@@ -16,8 +16,10 @@ using System.Windows.Shapes;
 using WinRT;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Extensions;
 using Wpf.Ui.Markup;
 using Button = Wpf.Ui.Controls.Button;
+using TextBox = Wpf.Ui.Controls.TextBox;
 
 namespace DesktopOverlayUI
 {
@@ -35,13 +37,17 @@ namespace DesktopOverlayUI
         
 
 
-        public NavigationItem(StackPanel stackPanel, ControlTemplate template, testWindow testWindow)
+        public NavigationItem(StackPanel stackPanel, testWindow testWindow, string itemType)
         {
             currentWindow = testWindow;
             itemStackPanel = stackPanel;
             isSelected = false;
+            ResourceDictionary resources = new ResourceDictionary();
+            resources.Source = new Uri("/MenuItemTemplate.xaml", UriKind.Relative);
+            ControlTemplate? template = resources["itemButtonTemplate"] as ControlTemplate;
 
-            page = new pages.ItemTemplate();
+
+            page = new pages.ItemTemplate(itemType);
             pageUri = new Uri("/pages/ItemTemplate.xaml", UriKind.Relative);
 
 
@@ -58,25 +64,25 @@ namespace DesktopOverlayUI
             cm.Items.Add(editBtn);
 
             Template = template;
-            int testCount = 0;
-            foreach (NavigationItem item in stackPanel.Children.OfType<NavigationItem>())
-            {
-                if (item.Content.ToString().Contains("New Item"))
-                {
-                    testCount++;
-                }
-            }
-            Name = "item" + stackPanel.Children.Count;
-            if (testCount > 0)
-            {
-                Content = "New Item " + "(" + testCount + ")";
-            }
-            else
-            {
-                Content = "New Item";
-            }
+            //int testCount = 0;
+            //foreach (NavigationItem item in stackPanel.Children.OfType<NavigationItem>())
+            //{
+            //    if (item.Content.ToString().Contains("New Item"))
+            //    {
+            //        testCount++;
+            //    }
+            //}
+            //Name = "item" + stackPanel.Children.Count;
+            //if (testCount > 0)
+            //{
+            //    Content = "New Item " + "(" + testCount + ")";
+            //}
+            //else
+            //{
+            //    Content = "New Item";
+            //}
 
-            Content = "New Item";
+            Content = "New " + itemType +" Item";//14
 
             ContextMenu = cm;
             Click += selectItem;
@@ -92,12 +98,71 @@ namespace DesktopOverlayUI
         private void deleteItem(object sender, RoutedEventArgs e)
         {
             itemStackPanel.Children.Remove(this);
-            
+            while (testWindow.history.IndexOf(itemStackPanel.Children.IndexOf(this)) != -1)
+            {
+                testWindow.history.Remove(itemStackPanel.Children.IndexOf(this));
+            }
+            if (currentWindow.frameDisplay.CanGoBack)
+            {
+                if (itemStackPanel.Children.Count == 0)
+                {
+                    currentWindow.frameDisplay.Content = "";
+                    return;
+                }
+                
+                if (itemStackPanel.Children.Count > 0)
+                {
+                    NavigationItem? lastChild = itemStackPanel.Children[itemStackPanel.Children.Count - 1] as NavigationItem;
+                    lastChild?.selectItem();
+                }
+
+                currentWindow.applyTransition();
+            }
         }
 
         private async void editItem(object sender, RoutedEventArgs e)
         {
+            string newName = await renameDialog();
+            if (!newName.Equals(""))
+            {
+                Content = newName;
+            } 
+        }
 
+        public async Task<string> renameDialog()
+        {
+            ContentDialogService contentDialogService = new ContentDialogService();
+            contentDialogService.SetDialogHost(currentWindow.dialog);
+            Frame frame = new Frame();
+            Page renameDialogPage = new dialogViews.RenameView();
+            frame.Navigate(renameDialogPage);
+            TextBox textBox = new TextBox();
+
+
+            ContentDialogResult result = await contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions()
+            {
+                Title = "Rename Item",
+                Content = frame,
+                PrimaryButtonText = "Apply",
+                CloseButtonText = "Cancel",
+
+            });
+
+            string resultText = result switch
+            {
+                ContentDialogResult.Primary => "Apply",
+                ContentDialogResult.None => "None",
+                _ => "None",
+            };
+
+            if (resultText == "Apply")
+            {
+                resultText = (frame.Content as dialogViews.RenameView).getTextbox();
+            } else
+            {
+                resultText = "";
+            }
+            return resultText;
         }
 
         private void selectItem(object sender, RoutedEventArgs e)
@@ -152,7 +217,7 @@ namespace DesktopOverlayUI
                     }
                 }
                 // Set selected appearance
-                Background = FindResource("ControlFillColorTertiaryBrush") as SolidColorBrush;
+                Background = FindResource("ControlStrokeColorDefaultBrush") as SolidColorBrush;
                 Foreground = FindResource("AccentTextFillColorSecondaryBrush") as SolidColorBrush;
 
                 currentWindow.setView(page);
@@ -167,10 +232,10 @@ namespace DesktopOverlayUI
 
         public void setSelected(bool selected)
         {
-            isSelected = selected;
 
             if (!selected)
             {
+                isSelected = false;
                 Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
                 Foreground = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
             } else
@@ -178,6 +243,7 @@ namespace DesktopOverlayUI
                 selectItem();
             }
         }
+        
 
     }
 }

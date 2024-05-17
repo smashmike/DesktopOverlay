@@ -10,27 +10,38 @@
       Title="ImagesTab"
     DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
-    <StackPanel>
-        <ui:TextBlock HorizontalAlignment="Left" Margin="12" TextWrapping="Wrap" Text="Loaded Images" VerticalAlignment="Top" FontSize="20"/>
-        <Border Background="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush }" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="10" BorderThickness="1" Height="180" Width="220" HorizontalAlignment="Left" Margin="12,0,12,0">
-            <ui:ListView  ItemsSource="{Binding ImageItemsList}" Height="180" Width="220" HorizontalAlignment="Left">
-                <ui:ListView.ItemTemplate>
-                    <DataTemplate DataType="{x:Type local:ImageItem}">
-                        <TextBlock Margin="0,5,0,5" Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ui:ListView.ItemTemplate>
-            </ui:ListView>
-        </Border>
-        <Grid Margin="12,4,12,0" HorizontalAlignment="Left">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <ui:Button Grid.Column="0" Content="Add Image" Margin="0,0,8,12" VerticalAlignment="Top"/>
-            <ui:Button Grid.Column="1" Content="Remove Image" Margin="0,0,12,12" VerticalAlignment="Top"/>
-        </Grid>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="0" Margin="16">
+            <ui:TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Loaded Images" VerticalAlignment="Top" FontSize="20" Margin="0,0,0,8"/>
+            <Border Background="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush}" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="10" BorderThickness="1" Height="180" Width="220" HorizontalAlignment="Left" Margin="0,0,12,0">
+                <ui:ListView x:Name="imageListView"  ItemsSource="{Binding ImageItemsList}" Height="180" Width="220" HorizontalAlignment="Left">
+                    <ui:ListView.ItemTemplate>
+                        <DataTemplate DataType="{x:Type local:ImageItem}">
+                            <TextBlock Margin="0,5,0,5" Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ui:ListView.ItemTemplate>
+                </ui:ListView>
+            </Border>
+            <Grid Margin="0,8,12,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ui:Button Grid.Column="0" Content="Add Image" Margin="0,0,8,12" VerticalAlignment="Top" Click="addImage"/>
+                <ui:Button Grid.Column="1" Content="Remove Image" Margin="0,0,0,12" VerticalAlignment="Top" Click="removeImage" HorizontalAlignment="Right"/>
+            </Grid>
 
 
 
-    </StackPanel>
+        </StackPanel>
+    </Grid>
 </Page>

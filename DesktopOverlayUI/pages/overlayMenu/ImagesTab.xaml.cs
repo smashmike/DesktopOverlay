@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +45,6 @@ namespace DesktopOverlayUI.pages.overlayMenu
             ImageItem test2 = new ImageItem("test2");
             _ImageItemsList.Add(test1);
             _ImageItemsList.Add(test2);
-            //ImageItems = DependencyProperty.Register("imageItems", typeof(ObservableCollection<ImageItem>), typeof(ImagesTab));
             DataContext = this;
             InitializeComponent();
         }
@@ -53,5 +54,25 @@ namespace DesktopOverlayUI.pages.overlayMenu
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public void addImage(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog getImage = new OpenFileDialog();
+            getImage.Filter = "Image Files(*.jpg; *.jpeg; *.png)|*.jpg; *.jpeg; *.png";
+            if (getImage.ShowDialog() == true)
+            {
+                ImageItem newImage = new ImageItem(System.IO.Path.GetFileName(getImage.FileName));
+                ImageItemsList.Add(newImage);
+                imageListView.Items.Refresh();
+            }
+        }
+
+        public void removeImage(object sender, RoutedEventArgs e)
+        {
+            ImageItem selectedImage = (ImageItem)imageListView.SelectedItem;
+            ImageItemsList.Remove(selectedImage);
+            imageListView.Items.Refresh();
+        }
+
+        
     }
 }

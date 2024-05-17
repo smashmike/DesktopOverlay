@@ -15,10 +15,12 @@
       Title="template">
 
     <Grid>
-        <ui:NavigationView PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" FrameMargin="12">
+        <ContentPresenter x:Name="dialogPresenter"/>
+        <ui:NavigationView x:Name="tabNavigationView" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" FrameMargin="12">
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="Images" TargetPageType="{x:Type subMenu:ImagesTab}"/>
-                <ui:NavigationViewItem Content="Style"/>
+                <ui:NavigationViewItem NavigationCacheMode="Required" x:Name="ImageTab" Visibility="Collapsed" Content="Images" TargetPageType="{x:Type subMenu:ImagesTab}"/>
+                <ui:NavigationViewItem NavigationCacheMode="Required" x:Name="TextTab" Visibility="Collapsed" Content="Text" TargetPageType="{x:Type subMenu:TextTab}"/>
+                <ui:NavigationViewItem NavigationCacheMode="Required" x:Name="StyleTab" Content="Style"/>
                 <ui:NavigationViewItem Content="Location"/>
                 <ui:NavigationViewItem Content="Size"/>
             </ui:NavigationView.MenuItems>

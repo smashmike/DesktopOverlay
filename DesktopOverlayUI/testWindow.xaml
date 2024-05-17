@@ -15,78 +15,7 @@
         Title="MainWindow" Height="450" Width="800" 
         WindowCornerPreference="Round"
         ExtendsContentIntoTitleBar="True"
-        WindowBackdropType="Acrylic" WindowStyle="None" ResizeMode="NoResize"
-        
-        
-        
-       
-				 >
-    <ui:FluentWindow.Resources>
-        <ResourceDictionary>
-            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-
-            <ControlTemplate x:Key="itemButtonTemplate" TargetType="local:NavigationItem">
-                <ui:Button  
-                    VerticalAlignment="Top" 
-                    HorizontalAlignment="Center" 
-                    Width="125" 
-                    CornerRadius="4" 
-                    Padding="0,0,0,0" 
-                    HorizontalContentAlignment="Stretch" 
-                    MinHeight="40"
-                    Margin="1" BorderBrush="#00000000"
-                    Background="{TemplateBinding Background}" 
-                    MouseOverBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}" 
-                    PressedBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}"  
-                    Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" 
-                    
-                    >
-                    <ui:Button.Content>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <Border x:Name="ContentBorder" Padding="0" Margin="0" Grid.Row="0" >
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="40"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid Grid.Column="0">
-                                        <ContentControl
-                                            x:Name="IconContentPresenter"
-                                            Margin="-1,0,0,0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"/>
-                                    </Grid>
-                                    <Rectangle
-                                        x:Name="ActiveRectangle"
-                                        Grid.Column="0"
-                                        Width="3"
-                                        Height="16"
-                                        Margin="0"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Fill="{TemplateBinding Foreground}"
-                                        RadiusX="2"
-                                        RadiusY="2"/>
-                                    <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                </Grid>
-                            </Border>
-                        </Grid>
-                    </ui:Button.Content>
-                </ui:Button>
-            </ControlTemplate>
-            <DataTemplate x:Key="itemTemplateTest">
-                <ui:Button Content="Item" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" />
-
-            </DataTemplate>
-        </ResourceDictionary>
-    </ui:FluentWindow.Resources>
+        WindowBackdropType="Acrylic" WindowStyle="None" ResizeMode="NoResize">
 
 
     <Grid>
@@ -94,6 +23,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <ui:TitleBar HorizontalAlignment="Right" Height="32" Width="800"/>
+        <ContentPresenter x:Name="dialog" Panel.ZIndex="10"/>
         <Grid Margin="0,56,675,12">
             <Grid x:Name="itemGrid" Margin="0,48,0,48">
                 <ui:DynamicScrollViewer Margin="0,0,0,0">

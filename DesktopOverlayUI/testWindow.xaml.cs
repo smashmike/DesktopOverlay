@@ -14,8 +14,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Wpf.Ui;
 using Wpf.Ui.Animations;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Extensions;
 using Wpf.Ui.Markup;
 using Button = Wpf.Ui.Controls.Button;
 namespace DesktopOverlayUI
@@ -32,20 +34,33 @@ namespace DesktopOverlayUI
         {
             InitializeComponent();
             //frameDisplay.Source = new Uri("/pages/template.xaml", UriKind.Relative);
+            ThemeService themeService = new ThemeService();
+            //themeService.SetTheme(themeService.GetSystemTheme());
+
             
             
         }
 
-        private void newItem(object sender, RoutedEventArgs e)
+        private async void newItem(object sender, RoutedEventArgs e)
         {
             //Wpf.Ui.Controls.Button btn = new Wpf.Ui.Controls.Button();
-            ControlTemplate template = this.FindResource("itemButtonTemplate") as ControlTemplate;
+            string itemType = await promptDialog();
+
+            if (itemType.Equals("None"))
+            {
+                return;
+            }
+
+
+            //ControlTemplate template = this.FindResource("itemButtonTemplate") as ControlTemplate;
             //btn.Name = "test";
             
             //itemStackPanel.Children.Add(btn);
-            NavigationItem btn = new NavigationItem(itemStackPanel,template,this);
+            NavigationItem btn = new NavigationItem(itemStackPanel, this, itemType);
             btn.Name = "item" + itemStackPanel.Children.Count;
+
             itemStackPanel.Children.Add(btn);
+            btn.setSelected(true);
             history.Add(itemStackPanel.Children.IndexOf(btn));
             if (history.Count > 10)
             {
@@ -53,16 +68,41 @@ namespace DesktopOverlayUI
             }
         }
 
+        public async Task<string> promptDialog()
+        {
+            ContentDialogService contentDialogService = new ContentDialogService();
+            contentDialogService.SetDialogHost(dialog);
+
+            ContentDialogResult result = await contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions()
+            {
+                Title = "New Overlay",
+                Content = "Select an overlay type.",
+                PrimaryButtonText = "Text",
+                SecondaryButtonText = "Image",
+                CloseButtonText = "Cancel",
+
+            });
+
+            string resultText = result switch
+            {
+                ContentDialogResult.Primary => "Text",
+                ContentDialogResult.Secondary => "Image",
+                ContentDialogResult.None => "None",
+                _ => "None",
+            };
+            return resultText;
+        }
+
         public void setView(Uri uri)
         {
             applyTransition();
-            frameDisplay.Source = uri;
+            frameDisplay.Navigate(uri);
         }
         
         public void setView(Page page)
         {
             applyTransition();
-            frameDisplay.Content = page;
+            frameDisplay.Navigate(page);
         }
 
         public void applyTransition()
@@ -77,6 +117,7 @@ namespace DesktopOverlayUI
             {
                 item.setSelected(false);
             }
+            
             setView(new Uri("/pages/SettingsPage.xaml", UriKind.Relative));
         }
 
