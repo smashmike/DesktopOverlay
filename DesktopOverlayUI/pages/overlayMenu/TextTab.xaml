@@ -19,10 +19,10 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Margin="16">
             <ui:TextBlock Text="Overlay Text"  FontTypography="Subtitle" />
-            <ui:RichTextBox x:Name="textInputBox" Margin="8,8,8,0" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Stretch" MaxHeight="34" MaxWidth="368"/>
+            <ui:RichTextBox x:Name="TextInputBox" Margin="8,8,8,0" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Stretch" MaxHeight="34" MaxWidth="368"/>
             <WrapPanel>
                 <ui:Button Content="Update" Margin="12,0,0,0" Appearance="Primary"/>
-                <ui:Button Content="Clear" Margin="8" Click="clearText" />
+                <ui:Button Content="Clear" Margin="8" Click="ClearText" />
             </WrapPanel>
         </StackPanel>
         

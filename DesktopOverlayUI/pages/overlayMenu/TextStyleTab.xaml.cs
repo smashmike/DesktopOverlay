@@ -25,12 +25,12 @@ namespace DesktopOverlayUI.pages.overlayMenu
             InitializeComponent();
         }
 
-        private void updateColorPreview(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void UpdateColorPreview(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            redSlider.Value = (int)redSlider.Value;
-            greenSlider.Value = (int)greenSlider.Value;
-            blueSlider.Value = (int)blueSlider.Value;
-            colorPreview.Background = new SolidColorBrush(Color.FromRgb((byte)redSlider.Value, (byte)greenSlider.Value, (byte)blueSlider.Value));
+            RedSlider.Value = (int)RedSlider.Value;
+            GreenSlider.Value = (int)GreenSlider.Value;
+            BlueSlider.Value = (int)BlueSlider.Value;
+            ColorPreview.Background = new SolidColorBrush(Color.FromRgb((byte)RedSlider.Value, (byte)GreenSlider.Value, (byte)BlueSlider.Value));
         }
 
         

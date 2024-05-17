@@ -25,9 +25,9 @@ namespace DesktopOverlayUI.dialogViews
             InitializeComponent();
         }
 
-        public string getTextbox()
+        public string GetTextbox()
         {
-            return renameTextbox.Text;
+            return RenameTextbox.Text;
         }
     }
 }

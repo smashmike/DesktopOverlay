@@ -32,17 +32,19 @@ namespace DesktopOverlayUI.pages
         public ItemTemplate(string itemType)
         {
             InitializeComponent();
-            if (itemType.Equals("Image"))
+            switch (itemType)
             {
-                ImageTab.Visibility = Visibility.Visible;
-            } else if (itemType.Equals("Text"))
-            {
-                TextTab.Visibility = Visibility.Visible;
-                TextStyleTab textStyleTab = new TextStyleTab();
-                StyleTab.TargetPageType = typeof(TextStyleTab);
+                case "Image":
+                    ImageTab.Visibility = Visibility.Visible;
+                    break;
+                case "Text":
+                {
+                    TextTab.Visibility = Visibility.Visible;
+                    var textStyleTab = new TextStyleTab();
+                    StyleTab.TargetPageType = typeof(TextStyleTab);
+                    break;
+                }
             }
-
-
         }
 
         

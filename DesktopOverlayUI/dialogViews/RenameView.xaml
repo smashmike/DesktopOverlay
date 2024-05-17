@@ -15,8 +15,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-            <ui:TextBlock Text="Enter new name." Margin="16,0,0,0" FontTypography="BodyStrong"/>
-            <ui:TextBox x:Name="renameTextbox" MaxLength="14" AcceptsTab="False" Height="37" Margin="16,8,12,12" Width="160" VerticalAlignment="Top"></ui:TextBox>
+            <ui:TextBlock Text="Enter new name." Margin="16,0,0,0" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
+            <ui:TextBox x:Name="RenameTextbox" MaxLength="14" AcceptsTab="False" Height="37" Margin="16,8,12,12" Width="160" VerticalAlignment="Top"></ui:TextBox>
         </StackPanel>
     </Grid>
 </Page>

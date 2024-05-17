@@ -5,38 +5,116 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesktopOverlayUI"
         xmlns:pages="clr-namespace:DesktopOverlayUI.pages"
-       
+        
+        
 		xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         mc:Ignorable="d"
-		ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
-		ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+		ui:Design.Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+		ui:Design.Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"
 		
-        Title="MainWindow" Height="450" Width="800" 
+        Title="OldWindow" Height="450" Width="800" 
         WindowCornerPreference="Round"
         ExtendsContentIntoTitleBar="True"
-        WindowBackdropType="Acrylic" WindowStyle="None"
-        
-        
-        
-       
-				 >
+        WindowBackdropType="Acrylic" WindowStyle="None" ResizeMode="NoResize">
+
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <ui:TitleBar HorizontalAlignment="Right" Height="32" Width="800" />
-        <ui:NavigationView x:Name="navMenu" HorizontalAlignment="Center" VerticalAlignment="Top" Height="402" Width="800" OpenPaneLength="150" FrameMargin="12" PaneDisplayMode="Left" Margin="0,32,0,0" >
-            <ui:NavigationView.MenuItems >
-                <ui:NavigationViewItem x:Name="newElement" Content="New" Click="newElement_Click"/>
-                <ui:NavigationViewItemSeparator/>
-                <ui:NavigationViewItemHeader x:Name="debug" Text="AAAAA" HorizontalAlignment="Left"/>
-                <!--<ui:NavigationViewItem x:Name="test1" Content="1" NavigationCacheMode="Enabled" TargetPageType="{x:Type pages:ItemTemplate}" />
-                <ui:NavigationViewItem x:Name="test2" Content="2" NavigationCacheMode="Required" TargetPageType="{x:Type pages:ItemTemplate}" />
-                <ui:NavigationViewItem Content="1" TargetPageType="{x:Type pages:ItemTemplate}"  />-->
-            </ui:NavigationView.MenuItems>
+        <ui:TitleBar HorizontalAlignment="Right" Height="32" Width="800"/>
+        <ContentPresenter x:Name="Dialog" Panel.ZIndex="10"/>
+        <Grid Margin="0,56,675,12">
+            <Grid x:Name="ItemGrid" Margin="0,48,0,48">
+                <ui:DynamicScrollViewer Margin="0,0,0,0">
+                    <StackPanel x:Name="ItemStackPanel" Orientation="Vertical">
+                        <!--<ui:Button VerticalAlignment="Top" HorizontalAlignment="Center" Content="Item" Width="120" Appearance="Secondary" />-->
+                        <!--<ui:Button Background="{ui:ThemeResource ControlFillColorTertiaryBrush    }" VerticalAlignment="Top" HorizontalAlignment="Center" Width="125" CornerRadius="0" Padding="0,0,0,0" HorizontalContentAlignment="Left" MinHeight="40">
+                            <ui:Button.Content>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
 
-        </ui:NavigationView>
+                                    <Border Padding="0" Margin="0" Grid.Row="0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0">
+                                                <ContentControl
+                            x:Name="IconContentPresenter"
+                            Margin="-1,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                                            </Grid>
+                                            <Rectangle
+                        x:Name="ActiveRectangle"
+                        Grid.Column="0"
+                        Width="3"
+                        Height="16"
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Fill="{ui:ThemeResource AccentTextFillColorSecondaryBrush}"
+                        RadiusX="2"
+                        RadiusY="2" />
+                                            <ContentPresenter Grid.Column="1" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </ui:Button.Content>
+
+                        </ui:Button>-->
+
+                    </StackPanel>
+                </ui:DynamicScrollViewer>
+
+            </Grid>
+            <ui:Button 
+                Content="New Element" 
+                VerticalAlignment="Top"
+                Width="125"
+                Click="NewItem" 
+                Height="48" 
+                CornerRadius="4" 
+                BorderThickness="0,0,0,1" 
+                HorizontalAlignment="Center"
+                Background="{ui:ThemeResource ControlFillColorTransparentBrush}" 
+                MouseOverBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}" 
+                PressedBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}">
+
+                <ui:Button.Icon>
+                    <ui:SymbolIcon Symbol="Add48"/>
+                </ui:Button.Icon>
+            </ui:Button>
+            <ui:Button 
+                Content="Settings" 
+                Click="SettingsView"
+                VerticalAlignment="Top" 
+                Width="125" Height="48" 
+                Margin="0,334,0,0" 
+                Appearance="Secondary" 
+                CornerRadius="4" 
+                BorderThickness="0,1,0,0" 
+                HorizontalAlignment="Center"
+                Background="{ui:ThemeResource ControlFillColorTransparentBrush}" 
+                MouseOverBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}" 
+                PressedBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}">
+                <ui:Button.Icon>
+                    <ui:SymbolIcon Symbol="Settings48"/>
+                </ui:Button.Icon>
+            </ui:Button>
+        </Grid>
+        <Grid  x:Name="FrameGrid" Margin="137,37,12,12">
+            <Border  Background="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush }" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="10" x:Name="FrameBorder"  Height="402" BorderThickness="1,1,1,1" >
+                <Frame x:Name="FrameDisplay" NavigationUIVisibility="Hidden" Margin="0,0,0,0" />
+            </Border>
+
+        </Grid>
+
+        <!--<Grid x:Name="debugBox" Margin="277,85,72,48"/>-->
 
 
     </Grid>

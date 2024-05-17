@@ -24,27 +24,25 @@ namespace DesktopOverlayUI.pages.overlayMenu
     /// </summary>
     public partial class ImagesTab : Page
     {
-        private List<ImageItem> _ImageItemsList = new List<ImageItem>();
+        private List<ImageItem> _imageItemsList = [];
         public List<ImageItem> ImageItemsList { 
-            get {
-                return _ImageItemsList; 
-            } 
+            get => _imageItemsList;
             set {
-                _ImageItemsList = value; 
-                OnPropertyChanged("ImageItemsList");
+                _imageItemsList = value; 
+                OnPropertyChanged(nameof(ImageItemsList));
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
 
 
         public ImagesTab()
         {
-            ImageItem test1 = new ImageItem("test1");
-            ImageItem test2 = new ImageItem("test2");
-            _ImageItemsList.Add(test1);
-            _ImageItemsList.Add(test2);
+            var test1 = new ImageItem("test1");
+            var test2 = new ImageItem("test2");
+            _imageItemsList.Add(test1);
+            _imageItemsList.Add(test2);
             DataContext = this;
             InitializeComponent();
         }
@@ -54,23 +52,23 @@ namespace DesktopOverlayUI.pages.overlayMenu
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void addImage(object sender, RoutedEventArgs e)
+        public void AddImage(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog getImage = new OpenFileDialog();
-            getImage.Filter = "Image Files(*.jpg; *.jpeg; *.png)|*.jpg; *.jpeg; *.png";
-            if (getImage.ShowDialog() == true)
+            var getImage = new OpenFileDialog
             {
-                ImageItem newImage = new ImageItem(System.IO.Path.GetFileName(getImage.FileName));
-                ImageItemsList.Add(newImage);
-                imageListView.Items.Refresh();
-            }
+                Filter = "Image Files(*.jpg; *.jpeg; *.png)|*.jpg; *.jpeg; *.png"
+            };
+            if (getImage.ShowDialog() != true) return;
+            var newImage = new ImageItem(System.IO.Path.GetFileName(getImage.FileName));
+            ImageItemsList.Add(newImage);
+            ImageListView.Items.Refresh();
         }
 
-        public void removeImage(object sender, RoutedEventArgs e)
+        public void RemoveImage(object sender, RoutedEventArgs e)
         {
-            ImageItem selectedImage = (ImageItem)imageListView.SelectedItem;
+            var selectedImage = (ImageItem)ImageListView.SelectedItem;
             ImageItemsList.Remove(selectedImage);
-            imageListView.Items.Refresh();
+            ImageListView.Items.Refresh();
         }
 
         

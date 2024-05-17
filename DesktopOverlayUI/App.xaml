@@ -1,9 +1,8 @@
 ﻿<Application x:Class="DesktopOverlayUI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:DesktopOverlayUI"
              StartupUri="MainWindow.xaml"
-             
+
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -13,13 +12,14 @@
                 <ui:ControlsDictionary />
 
             </ResourceDictionary.MergedDictionaries>
-            <ControlTemplate x:Key="pageTemplate">
+            <ControlTemplate x:Key="PageTemplate">
                 <Grid>
-                    <ui:ToggleSwitch  Content="Show Element" Margin="10,61,0,0" VerticalAlignment="Top" IsChecked="False"/>
+                    <ui:ToggleSwitch Content="Show Element" Margin="10,61,0,0" VerticalAlignment="Top"
+                                     IsChecked="False" />
                 </Grid>
             </ControlTemplate>
-            <ControlTemplate x:Key="itemButtonTemplate">
-                <ui:Button Content="Item" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120"/>
+            <ControlTemplate x:Key="ItemButtonTemplate">
+                <ui:Button Content="Item" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" />
             </ControlTemplate>
 
             <FontFamily x:Key="SegoeFluentIcons">pack://application:,,,/;component/Fonts/#Segoe Fluent Icons</FontFamily>

@@ -15,8 +15,8 @@
       Title="template">
 
     <Grid>
-        <ContentPresenter x:Name="dialogPresenter"/>
-        <ui:NavigationView x:Name="tabNavigationView" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" FrameMargin="12">
+        <ContentPresenter x:Name="DialogPresenter"/>
+        <ui:NavigationView x:Name="TabNavigationView" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" FrameMargin="12">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem NavigationCacheMode="Required" x:Name="ImageTab" Visibility="Collapsed" Content="Images" TargetPageType="{x:Type subMenu:ImagesTab}"/>
                 <ui:NavigationViewItem NavigationCacheMode="Required" x:Name="TextTab" Visibility="Collapsed" Content="Text" TargetPageType="{x:Type subMenu:TextTab}"/>
