@@ -45,6 +45,7 @@ public partial class MainWindow
             WindowBackdropType.Acrylic,
             true
         );
+        new pages.OverlayDisplay().Show();
         //WindowBackdropType = WindowBackdropType.Mica;
     }
 
