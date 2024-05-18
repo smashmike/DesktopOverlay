@@ -45,10 +45,10 @@ namespace DesktopOverlayUI
             {
                 Source = new Uri("/MenuItemTemplate.xaml", UriKind.Relative)
             };
-            var template = resources["itemButtonTemplate"] as ControlTemplate;
+            var template = resources["ItemButtonTemplate"] as ControlTemplate;
 
 
-            _page = new pages.ItemTemplate(itemType);
+            _page = new ItemTemplate(itemType);
 
 
             var cm = new ContextMenu();
