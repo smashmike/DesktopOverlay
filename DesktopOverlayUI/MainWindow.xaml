@@ -11,11 +11,18 @@
         mc:Ignorable="d"
 		ui:Design.Background="{ui:ThemeResource ApplicationBackgroundBrush}"
 		ui:Design.Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"
+        WindowBackdropType="Mica"
 		
-        Title="OldWindow" Height="450" Width="800" 
+        Title="DesktopOverlay" Height="450" Width="800" 
         WindowCornerPreference="Round"
-        ExtendsContentIntoTitleBar="True"
-        WindowBackdropType="Acrylic" WindowStyle="None" ResizeMode="NoResize">
+        ExtendsContentIntoTitleBar="True" WindowStyle="None" ResizeMode="NoResize">
+    <ui:FluentWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ThemeDefaults.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ui:FluentWindow.Resources>
 
 
     <Grid>

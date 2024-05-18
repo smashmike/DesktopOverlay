@@ -8,6 +8,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary x:Name="LightTheme" Theme="Light" />
+                <ResourceDictionary Source="ThemeDefaults.xaml"/>
 
                 <ui:ControlsDictionary />
 

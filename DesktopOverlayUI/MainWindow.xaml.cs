@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
 using System.Diagnostics.Tracing;
 using System.Linq;
@@ -15,105 +14,107 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Wpf.Ui;
 using Wpf.Ui.Animations;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Extensions;
 using Wpf.Ui.Markup;
 using Button = Wpf.Ui.Controls.Button;
-namespace DesktopOverlayUI
+
+namespace DesktopOverlayUI;
+
+/// <summary>
+/// Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow
+
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow
+    private Page settingsPage;
+
+
+    public MainWindow()
     {
-        public MainWindow()
+        InitializeComponent();
+        //frameDisplay.Source = new Uri("/pages/template.xaml", UriKind.Relative);
+        settingsPage = new pages.SettingsPage(this);
+
+
+        var themeService = new ThemeService();
+        themeService.SetTheme(themeService.GetSystemTheme());
+        ApplicationThemeManager.Apply(
+            ApplicationTheme.Dark,
+            WindowBackdropType.Acrylic,
+            true
+        );
+        //WindowBackdropType = WindowBackdropType.Mica;
+    }
+
+    private async void NewItem(object sender, RoutedEventArgs e)
+    {
+        //Wpf.Ui.Controls.Button btn = new Wpf.Ui.Controls.Button();
+        var itemType = await PromptDialog();
+
+        if (itemType.Equals("None")) return;
+
+
+        //ControlTemplate template = this.FindResource("itemButtonTemplate") as ControlTemplate;
+        //btn.Name = "test";
+
+        //itemStackPanel.Children.Add(btn);
+        var btn = new NavigationItem(ItemStackPanel, this, itemType)
         {
-            InitializeComponent();
-            //frameDisplay.Source = new Uri("/pages/template.xaml", UriKind.Relative);
-            var themeService = new ThemeService();
-            themeService.SetTheme(themeService.GetSystemTheme());
+            Name = "item" + ItemStackPanel.Children.Count
+        };
 
-            
-            
-        }
+        ItemStackPanel.Children.Add(btn);
+        btn.SetSelected(true);
+    }
 
-        private async void NewItem(object sender, RoutedEventArgs e)
+    private async Task<string> PromptDialog()
+    {
+        var contentDialogService = new ContentDialogService();
+        contentDialogService.SetDialogHost(Dialog);
+
+        var result = await contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions()
         {
-            //Wpf.Ui.Controls.Button btn = new Wpf.Ui.Controls.Button();
-            var itemType = await PromptDialog();
+            Title = "New Overlay",
+            Content = "Select an overlay type.",
+            PrimaryButtonText = "Text",
+            SecondaryButtonText = "Image",
+            CloseButtonText = "Cancel"
+        });
 
-            if (itemType.Equals("None"))
-            {
-                return;
-            }
-
-
-            //ControlTemplate template = this.FindResource("itemButtonTemplate") as ControlTemplate;
-            //btn.Name = "test";
-
-            //itemStackPanel.Children.Add(btn);
-            var btn = new NavigationItem(ItemStackPanel, this, itemType)
-            {
-                Name = "item" + ItemStackPanel.Children.Count
-            };
-
-            ItemStackPanel.Children.Add(btn);
-            btn.SetSelected(true);
-        }
-
-        public async Task<string> PromptDialog()
+        var resultText = result switch
         {
-            var contentDialogService = new ContentDialogService();
-            contentDialogService.SetDialogHost(Dialog);
+            ContentDialogResult.Primary => "Text",
+            ContentDialogResult.Secondary => "Image",
+            ContentDialogResult.None => "None",
+            _ => "None"
+        };
+        return resultText;
+    }
 
-            var result = await contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions()
-            {
-                Title = "New Overlay",
-                Content = "Select an overlay type.",
-                PrimaryButtonText = "Text",
-                SecondaryButtonText = "Image",
-                CloseButtonText = "Cancel",
+    public void SetView(Uri uri)
+    {
+        ApplyTransition();
+        FrameDisplay.Navigate(uri);
+    }
 
-            });
+    public void SetView(Page page)
+    {
+        ApplyTransition();
+        FrameDisplay.Navigate(page);
+    }
 
-            var resultText = result switch
-            {
-                ContentDialogResult.Primary => "Text",
-                ContentDialogResult.Secondary => "Image",
-                ContentDialogResult.None => "None",
-                _ => "None",
-            };
-            return resultText;
-        }
-
-        public void SetView(Uri uri)
-        {
-            ApplyTransition();
-            FrameDisplay.Navigate(uri);
-        }
-        
-        public void SetView(Page page)
-        {
-            ApplyTransition();
-            FrameDisplay.Navigate(page);
-        }
-
-        public void ApplyTransition()
-        {
-            TransitionAnimationProvider.ApplyTransition(FrameDisplay, Transition.FadeInWithSlide, 200);
-        }
+    public void ApplyTransition()
+    {
+        TransitionAnimationProvider.ApplyTransition(FrameDisplay, Transition.FadeInWithSlide, 200);
+    }
 
 
-        private void SettingsView(object sender, RoutedEventArgs e)
-        {
-            foreach (var item in ItemStackPanel.Children.OfType<NavigationItem>())
-            {
-                item.SetSelected(false);
-            }
-            
-            SetView(new Uri("/pages/SettingsPage.xaml", UriKind.Relative));
-        }
+    private void SettingsView(object sender, RoutedEventArgs e)
+    {
+        foreach (var item in ItemStackPanel.Children.OfType<NavigationItem>()) item.SetSelected(false);
 
-       
+        SetView(settingsPage);
     }
 }
