@@ -4,5 +4,13 @@
     <Style TargetType="ui:TextBlock">
         <Setter Property="Foreground" Value="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
     </Style>
-                    
+
+    <Style x:Key="BorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush}"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="BorderBrush" Value="{ui:ThemeResource CardStrokeColorDefaultBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+
 </ResourceDictionary>

@@ -4,10 +4,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     x:Class="DesktopOverlayUI.pages.SettingsPage"
+    xmlns:local="clr-namespace:DesktopOverlayUI"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     mc:Ignorable="d"
     d:DesignHeight="450" d:DesignWidth="800"
     Title="SettingsPage">
+    <Page.Resources>
+        <ResourceDictionary Source="/ThemeDefaults.xaml"/>
+    </Page.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -19,42 +23,47 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Grid.Row="0" Margin="16,16,0,0">
-            <ui:TextBlock Text="Application Theme" FontTypography="Subtitle" Margin="0,0,0,8" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
-            <Grid Margin="0,0,0,4" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <ui:TextBlock Grid.Column="0" Text="Color Mode" Margin="0,0,8,0" FontTypography="Body" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                <ComboBox Grid.Column="1"
+            <ui:TextBlock Text="Application Settings" FontTypography="Title" Margin="0,0,0,12" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
+            <ui:TextBlock Text="Application Theme" FontTypography="Subtitle" Margin="0,0,0,8" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
+            <Border Style="{StaticResource BorderStyle}"  Padding="16,8,16,8">
+                <StackPanel>
+                    <Grid Margin="0,0,0,4" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:TextBlock Grid.Column="0" Text="Color Mode" Margin="0,0,8,0" FontTypography="Body" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <ComboBox Grid.Column="1"
                     x:Name="ThemeComboBox"
                     MinWidth="200" SelectionChanged="SetApplicationTheme" SelectedIndex="0" HorizontalAlignment="Center">
-                    <ComboBoxItem Content="System"/>
-                    <ComboBoxItem Content="Dark" />
-                    <ComboBoxItem Content="Light" />
-                </ComboBox>
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <ui:TextBlock Grid.Column="0" Text="Set Backdrop" FontTypography="Body" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,8,0"/>
-                <!--<ui:Button Grid.Column="1" Content="Mica" Margin="0,0,8,0" Click="SetMicaBackdrop" />
+                            <ComboBoxItem Content="System"/>
+                            <ComboBoxItem Content="Dark" />
+                            <ComboBoxItem Content="Light" />
+                        </ComboBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:TextBlock Grid.Column="0" Text="Set Backdrop" FontTypography="Body" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,8,0"/>
+                        <!--<ui:Button Grid.Column="1" Content="Mica" Margin="0,0,8,0" Click="SetMicaBackdrop" />
                 <ui:Button Grid.Column="2" Content="Acrylic" Click="SetAcrylicBackdrop" Margin="0,0,8,0" />
                 <ui:Button Grid.Column="3" Content="None" Click="SetNoneBackdrop" />-->
-                <ComboBox Grid.Column="1"
+                        <ComboBox Grid.Column="1"
                           x:Name="MaterialComboBox"
                           MinWidth="200" SelectionChanged="SetBackdropMaterial" SelectedIndex="0" HorizontalAlignment="Center">
-                    <ComboBoxItem Content="Mica"/>
-                    <ComboBoxItem Content="Acrylic" />
-                    <ComboBoxItem Content="None" />
-                </ComboBox>
+                            <ComboBoxItem Content="Mica"/>
+                            <ComboBoxItem Content="Acrylic" />
+                            <ComboBoxItem Content="None" />
+                        </ComboBox>
 
 
-            </Grid>
+                    </Grid>
+                </StackPanel>
+            </Border>
         </StackPanel>
 
     </Grid>
