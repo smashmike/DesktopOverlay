@@ -28,8 +28,30 @@
     <Grid>
         <ui:TitleBar HorizontalAlignment="Right" Height="32" Width="800"/>
         <ContentPresenter x:Name="Dialog" Panel.ZIndex="10"/>
-        <Grid Margin="0,56,675,12">
-            <Grid x:Name="ItemGrid" Margin="0,48,0,48">
+        <Grid Margin="0,37,675,12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ui:Button Grid.Row="0" 
+                Content="New Element" 
+                VerticalAlignment="Top"
+                Width="125"
+                Click="NewItem" 
+                Height="48" 
+                CornerRadius="4,4,0,0" 
+                BorderThickness="0,0,0,1" 
+                HorizontalAlignment="Center"
+                Background="{ui:ThemeResource ControlFillColorTransparentBrush}" 
+                MouseOverBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}" 
+                PressedBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}">
+
+                <ui:Button.Icon>
+                    <ui:SymbolIcon Symbol="Add48"/>
+                </ui:Button.Icon>
+            </ui:Button>
+            <Grid MinHeight="286" Grid.Row="1">
                 <ui:DynamicScrollViewer Margin="0,0,0,0">
                     <StackPanel x:Name="ItemStackPanel" Orientation="Vertical">
                         <!--<ui:Button VerticalAlignment="Top" HorizontalAlignment="Center" Content="Item" Width="120" Appearance="Secondary" />-->
@@ -79,31 +101,14 @@
                 </ui:DynamicScrollViewer>
 
             </Grid>
-            <ui:Button 
-                Content="New Element" 
-                VerticalAlignment="Top"
-                Width="125"
-                Click="NewItem" 
-                Height="48" 
-                CornerRadius="4" 
-                BorderThickness="0,0,0,1" 
-                HorizontalAlignment="Center"
-                Background="{ui:ThemeResource ControlFillColorTransparentBrush}" 
-                MouseOverBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}" 
-                PressedBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}">
-
-                <ui:Button.Icon>
-                    <ui:SymbolIcon Symbol="Add48"/>
-                </ui:Button.Icon>
-            </ui:Button>
-            <ui:Button 
+            
+            <ui:Button  Grid.Row="2"
                 Content="Settings" 
                 Click="SettingsView"
-                VerticalAlignment="Top" 
+                VerticalAlignment="Bottom" 
                 Width="125" Height="48" 
-                Margin="0,334,0,0" 
                 Appearance="Secondary" 
-                CornerRadius="4" 
+                CornerRadius="0,0,4,4" 
                 BorderThickness="0,1,0,0" 
                 HorizontalAlignment="Center"
                 Background="{ui:ThemeResource ControlFillColorTransparentBrush}" 
@@ -115,7 +120,7 @@
             </ui:Button>
         </Grid>
         <Grid  x:Name="FrameGrid" Margin="137,37,12,12">
-            <Border  Background="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush }" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="10" x:Name="FrameBorder"  Height="402" BorderThickness="1,1,1,1" >
+            <Border  Background="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush }" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="8" x:Name="FrameBorder"  Height="402" BorderThickness="1,1,1,1" >
                 <Frame x:Name="FrameDisplay" NavigationUIVisibility="Hidden" Margin="0,0,0,0" />
             </Border>
 
