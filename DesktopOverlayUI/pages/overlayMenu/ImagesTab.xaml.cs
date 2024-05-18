@@ -27,14 +27,8 @@ namespace DesktopOverlayUI.pages.overlayMenu
         private List<ImageItem> _imageItemsList = [];
         public List<ImageItem> ImageItemsList { 
             get => _imageItemsList;
-            set {
-                _imageItemsList = value; 
-                OnPropertyChanged(nameof(ImageItemsList));
-            }
+            set => _imageItemsList = value;
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
 
 
         public ImagesTab()
@@ -47,12 +41,8 @@ namespace DesktopOverlayUI.pages.overlayMenu
             InitializeComponent();
         }
 
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
-        public void AddImage(object sender, RoutedEventArgs e)
+        private void AddImage(object sender, RoutedEventArgs e)
         {
             var getImage = new OpenFileDialog
             {
@@ -64,7 +54,7 @@ namespace DesktopOverlayUI.pages.overlayMenu
             ImageListView.Items.Refresh();
         }
 
-        public void RemoveImage(object sender, RoutedEventArgs e)
+        private void RemoveImage(object sender, RoutedEventArgs e)
         {
             var selectedImage = (ImageItem)ImageListView.SelectedItem;
             ImageItemsList.Remove(selectedImage);

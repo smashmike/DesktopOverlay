@@ -36,9 +36,9 @@ namespace DesktopOverlayUI
         
 
 
-        public NavigationItem(StackPanel stackPanel, MainWindow MainWindow, string itemType)
+        public NavigationItem(StackPanel stackPanel, MainWindow mainWindow, string itemType)
         {
-            _currentWindow = MainWindow;
+            _currentWindow = mainWindow;
             _itemStackPanel = stackPanel;
             _isSelected = false;
             var resources = new ResourceDictionary
@@ -129,7 +129,7 @@ namespace DesktopOverlayUI
             } 
         }
 
-        public async Task<string> RenameDialog()
+        private async Task<string> RenameDialog()
         {
             var contentDialogService = new ContentDialogService();
             contentDialogService.SetDialogHost(_currentWindow.Dialog);
@@ -201,7 +201,7 @@ namespace DesktopOverlayUI
             _currentWindow.SetView(_page);
         }
 
-        public bool IsSelected()
+        private bool IsSelected()
         {
             return _isSelected;
         }

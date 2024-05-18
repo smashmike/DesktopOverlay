@@ -25,7 +25,7 @@ namespace DesktopOverlayUI.pages.overlayMenu
             InitializeComponent();
         }
 
-        public void ClearText(object sender, RoutedEventArgs e)
+        private void ClearText(object sender, RoutedEventArgs e)
         {
             TextInputBox.Document.Blocks.Clear();
         }

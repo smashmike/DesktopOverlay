@@ -28,14 +28,14 @@ namespace DesktopOverlayUI;
 public partial class MainWindow
 
 {
-    private Page settingsPage;
+    private readonly Page _settingsPage;
 
 
     public MainWindow()
     {
         InitializeComponent();
         //frameDisplay.Source = new Uri("/pages/template.xaml", UriKind.Relative);
-        settingsPage = new pages.SettingsPage(this);
+        _settingsPage = new pages.SettingsPage(this);
 
 
         var themeService = new ThemeService();
@@ -115,6 +115,6 @@ public partial class MainWindow
     {
         foreach (var item in ItemStackPanel.Children.OfType<NavigationItem>()) item.SetSelected(false);
 
-        SetView(settingsPage);
+        SetView(_settingsPage);
     }
 }
