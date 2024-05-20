@@ -20,9 +20,19 @@ namespace DesktopOverlayUI.pages.overlayMenu
     /// </summary>
     public partial class TextStyleTab : Page
     {
+
+        public OverlayDisplay Overlay;
+
         public TextStyleTab()
         {
             InitializeComponent();
+            Overlay = new OverlayDisplay();
+        }
+
+        public TextStyleTab(OverlayDisplay overlay)
+        {
+            InitializeComponent();
+            Overlay = overlay;
         }
 
         private void UpdateColorPreview(object sender, RoutedPropertyChangedEventArgs<double> e)

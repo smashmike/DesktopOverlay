@@ -77,7 +77,7 @@ public partial class MainWindow
         var result = await contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions()
         {
             Title = "New Overlay",
-            Content = "Select an overlay type.",
+            Content = "Select an Overlay type.",
             PrimaryButtonText = "Text",
             SecondaryButtonText = "Image",
             CloseButtonText = "Cancel"

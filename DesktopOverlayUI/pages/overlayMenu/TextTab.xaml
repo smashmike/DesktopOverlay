@@ -8,9 +8,12 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="TextTab">
-
+    <Page.Resources>
+        <ResourceDictionary Source="/ThemeDefaults.xaml"/>
+    </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -18,11 +21,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Margin="16">
-            <ui:TextBlock Text="Overlay Text"  FontTypography="Subtitle"  Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
-            <ui:RichTextBox x:Name="TextInputBox" Margin="8,8,8,0" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Stretch" MaxHeight="34" MaxWidth="368"/>
+            <ui:TextBlock Text="Overlay Text"  FontTypography="Subtitle"  Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
+            <Grid>
+                <ui:TextBox x:Name="TextInputBox" Margin="0,8,8,0" Text="Text Overlay"/>
+            </Grid>
             <WrapPanel>
-                <ui:Button Content="Update" Margin="12,0,0,0" Appearance="Primary"/>
-                <ui:Button Content="Clear" Margin="8" Click="ClearText" />
+                <ui:Button Content="Update" Margin="0,8,0,0" Appearance="Primary" Click="UpdateText"/>
             </WrapPanel>
         </StackPanel>
         

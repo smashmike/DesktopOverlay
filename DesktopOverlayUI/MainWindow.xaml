@@ -120,7 +120,7 @@
             </ui:Button>
         </Grid>
         <Grid  x:Name="FrameGrid" Margin="137,37,12,12">
-            <Border  Background="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush }" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="8" x:Name="FrameBorder"  Height="402" BorderThickness="1,1,1,1" >
+            <Border  Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush }" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="8" x:Name="FrameBorder"  Height="402" BorderThickness="1,1,1,1" >
                 <Frame x:Name="FrameDisplay" NavigationUIVisibility="Hidden" Margin="0,0,0,0" />
             </Border>
 

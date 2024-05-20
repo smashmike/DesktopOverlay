@@ -20,14 +20,25 @@ namespace DesktopOverlayUI.pages.overlayMenu
     /// </summary>
     public partial class TextTab : Page
     {
+
+        public OverlayDisplay Overlay;
+
         public TextTab()
         {
             InitializeComponent();
+            Overlay = new OverlayDisplay();
         }
 
-        private void ClearText(object sender, RoutedEventArgs e)
+        public TextTab(OverlayDisplay overlay)
         {
-            TextInputBox.Document.Blocks.Clear();
+            InitializeComponent();
+            Overlay = overlay;
+        }
+
+        public void UpdateText(object sender, RoutedEventArgs e)
+        {
+            Overlay.OverlayText = TextInputBox.Text;
+            Overlay.Show();
         }
 
     }

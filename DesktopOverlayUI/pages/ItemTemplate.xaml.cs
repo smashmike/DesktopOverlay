@@ -24,28 +24,59 @@ namespace DesktopOverlayUI.pages
     /// </summary>
     public partial class ItemTemplate : Page
     {
+
+        private OverlayDisplay Overlay;
+        private ImagesTab imagesTab;
+        private TextTab textTab;
+        private TextStyleTab textStyleTab;
+
         public ItemTemplate()
         {
             InitializeComponent();
+            Overlay = new OverlayDisplay("Test");
+
+            imagesTab = new ImagesTab();
+            ImageTab.TargetPageType = imagesTab.GetType();
+
+            TextTab.DataContext = this;
+            textTab = new TextTab(Overlay);
+            TextTab.TargetPageType = textTab.GetType();
+
+            textStyleTab = new TextStyleTab(Overlay);
+            
         }
 
         public ItemTemplate(string itemType)
         {
             InitializeComponent();
+            Overlay = new OverlayDisplay("Test");
+            imagesTab = new ImagesTab();
+            textTab = new TextTab(Overlay);
+            textStyleTab = new TextStyleTab(Overlay);
+
+
             switch (itemType)
             {
                 case "Image":
                     ImageTab.Visibility = Visibility.Visible;
+                    Overlay = new OverlayDisplay("Image");
+                    imagesTab = new ImagesTab();
+                    ImageTab.TargetPageType = imagesTab.GetType();
                     break;
                 case "Text":
                 {
                     TextTab.Visibility = Visibility.Visible;
-                    var textStyleTab = new TextStyleTab();
-                    StyleTab.TargetPageType = typeof(TextStyleTab);
+                    Overlay = new OverlayDisplay("Text");
+                    textTab = new TextTab(Overlay);
+                    TextTab.TargetPageType = textTab.GetType();
+                    textStyleTab = new TextStyleTab(Overlay);
+                    StyleTab.TargetPageType = textStyleTab.GetType();
                     break;
                 }
             }
+            Overlay = new OverlayDisplay("Test");
         }
+
 
         
     }

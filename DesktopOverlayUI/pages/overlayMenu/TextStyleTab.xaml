@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="16">
             <StackPanel x:Name="FontFamilyPanel" Margin="0,8,0,8" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <ui:TextBlock Text="Font Family" FontTypography="Subtitle" Margin="0,0,0,8" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
+                <ui:TextBlock Text="Font Family" FontTypography="Subtitle" Margin="0,0,0,8" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
                 <ComboBox x:Name="FontFamilyComboBox" Width="200" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -30,28 +30,28 @@
                 </ComboBox>
             </StackPanel>
             <StackPanel x:Name="FontSizePanel" Margin="0,8,0,8" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <ui:TextBlock Text="Font Size" FontTypography="Subtitle" Margin="0,0,0,8" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
+                <ui:TextBlock Text="Font Size" FontTypography="Subtitle" Margin="0,0,0,8" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
                 <WrapPanel Orientation="Horizontal">
                     <Slider x:Name="FontSizeSlider" Width="200" Maximum="72" Value="12" TickFrequency="4" />
-                    <ui:TextBlock x:Name="FontSizeValueBox" MaxWidth="48" MinWidth="48" Margin="8,0,0,0" Text="{Binding Value, ElementName=FontSizeSlider}" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
+                    <ui:TextBlock x:Name="FontSizeValueBox" MaxWidth="48" MinWidth="48" Margin="8,0,0,0" Text="{Binding Value, ElementName=FontSizeSlider}" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
                 </WrapPanel>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="16">
-            <ui:TextBlock Text="Font Color" FontTypography="Subtitle"  Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
+            <ui:TextBlock Text="Font Color" FontTypography="Subtitle"  Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
             <WrapPanel Orientation="Horizontal">
                 <StackPanel>
                     <WrapPanel x:Name="RedSliderPanel" Margin="0,8,0,8">
                         <Slider x:Name="RedSlider" Width="200" Maximum="255" Value="0" TickFrequency="15" ValueChanged="UpdateColorPreview" LargeChange="15" SmallChange="1"/>
-                        <ui:TextBlock x:Name="RedValueBox" MaxWidth="48" MinWidth="48" Margin="8,0,0,0" Text="{Binding Value, ElementName=RedSlider}" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
+                        <ui:TextBlock x:Name="RedValueBox" MaxWidth="48" MinWidth="48" Margin="8,0,0,0" Text="{Binding Value, ElementName=RedSlider}" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
                     </WrapPanel>
                     <WrapPanel x:Name="GreenSliderPanel" Margin="0,8,0,8">
                         <Slider x:Name="GreenSlider" Width="200" Maximum="255" Value="0" TickFrequency="15" ValueChanged="UpdateColorPreview" LargeChange="15" SmallChange="1"/>
-                        <ui:TextBlock x:Name="GreenValueBox" MaxWidth="48" MinWidth="48" Margin="8,0,0,0" Text="{Binding Value, ElementName=GreenSlider}" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
+                        <ui:TextBlock x:Name="GreenValueBox" MaxWidth="48" MinWidth="48" Margin="8,0,0,0" Text="{Binding Value, ElementName=GreenSlider}" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
                     </WrapPanel>
                     <WrapPanel x:Name="BlueSliderPanel" Margin="0,8,0,8">
                         <Slider x:Name="BlueSlider" Width="200" Maximum="255" Value="0" TickFrequency="15" ValueChanged="UpdateColorPreview" SmallChange="1" LargeChange="15"/>
-                        <ui:TextBlock x:Name="BlueValueBox" MaxWidth="48" MinWidth="48" Margin="8,0,0,0" Text="{Binding Value, ElementName=BlueSlider}" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
+                        <ui:TextBlock x:Name="BlueValueBox" MaxWidth="48" MinWidth="48" Margin="8,0,0,0" Text="{Binding Value, ElementName=BlueSlider}" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
                     </WrapPanel>
                 </StackPanel>
                 <Border x:Name="ColorPreview" Width="50" Height="100" Background="Black" Margin="8,0,0,0" CornerRadius="4"/>
