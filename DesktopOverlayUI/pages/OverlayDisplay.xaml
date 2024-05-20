@@ -7,5 +7,17 @@
         xmlns:local="clr-namespace:DesktopOverlayUI.pages"
         mc:Ignorable="d"
         Title="OverlayDisplay" Height="Auto" Width="Auto" WindowStyle="None" ResizeMode="NoResize"  Background="#00000000" AllowsTransparency="True" Topmost="True" Focusable="False" IsTabStop="False" >
-    <Grid/>
+    <Grid x:Name="OverlayGrid" Width="Auto" Height="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Rectangle Height="10" Width="10" Fill="{ui:ThemeResource ControlSolidFillColorDefaultBrush}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Rectangle Grid.Column="1" Grid.Row="1" Height="10" Width="10" Fill="{ui:ThemeResource ControlSolidFillColorDefaultBrush}" HorizontalAlignment="Right" VerticalAlignment="Bottom" MouseLeftButtonDown="Corner_MouseLeftButtonDown" MouseMove="BottomRightCorner_MouseMove"/>
+        
+    </Grid>
 </Window>

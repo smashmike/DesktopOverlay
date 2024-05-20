@@ -42,9 +42,7 @@ namespace DesktopOverlayUI.pages
         public OverlayDisplay()
         {
             InitializeComponent();
-            OriginPoint = new Point(0, 0);
-            Left = 0;
-            Top = 0;
+            OriginPoint = new Point(Left,Top);
             InitTextOverlay("Test");
         }
 
@@ -52,9 +50,7 @@ namespace DesktopOverlayUI.pages
         {
 
             InitializeComponent();
-            OriginPoint = new Point(0, 0);
-            Left = 0;
-            Top = 0;
+            OriginPoint = new Point(Left,Top);
             InitTextOverlay(overlayText);
         }
 
@@ -64,7 +60,31 @@ namespace DesktopOverlayUI.pages
             OverlayTextBlock.Text = text;
             OverlayTextBlock.FontSize = 24;
             OverlayTextBlock.Foreground = Brushes.White;
+            OverlayTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
+            OverlayTextBlock.VerticalAlignment = VerticalAlignment.Top;
             Content.As<Grid>().Children.Add(OverlayTextBlock);
         }
+
+        private void Corner_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _isResizing = true;
+            Mouse.Capture((Rectangle)sender);
+        }
+
+        private void BottomRightCorner_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isResizing)
+            {
+                this.Width = e.GetPosition(this).X + ((Rectangle)sender).Width / 2;
+                this.Height = e.GetPosition(this).Y + ((Rectangle)sender).Height / 2;
+            }
+        }
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonUp(e);
+            _isResizing = false;
+            Mouse.Capture(null);
+        }
+
     }
 }
