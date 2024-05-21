@@ -41,6 +41,11 @@ namespace DesktopOverlayUI.pages.overlayMenu
             GreenSlider.Value = (int)GreenSlider.Value;
             BlueSlider.Value = (int)BlueSlider.Value;
             ColorPreview.Background = new SolidColorBrush(Color.FromRgb((byte)RedSlider.Value, (byte)GreenSlider.Value, (byte)BlueSlider.Value));
+            Overlay.OverlayTextBlock.Foreground = new SolidColorBrush(Color.FromRgb((byte)RedSlider.Value, (byte)GreenSlider.Value, (byte)BlueSlider.Value));
+            if (!Overlay.IsVisible)
+            {
+                Overlay.Show();
+            }
         }
 
         

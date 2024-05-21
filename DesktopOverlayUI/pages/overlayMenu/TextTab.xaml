@@ -27,7 +27,7 @@
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="16">
             <ui:TextBlock Text="Overlay Text"  FontTypography="Subtitle"  Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
             <Grid>
-                <ui:TextBox x:Name="TextInputBox" Margin="0,8,8,0" Text="Text Overlay"/>
+                <ui:TextBox x:Name="TextInputBox" Margin="0,8,8,0" Text="Text Overlay" MaxHeight="37" Height="37"/>
             </Grid>
             <WrapPanel>
                 <ui:Button Content="Update" Margin="0,8,0,0" Appearance="Primary" Click="UpdateText"/>

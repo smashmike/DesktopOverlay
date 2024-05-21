@@ -20,16 +20,24 @@ namespace DesktopOverlayUI.pages.overlayMenu
     /// <summary>
     /// Interaction logic for TextTab.xaml
     /// </summary>
-    public partial class TextTab : Page
+    public sealed partial class TextTab : Page
     {
 
         public OverlayDisplay Overlay;
+ 
+
+
         private EditorForm editor;
 
         public TextTab()
         {
             Overlay = new OverlayDisplay();
             editor = new EditorForm();
+            editor.OkButton.Click += OkEditor;
+            editor.CancelButton.Click += HideEditor;
+            editor.ApplyButton.Click += ApplyEditor;
+            editor.ValueBox.Document = new FlowDocument(new Paragraph(new Run(Overlay.OverlayText)));
+
             InitializeComponent();
         }
 
@@ -37,6 +45,10 @@ namespace DesktopOverlayUI.pages.overlayMenu
         {
             Overlay = overlay;
             editor = new EditorForm();
+            editor.OkButton.Click += OkEditor;
+            editor.CancelButton.Click += HideEditor;
+            editor.ApplyButton.Click += ApplyEditor;
+            editor.ValueBox.Document = new FlowDocument(new Paragraph(new Run(Overlay.OverlayText)));
             InitializeComponent();
         }
 
@@ -64,6 +76,26 @@ namespace DesktopOverlayUI.pages.overlayMenu
         {
             editor.Show();
         }
+
+        private void OkEditor(object sender, RoutedEventArgs e)
+        {
+            ApplyEditor(sender, e);
+            editor.Hide();
+        }
+
+        private void ApplyEditor(object sender, RoutedEventArgs e)
+        {
+            string fromRichText = new TextRange(editor.ValueBox.Document.ContentStart, editor.ValueBox.Document.ContentEnd).Text;
+            TextInputBox.Text = fromRichText;
+            Overlay.OverlayText = fromRichText;
+        }
+
+        private void HideEditor(object sender, RoutedEventArgs e)
+        {
+            editor.Hide();
+        }
+
+
 
     }
 }

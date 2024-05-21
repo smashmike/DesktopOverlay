@@ -20,9 +20,13 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ui:TitleBar Height="37" ShowMaximize="False" Grid.Row="0"/>
-        <ui:RichTextBox Grid.Row="1"/>
-        <Grid Grid.Row="2" VerticalAlignment="Bottom">
-            <ui:Button Content="Apply"/>
+        <ui:RichTextBox x:Name="ValueBox" Grid.Row="1" IsDocumentEnabled="True" Background="#00000000"/>
+        <Grid Grid.Row="2" VerticalAlignment="Bottom" Margin="8,8,8,8">
+            <WrapPanel HorizontalAlignment="Right">
+                <ui:Button x:Name="OkButton" Content="OK" Margin="0,0,8,0"/>
+                <ui:Button x:Name="CancelButton" Content="Cancel" Margin="0,0,8,0"/>
+                <ui:Button x:Name="ApplyButton" Content="Apply"/>
+            </WrapPanel>
         </Grid>
     </Grid>
 </ui:FluentWindow>

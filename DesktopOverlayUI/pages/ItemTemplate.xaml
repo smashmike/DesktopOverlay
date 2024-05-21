@@ -15,8 +15,8 @@
       Title="template">
 
     <Grid>
-        <ContentPresenter x:Name="DialogPresenter"/>
-        <ui:NavigationView x:Name="TabNavigationView" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" FrameMargin="12">
+        <!--<ContentPresenter x:Name="DialogPresenter"/>
+        <ui:NavigationView x:Name="TabNavigationView" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" FrameMargin="12" >
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem NavigationCacheMode="Required" x:Name="ImageTab" Visibility="Collapsed" Content="Images"  TargetPageType="{x:Type subMenu:ImagesTab}"/>
                 <ui:NavigationViewItem NavigationCacheMode="Required" x:Name="TextTab" Visibility="Collapsed" Content="Text" />
@@ -24,6 +24,17 @@
                 <ui:NavigationViewItem Content="Location"/>
                 <ui:NavigationViewItem Content="Size"/>
             </ui:NavigationView.MenuItems>
-        </ui:NavigationView>
+        </ui:NavigationView>-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0" Margin="8,8,0,0">
+            <ui:Button x:Name="TextMenuButton" Template="{DynamicResource ItemButtonTemplate}" Content="Text"/>
+
+        </WrapPanel>
+        <Border Grid.Row="1"  Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush }" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="8" x:Name="FrameBorder"  BorderThickness="1,1,1,1" Margin="8">
+            <Frame x:Name="FrameDisplay" NavigationUIVisibility="Hidden" Margin="0,0,0,0" />
+        </Border>
     </Grid>
 </Page>
