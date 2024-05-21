@@ -21,132 +21,63 @@ using Wpf.Ui.Controls;
 using Wpf.Ui.Extensions;
 using NavigationService = Wpf.Ui.NavigationService;
 
-namespace DesktopOverlayUI.pages
+namespace DesktopOverlayUI.pages;
+
+/// <summary>
+/// Interaction logic for template.xaml
+/// </summary>
+public partial class ItemTemplate : Page
 {
-    /// <summary>
-    /// Interaction logic for template.xaml
-    /// </summary>
-    public partial class ItemTemplate : Page
+    public OverlayDisplay Overlay;
+    private ImagesTab imagesTab;
+    private TextTab textTab;
+    private TextStyleTab textStyleTab;
+
+    public ItemTemplate(string itemType)
     {
+        InitializeComponent();
 
-        public OverlayDisplay Overlay;
-        private ImagesTab imagesTab;
-        private TextTab textTab;
-        private TextStyleTab textStyleTab;
+        //TextMenuButton.Content = "Text";
+        Overlay = new OverlayDisplay("Test");
+        imagesTab = new ImagesTab();
+        textTab = new TextTab(Overlay);
+        textStyleTab = new TextStyleTab(Overlay);
 
 
-        public ItemTemplate()
+        switch (itemType)
         {
-            InitializeComponent();
-            Overlay = new OverlayDisplay("Test");
-
-            //imagesTab = new ImagesTab();
-            //ImageTab.TargetPageType = imagesTab.GetType();
-
-            //TextTab.DataContext = this;
-            //textTab = new TextTab(Overlay);
-            //TextTab.TargetPageType = textTab.GetType();
-
-
-            ////SubscribeToOverlayChange(textTab);
-
-            //textStyleTab = new TextStyleTab(Overlay);
-
-            //TabNavigationView.Navigating += (sender, args) =>
-            //{
-            //    if (args.Page.GetType().Equals(TextTab))
-            //    {
-            //        args.Cancel = true; // Cancel the navigation
-            //        // Perform your custom navigation logic here
-            //    }
-            //};
-        }
-
-        public ItemTemplate(string itemType)
-        {
-            InitializeComponent();
-            TextMenuButton.Content = "Text";
-            Overlay = new OverlayDisplay("Test");
-            imagesTab = new ImagesTab();
-            textTab = new TextTab(Overlay);
-            textStyleTab = new TextStyleTab(Overlay);
-
-            switch (itemType)
+            case "Image":
             {
-                case "Image":
-                    //ImageTab.Visibility = Visibility.Visible;
-                    //Overlay = new OverlayDisplay("Image");
-                    //imagesTab = new ImagesTab();
-                    //ImageTab.TargetPageType = imagesTab.GetType();
-                    break;
-                case "Text":
-                    {
-                        //TextTab.Visibility = Visibility.Visible;
-                        //Overlay = new OverlayDisplay("Text");
-                        //textTab = new TextTab(Overlay);
-                        //TextTab.TargetPageType = CreateInstance(typeof(TextTab), Overlay).GetType();
-                        //TextTab.TargetPageType.GetField("Overlay").SetValue(textTab, Overlay);
-                        //textStyleTab = new TextStyleTab(Overlay);
-                        //StyleTab.TargetPageType = textStyleTab.GetType();
-                        //StyleTab.TargetPageType.GetField("Overlay").SetValue(textStyleTab, Overlay);
-                        
-
-                        break;
-                    }
+                var imageMenuButton = new NavigationItem(MenuPanel, this, imagesTab, "General");
+                MenuPanel.Children.Add(imageMenuButton);
+                break;
             }
-            Overlay = new OverlayDisplay("Test");
-            //TabNavigationView.Navigating += (sender, args) =>
-            //{
-            //    if (args.Page.GetType().Equals(TextTab))
-            //    {
-            //        args.Cancel = true; // Cancel the navigation
-            //        // Perform your custom navigation logic here
-            //    }
-            //};
-            //TabNavigationView.ItemInvoked += (sender, args) =>
-            //{
-            //    if (args.RoutedEvent.Name == "TextTab")
-            //    {
-            //        TabNavigationView.Navigate(typeof(TextTab), Overlay);
-            //    }
-            //    else if (args.RoutedEvent.Name == "StyleTab")
-            //    {
-            //        TabNavigationView.Navigate(typeof(TextStyleTab), this);
-            //    }
-            //};
-        }
-
-        public object CreateInstance(Type type, OverlayDisplay overlay)
-        {
-            // Find a constructor that takes an Overlay as a parameter
-            var constructor = type.GetConstructor(new[] { typeof(OverlayDisplay) });
-
-            if (constructor != null)
+            case "Text":
             {
-                // If found, invoke the constructor with the overlay
-                return constructor.Invoke(new object[] { overlay });
+                var textMenuButton = new NavigationItem(MenuPanel, this, textTab, "General");
+                MenuPanel.Children.Add(textMenuButton);
+                var textStyleMenuButton = new NavigationItem(MenuPanel, this, textStyleTab, "Style");
+                MenuPanel.Children.Add(textStyleMenuButton);
+                break;
             }
-
-            // If no suitable constructor was found, fall back to the parameterless constructor
-            return Activator.CreateInstance(type);
         }
+    }
 
-        public void SetView(Uri uri)
-        {
-            ApplyTransition();
-            FrameDisplay.Navigate(uri);
-        }
 
-        public void SetView(Page page)
-        {
-            ApplyTransition();
-            FrameDisplay.Navigate(page);
-        }
+    public void SetView(Uri uri)
+    {
+        ApplyTransition();
+        FrameDisplay.Navigate(uri);
+    }
 
-        public void ApplyTransition()
-        {
-            TransitionAnimationProvider.ApplyTransition(FrameDisplay, Transition.FadeInWithSlide, 200);
-        }
+    public void SetView(Page page)
+    {
+        ApplyTransition();
+        FrameDisplay.Navigate(page);
+    }
 
+    public void ApplyTransition()
+    {
+        TransitionAnimationProvider.ApplyTransition(FrameDisplay, Transition.FadeInWithSlide, 200);
     }
 }

@@ -21,18 +21,12 @@ namespace DesktopOverlayUI.pages.overlayMenu
     public partial class TextStyleTab : Page
     {
 
-        public OverlayDisplay Overlay;
-
-        public TextStyleTab()
-        {
-            InitializeComponent();
-            Overlay = new OverlayDisplay();
-        }
+        private readonly OverlayDisplay _overlay;
 
         public TextStyleTab(OverlayDisplay overlay)
         {
             InitializeComponent();
-            Overlay = overlay;
+            _overlay = overlay;
         }
 
         private void UpdateColorPreview(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -41,11 +35,7 @@ namespace DesktopOverlayUI.pages.overlayMenu
             GreenSlider.Value = (int)GreenSlider.Value;
             BlueSlider.Value = (int)BlueSlider.Value;
             ColorPreview.Background = new SolidColorBrush(Color.FromRgb((byte)RedSlider.Value, (byte)GreenSlider.Value, (byte)BlueSlider.Value));
-            Overlay.OverlayTextBlock.Foreground = new SolidColorBrush(Color.FromRgb((byte)RedSlider.Value, (byte)GreenSlider.Value, (byte)BlueSlider.Value));
-            if (!Overlay.IsVisible)
-            {
-                Overlay.Show();
-            }
+            _overlay.OverlayTextBlock.Foreground = new SolidColorBrush(Color.FromRgb((byte)RedSlider.Value, (byte)GreenSlider.Value, (byte)BlueSlider.Value));
         }
 
         

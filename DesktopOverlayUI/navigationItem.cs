@@ -1,5 +1,4 @@
-﻿
-using DesktopOverlayUI.pages;
+﻿using DesktopOverlayUI.pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,314 +20,257 @@ using Wpf.Ui.Markup;
 using Button = Wpf.Ui.Controls.Button;
 using TextBox = Wpf.Ui.Controls.TextBox;
 
-namespace DesktopOverlayUI
+namespace DesktopOverlayUI;
+
+public class NavigationItem : Button
 {
-    public class NavigationItem : Button   
+    public static readonly DependencyProperty IsItemProperty = DependencyProperty.Register(
+        nameof(IsItem), typeof(bool), typeof(NavigationItem), new PropertyMetadata(false));
+
+    public bool IsItem
     {
+        get => (bool)GetValue(IsItemProperty);
+        private init => SetValue(IsItemProperty, value);
+    }
 
-        private readonly MainWindow? _currentWindow;
-        private readonly ItemTemplate? _currentItem;
-        private bool _isItem;
+    public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register(
+            nameof(IsSelected), typeof(bool), typeof(NavigationItem), new PropertyMetadata(false));
 
-        private readonly StackPanel _itemStackPanel;
-        private bool _isSelected;
-
-        private readonly Page _page;
-
-
+    public bool IsSelected
+    {
+        get => (bool)GetValue(IsSelectedProperty);
+        private set => SetValue(IsSelectedProperty, value);
+    }
 
 
-        public NavigationItem(StackPanel stackPanel, MainWindow mainWindow, string itemType)
+
+    private readonly MainWindow? _currentWindow;
+    private readonly ItemTemplate? _currentItem;
+    private readonly StackPanel _itemStackPanel;
+    private readonly Page _page;
+
+
+    /**
+     *   Constructor for NavigationItem
+     *         *         * @param stackPanel The container for the NavigationItem
+     *         *         * @param mainWindow  Current MainWindow window
+     *         *         * @param itemType The type of the NavigationItem
+     *         *         */
+    public NavigationItem(StackPanel stackPanel, MainWindow mainWindow, string itemType)
+    {
+        _currentItem = null;
+        IsItem = false;
+        _currentWindow = mainWindow;
+        _itemStackPanel = stackPanel;
+        var resources = new ResourceDictionary
         {
-            _currentItem = null;
-            _isItem = false;
-            _currentWindow = mainWindow;
-            _itemStackPanel = stackPanel;
-            _isSelected = false;
-            var resources = new ResourceDictionary
-            {
-                Source = new Uri("/MenuItemTemplate.xaml", UriKind.Relative)
-            };
-            var template = resources["ItemButtonTemplate"] as ControlTemplate;
+            Source = new Uri("/MenuItemTemplate.xaml", UriKind.Relative)
+        };
+        var template = resources["ItemButtonTemplate"] as ControlTemplate;
+
+        _page = new ItemTemplate(itemType);
 
 
-            _page = new ItemTemplate(itemType);
+        var cm = new ContextMenu();
 
-
-            var cm = new ContextMenu();
-
-            System.Windows.Controls.MenuItem deleteBtn = new()
-            {
-                Header = "Delete"
-            };
-            deleteBtn.Click += DeleteItem;
-            cm.Items.Add(deleteBtn);
-
-            System.Windows.Controls.MenuItem editBtn = new()
-            {
-                Header = "Rename"
-            };
-            editBtn.Click += EditItem;
-            cm.Items.Add(editBtn);
-
-            Template = template;
-            //int testCount = 0;
-            //foreach (NavigationItem item in stackPanel.Children.OfType<NavigationItem>())
-            //{
-            //    if (item.Content.ToString().Contains("New Item"))
-            //    {
-            //        testCount++;
-            //    }
-            //}
-            //Name = "item" + stackPanel.Children.Count;
-            //if (testCount > 0)
-            //{
-            //    Content = "New Item " + "(" + testCount + ")";
-            //}
-            //else
-            //{
-            //    Content = "New Item";
-            //}
-
-            Content = "New " + itemType + " Item";//14
-
-            ContextMenu = cm;
-            Click += SelectItem;
-
-            // Set default unselected appearance
-            Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
-            Foreground = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
-
-
-        }
-
-        public NavigationItem(StackPanel stackPanel, ItemTemplate itemWindow, string itemType)
+        System.Windows.Controls.MenuItem deleteBtn = new()
         {
-            _currentWindow = null;
-            _isItem = true;
-            _currentItem = itemWindow;
-            _itemStackPanel = stackPanel;
-            _isSelected = false;
-            var resources = new ResourceDictionary
-            {
-                Source = new Uri("/MenuItemTemplate.xaml", UriKind.Relative)
-            };
-            var template = resources["ItemButtonTemplate"] as ControlTemplate;
+            Header = "Delete"
+        };
+        deleteBtn.Click += DeleteItem;
+        cm.Items.Add(deleteBtn);
 
-
-            _page = new ItemTemplate(itemType);
-
-
-            var cm = new ContextMenu();
-
-            System.Windows.Controls.MenuItem deleteBtn = new()
-            {
-                Header = "Delete"
-            };
-            deleteBtn.Click += DeleteItem;
-            cm.Items.Add(deleteBtn);
-
-            System.Windows.Controls.MenuItem editBtn = new()
-            {
-                Header = "Rename"
-            };
-            editBtn.Click += EditItem;
-            cm.Items.Add(editBtn);
-
-            Template = template;
-            //int testCount = 0;
-            //foreach (NavigationItem item in stackPanel.Children.OfType<NavigationItem>())
-            //{
-            //    if (item.Content.ToString().Contains("New Item"))
-            //    {
-            //        testCount++;
-            //    }
-            //}
-            //Name = "item" + stackPanel.Children.Count;
-            //if (testCount > 0)
-            //{
-            //    Content = "New Item " + "(" + testCount + ")";
-            //}
-            //else
-            //{
-            //    Content = "New Item";
-            //}
-            if (!_isItem)
-            {
-
-                Content = "New " + itemType + " Item"; //14
-
-                ContextMenu = cm;
-            }
-
-            Click += SelectItem;
-
-            // Set default unselected appearance
-            Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
-            Foreground = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
-
-
-        }
-
-
-        private void DeleteItem(object sender, RoutedEventArgs e)
+        System.Windows.Controls.MenuItem editBtn = new()
         {
-            if (!_isItem)
-            {
-                _itemStackPanel.Children.Remove(this);
+            Header = "Rename"
+        };
+        editBtn.Click += EditItem;
+        cm.Items.Add(editBtn);
 
-                if (_currentWindow != null && !_currentWindow.FrameDisplay.CanGoBack) return;
-                switch (_itemStackPanel.Children.Count)
-                {
-                    case 0:
-                        _currentWindow.FrameDisplay.Content = "";
-                        return;
-                    case > 0:
-                    {
-                        var lastChild = _itemStackPanel.Children[^1] as NavigationItem;
-                        lastChild?.SelectItem();
-                        break;
-                    }
-                }
+        Template = template;
 
-                _currentWindow?.ApplyTransition();
-            }
-            else
-            {
-                _itemStackPanel.Children.Remove(this);
+        Content = "New " + itemType + " Item"; //14
 
-                if (_currentItem != null && !_currentItem.FrameDisplay.CanGoBack) return;
-                switch (_itemStackPanel.Children.Count)
-                {
-                    case 0:
-                        if (_currentItem != null) _currentItem.FrameDisplay.Content = "";
-                        return;
-                    case > 0:
-                    {
-                        var lastChild = _itemStackPanel.Children[^1] as NavigationItem;
-                        lastChild?.SelectItem();
-                        break;
-                    }
-                }
+        ContextMenu = cm;
+        Click += SelectItem;
 
-                _currentItem?.ApplyTransition();
-            }
-        }
+        // Set default unselected appearance
+        Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+        Foreground = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+    }
 
-        private async void EditItem(object sender, RoutedEventArgs e)
+    /**
+     *  Constructor for NavigationItem
+     *         * @param stackPanel The container for the NavigationItem
+     *         * @param itemWindow  Current ItemTemplate window
+     *         * @param displayPage The page that corresponds to the NavigationItem
+     *         * @param itemName The header of the NavigationItem
+     *         */
+    public NavigationItem(StackPanel stackPanel, ItemTemplate itemWindow, Page displayPage, string itemName)
+    {
+        _currentWindow = null;
+        IsItem = true;
+        _currentItem = itemWindow;
+        _itemStackPanel = stackPanel;
+        _page = displayPage;
+        var resources = new ResourceDictionary
         {
-            var newName = await RenameDialog();
-            if (!newName.Equals(""))
-            {
-                Content = newName;
-            } 
-        }
+            Source = new Uri("/MenuItemTemplate.xaml", UriKind.Relative)
+        };
+        var template = resources["ItemButtonTopTemplate"] as ControlTemplate;
 
-        private async Task<string> RenameDialog()
-        {
-            var contentDialogService = new ContentDialogService();
-            if (_currentWindow != null) contentDialogService.SetDialogHost(_currentWindow.Dialog);
-            var frame = new Frame();
-            Page renameDialogPage = new dialogViews.RenameView();
-            frame.Navigate(renameDialogPage);
-
-
-            var result = await contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions()
-            {
-                Title = "Rename Item",
-                Content = frame,
-                PrimaryButtonText = "Apply",
-                CloseButtonText = "Cancel",
-
-            });
-
-            var resultText = result switch
-            {
-                ContentDialogResult.Primary => "Apply",
-                ContentDialogResult.None => "None",
-                _ => "None",
-            };
-
-            resultText = resultText == "Apply" ? ((dialogViews.RenameView)frame.Content).GetTextbox() : "";
-            return resultText;
-        }
-
-        private void SelectItem(object sender, RoutedEventArgs e)
-        {
-            if (_isSelected) return;
-            _isSelected = true;
-            
-            foreach (var item in _itemStackPanel.Children.OfType<NavigationItem>())
-            {
-                if (item.Equals(this) || !item.IsSelected()) continue;
-                item.SetSelected(false);
-
-                // Set unselected appearance
-                Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
-                Foreground = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
-            }
-            // Set selected appearance
-            Background = FindResource("ControlStrokeColorDefaultBrush") as SolidColorBrush;
-            Foreground = FindResource("AccentTextFillColorSecondaryBrush") as SolidColorBrush;
-
-            if (!_isItem)
-            {
-                _currentWindow.SetView(_page);
-            }
-            else
-            {
-                _currentItem.SetView(_page);
-            }
-        }
-
-        private void SelectItem()
-        {
-            if (_isSelected) return;
-            _isSelected = true;
-
-            
-                
-            foreach (NavigationItem item in _itemStackPanel.Children.OfType<NavigationItem>())
-            {
-                if (item.Equals(this) || !item.IsSelected()) continue;
-                item.SetSelected(false);
-                // Set unselected appearance
-                Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
-                Foreground = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
-            }
-            // Set selected appearance
-            Background = FindResource("ControlStrokeColorDefaultBrush") as SolidColorBrush;
-            Foreground = FindResource("AccentTextFillColorSecondaryBrush") as SolidColorBrush;
-
-            if (!_isItem)
-            {
-                _currentWindow.SetView(_page);
-            }
-            else
-            {
-                _currentItem.SetView(_page);
-            }
-        }
-
-        private bool IsSelected()
-        {
-            return _isSelected;
-        }
-
-        public void SetSelected(bool selected)
-        {
-
-            if (!selected)
-            {
-                _isSelected = false;
-                Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
-                Foreground = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
-            } else
-            {
-                SelectItem();
-            }
-        }
+        Template = template;
         
 
+        Content = itemName;
+
+        Click += SelectItem;
+
+        // Set default unselected appearance
+        Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+        Foreground = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+    }
+
+
+    private void DeleteItem(object sender, RoutedEventArgs e)
+    {
+        if (!IsItem)
+        {
+            _itemStackPanel.Children.Remove(this);
+
+            if (_currentWindow != null && !_currentWindow.FrameDisplay.CanGoBack) return;
+            switch (_itemStackPanel.Children.Count)
+            {
+                case 0:
+                    if (_currentWindow != null) _currentWindow.FrameDisplay.Content = "";
+                    return;
+                case > 0:
+                {
+                    var lastChild = _itemStackPanel.Children[^1] as NavigationItem;
+                    lastChild?.SelectItem();
+                    break;
+                }
+            }
+
+            _currentWindow?.ApplyTransition();
+        }
+        else
+        {
+            _itemStackPanel.Children.Remove(this);
+
+            if (_currentItem != null && !_currentItem.FrameDisplay.CanGoBack) return;
+            switch (_itemStackPanel.Children.Count)
+            {
+                case 0:
+                    if (_currentItem != null) _currentItem.FrameDisplay.Content = "";
+                    return;
+                case > 0:
+                {
+                    var lastChild = _itemStackPanel.Children[^1] as NavigationItem;
+                    lastChild?.SelectItem();
+                    break;
+                }
+            }
+
+            _currentItem?.ApplyTransition();
+        }
+    }
+
+    private async void EditItem(object sender, RoutedEventArgs e)
+    {
+        var newName = await RenameDialog();
+        if (!newName.Equals("")) Content = newName;
+    }
+
+    private async Task<string> RenameDialog()
+    {
+        var contentDialogService = new ContentDialogService();
+        if (_currentWindow != null) contentDialogService.SetDialogHost(_currentWindow.Dialog);
+        var frame = new Frame();
+        Page renameDialogPage = new dialogViews.RenameView();
+        frame.Navigate(renameDialogPage);
+
+
+        var result = await contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions()
+        {
+            Title = "Rename Item",
+            Content = frame,
+            PrimaryButtonText = "Apply",
+            CloseButtonText = "Cancel"
+        });
+
+        var resultText = result switch
+        {
+            ContentDialogResult.Primary => "Apply",
+            ContentDialogResult.None => "None",
+            _ => "None"
+        };
+
+        resultText = resultText == "Apply" ? ((dialogViews.RenameView)frame.Content).GetTextbox() : "";
+        return resultText;
+    }
+
+    private void SelectItem(object sender, RoutedEventArgs e)
+    {
+        if (IsSelected) return;
+        IsSelected = true;
+
+        foreach (var item in _itemStackPanel.Children.OfType<NavigationItem>())
+        {
+            if (item.Equals(this) || !item.IsSelected) continue;
+            item.SetSelected(false);
+
+            // Set unselected appearance
+            Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+            Foreground = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+        }
+
+        // Set selected appearance
+        Background = FindResource("ControlStrokeColorDefaultBrush") as SolidColorBrush;
+        Foreground = FindResource("AccentTextFillColorSecondaryBrush") as SolidColorBrush;
+
+        if (!IsItem)
+            _currentWindow?.SetView(_page);
+        else
+            _currentItem?.SetView(_page);
+    }
+
+    private void SelectItem()
+    {
+        if (IsSelected) return;
+        IsSelected = true;
+
+
+        foreach (var item in _itemStackPanel.Children.OfType<NavigationItem>())
+        {
+            if (item.Equals(this) || !item.IsSelected) continue;
+            item.SetSelected(false);
+            // Set unselected appearance
+            Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+            Foreground = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+        }
+
+        // Set selected appearance
+        Background = FindResource("ControlStrokeColorDefaultBrush") as SolidColorBrush;
+        Foreground = FindResource("AccentTextFillColorSecondaryBrush") as SolidColorBrush;
+
+        if (!IsItem)
+            _currentWindow?.SetView(_page);
+        else
+            _currentItem?.SetView(_page);
+    }
+
+    public void SetSelected(bool selected)
+    {
+        if (!selected)
+        {
+            IsSelected = false;
+            Background = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+            Foreground = FindResource("ControlFillColorTransparentBrush") as SolidColorBrush;
+        }
+        else
+        {
+            SelectItem();
+        }
     }
 }

@@ -23,76 +23,66 @@ namespace DesktopOverlayUI.pages.overlayMenu
     public sealed partial class TextTab : Page
     {
 
-        public OverlayDisplay Overlay;
+        private readonly OverlayDisplay _overlay;
  
 
 
-        private EditorForm editor;
+        private readonly EditorForm _editor;
 
-        public TextTab()
-        {
-            Overlay = new OverlayDisplay();
-            editor = new EditorForm();
-            editor.OkButton.Click += OkEditor;
-            editor.CancelButton.Click += HideEditor;
-            editor.ApplyButton.Click += ApplyEditor;
-            editor.ValueBox.Document = new FlowDocument(new Paragraph(new Run(Overlay.OverlayText)));
-
-            InitializeComponent();
-        }
 
         public TextTab(OverlayDisplay overlay)
         {
-            Overlay = overlay;
-            editor = new EditorForm();
-            editor.OkButton.Click += OkEditor;
-            editor.CancelButton.Click += HideEditor;
-            editor.ApplyButton.Click += ApplyEditor;
-            editor.ValueBox.Document = new FlowDocument(new Paragraph(new Run(Overlay.OverlayText)));
+            _overlay = overlay;
+            _editor = new EditorForm();
+            _editor.OkButton.Click += OkEditor;
+            _editor.CancelButton.Click += HideEditor;
+            _editor.ApplyButton.Click += ApplyEditor;
+            _editor.ValueBox.Document = new FlowDocument(new Paragraph(new Run(_overlay.OverlayText)));
             InitializeComponent();
         }
 
-        public void UpdateText(object sender, RoutedEventArgs e)
+        private void UpdateText(object sender, RoutedEventArgs e)
         {
-            Overlay.OverlayText = TextInputBox.Text;
+            _overlay.OverlayText = TextInputBox.Text;
+            _editor.ValueBox.Document = new FlowDocument(new Paragraph(new Run(_overlay.OverlayText)));
             //Overlay.Show();
         }
 
-        public void ToggleOverlay(object sender, RoutedEventArgs e)
+        private void ToggleOverlay(object sender, RoutedEventArgs e)
         {
-            bool status = ToggleVisibility.IsChecked != null && ToggleVisibility.IsChecked.Value;
+            var status = ToggleVisibility.IsChecked != null && ToggleVisibility.IsChecked.Value;
             
             if (status)
             {
-                Overlay.Show();
+                _overlay.Show();
             }
             else
             {
-                Overlay.Hide();
+                _overlay.Hide();
             }
         }
 
         private void ShowEditor(object sender, RoutedEventArgs e)
         {
-            editor.Show();
+            _editor.Show();
         }
 
         private void OkEditor(object sender, RoutedEventArgs e)
         {
             ApplyEditor(sender, e);
-            editor.Hide();
+            _editor.Hide();
         }
 
         private void ApplyEditor(object sender, RoutedEventArgs e)
         {
-            string fromRichText = new TextRange(editor.ValueBox.Document.ContentStart, editor.ValueBox.Document.ContentEnd).Text;
+            var fromRichText = new TextRange(_editor.ValueBox.Document.ContentStart, _editor.ValueBox.Document.ContentEnd).Text;
             TextInputBox.Text = fromRichText;
-            Overlay.OverlayText = fromRichText;
+            _overlay.OverlayText = fromRichText;
         }
 
         private void HideEditor(object sender, RoutedEventArgs e)
         {
-            editor.Hide();
+            _editor.Hide();
         }
 
 

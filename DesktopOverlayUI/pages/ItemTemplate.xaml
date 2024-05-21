@@ -29,10 +29,10 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <WrapPanel Grid.Row="0" Margin="8,8,0,0">
-            <ui:Button x:Name="TextMenuButton" Template="{DynamicResource ItemButtonTemplate}" Content="Text"/>
+        <StackPanel x:Name="MenuPanel" Orientation="Horizontal" Grid.Row="0" Margin="8,8,0,0">
+            <ui:Button x:Name="TextMenuButton" Template="{DynamicResource ItemButtonTemplate}" Content="Text" Visibility="Collapsed"/>
 
-        </WrapPanel>
+        </StackPanel>
         <Border Grid.Row="1"  Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush }" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="8" x:Name="FrameBorder"  BorderThickness="1,1,1,1" Margin="8">
             <Frame x:Name="FrameDisplay" NavigationUIVisibility="Hidden" Margin="0,0,0,0" />
         </Border>
