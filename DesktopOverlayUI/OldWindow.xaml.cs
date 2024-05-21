@@ -71,7 +71,6 @@ public partial class OldWindow
         public OverlayElement(NavigationView views)
         {
             var templateUri = new Uri("/pages/template.xaml", UriKind.Relative);
-            var template = new ItemTemplate();
 
             //_data = new ElementData();
 
