@@ -21,7 +21,7 @@
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="16">
             <StackPanel x:Name="FontFamilyPanel" Margin="0,8,0,8" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <ui:TextBlock Text="Font Family" FontTypography="Subtitle" Margin="0,0,0,8" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
-                <ComboBox x:Name="FontFamilyComboBox" Width="200" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}">
+                <ComboBox x:Name="FontFamilyComboBox" Width="200" SelectionChanged="UpdateFontFamily" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" FontFamily="{Binding}" />
@@ -32,14 +32,14 @@
             <StackPanel x:Name="FontSizePanel" Margin="0,8,0,8" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <ui:TextBlock Text="Font Size" FontTypography="Subtitle" Margin="0,0,0,8" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
                 <WrapPanel Orientation="Horizontal">
-                    <Slider x:Name="FontSizeSlider" Width="200" Maximum="72" Value="12" TickFrequency="4" />
+                    <Slider x:Name="FontSizeSlider" Width="200" Maximum="72" Minimum="1" Value="24" TickFrequency="4" ValueChanged="UpdateFontSize" />
                     <ui:TextBlock x:Name="FontSizeValueBox" MaxWidth="48" MinWidth="48" Margin="8,0,0,0" Text="{Binding Value, ElementName=FontSizeSlider}" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
                 </WrapPanel>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="16">
             <ui:TextBlock Text="Font Color" FontTypography="Subtitle"  Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
-            <WrapPanel Orientation="Horizontal">
+            <StackPanel Orientation="Vertical">
                 <StackPanel>
                     <WrapPanel x:Name="RedSliderPanel" Margin="0,8,0,8">
                         <Slider x:Name="RedSlider" Width="200" Maximum="255" Value="0" TickFrequency="15" ValueChanged="UpdateColorPreview" LargeChange="15" SmallChange="1"/>
@@ -54,8 +54,24 @@
                         <ui:TextBlock x:Name="BlueValueBox" MaxWidth="48" MinWidth="48" Margin="8,0,0,0" Text="{Binding Value, ElementName=BlueSlider}" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
                     </WrapPanel>
                 </StackPanel>
-                <Border x:Name="ColorPreview" Width="50" Height="100" Background="Black" Margin="8,0,0,0" CornerRadius="4"/>
-            </WrapPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" x:Name="ColorPreview" Width="50" Height="100" Background="Black" Margin="8,0,0,0" CornerRadius="4" HorizontalAlignment="Left"/>
+                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="8,0,0,0" >
+                        <ui:TextBlock Text="Hex" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
+                        <TextBox x:Name="HexTextBox" Width="80" MinWidth="80" Text="000000" TextChanged="HexValueChanged" HorizontalAlignment="Left" CharacterCasing="Upper" MaxLength="6" Margin="0,0,0,8"/>
+                        <ui:TextBlock Text="RGB" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="RedTextBox" Text="255" MinWidth="48" MaxWidth="48" MaxLength="3" TextChanged="RGBValueChanged"/>
+                            <TextBox x:Name="GreenTextBox" Text="255" MinWidth="48" MaxWidth="48" MaxLength="3" TextChanged="RGBValueChanged" />
+                            <TextBox x:Name="BlueTextBox" Text="255" MinWidth="48" MaxWidth="48" MaxLength="3" TextChanged="RGBValueChanged"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
 
         </StackPanel>
     </Grid>
