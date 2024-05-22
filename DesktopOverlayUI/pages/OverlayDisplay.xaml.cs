@@ -59,7 +59,7 @@ namespace DesktopOverlayUI.pages
             OverlayText = text;
             OverlayTextBlock.Text = text;
             OverlayTextBlock.FontSize = 24;
-            OverlayTextBlock.Foreground = Brushes.White;
+            OverlayTextBlock.Foreground = Brushes.Black;
             OverlayTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
             OverlayTextBlock.VerticalAlignment = VerticalAlignment.Top;
             Content.As<Grid>().Children.Add(OverlayTextBlock);
