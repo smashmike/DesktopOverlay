@@ -65,9 +65,9 @@
                         <TextBox x:Name="HexTextBox" Width="80" MinWidth="80" Text="000000" TextChanged="HexValueChanged" HorizontalAlignment="Left" CharacterCasing="Upper" MaxLength="6" Margin="0,0,0,8"/>
                         <ui:TextBlock Text="RGB" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox x:Name="RedTextBox" Text="255" MinWidth="48" MaxWidth="48" MaxLength="3" TextChanged="RGBValueChanged"/>
-                            <TextBox x:Name="GreenTextBox" Text="255" MinWidth="48" MaxWidth="48" MaxLength="3" TextChanged="RGBValueChanged" />
-                            <TextBox x:Name="BlueTextBox" Text="255" MinWidth="48" MaxWidth="48" MaxLength="3" TextChanged="RGBValueChanged"/>
+                            <TextBox x:Name="RedTextBox" Text="255" MinWidth="48" MaxWidth="48" MaxLength="3" TextChanged="RgbValueChanged"/>
+                            <TextBox x:Name="GreenTextBox" Text="255" MinWidth="48" MaxWidth="48" MaxLength="3" TextChanged="RgbValueChanged" />
+                            <TextBox x:Name="BlueTextBox" Text="255" MinWidth="48" MaxWidth="48" MaxLength="3" TextChanged="RgbValueChanged"/>
                         </StackPanel>
                     </StackPanel>
                 </Grid>

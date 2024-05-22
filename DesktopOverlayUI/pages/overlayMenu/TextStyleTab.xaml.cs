@@ -68,7 +68,7 @@ namespace DesktopOverlayUI.pages.overlayMenu
             _overlay.OverlayTextBlock.Foreground = new SolidColorBrush(rgb);
         }
 
-        private void RGBValueChanged(object sender, TextChangedEventArgs e)
+        private void RgbValueChanged(object sender, TextChangedEventArgs e)
         {
             if (RedTextBox == null || GreenTextBox == null || BlueTextBox == null) return;
             if (!System.Text.RegularExpressions.Regex.IsMatch(RedTextBox.Text, @"\A\b[0-9]+\b\Z") || int.Parse(RedTextBox.Text) > 255)
