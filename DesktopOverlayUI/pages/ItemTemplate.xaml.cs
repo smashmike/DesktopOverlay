@@ -50,12 +50,14 @@ public partial class ItemTemplate : Page
             {
                 var imageMenuButton = new NavigationItem(MenuPanel, this, imagesTab, "General");
                 MenuPanel.Children.Add(imageMenuButton);
+                imageMenuButton.SetSelected(true);
                 break;
             }
             case "Text":
             {
                 var textMenuButton = new NavigationItem(MenuPanel, this, textTab, "General");
                 MenuPanel.Children.Add(textMenuButton);
+                textMenuButton.SetSelected(true);
                 var textStyleMenuButton = new NavigationItem(MenuPanel, this, textStyleTab, "Style");
                 MenuPanel.Children.Add(textStyleMenuButton);
                 break;
