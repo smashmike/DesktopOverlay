@@ -23,11 +23,6 @@ namespace DesktopOverlayUI.pages
     public partial class OverlayDisplay
     {
 
-        // Live edit
-        private bool _isEditing = false;
-        private bool _isResizing = false;
-        private bool _isDragging = false;
-
         public Point OriginPoint { get; set; }
 
 
@@ -65,26 +60,6 @@ namespace DesktopOverlayUI.pages
             Content.As<Grid>().Children.Add(OverlayTextBlock);
         }
 
-        private void Corner_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _isResizing = true;
-            Mouse.Capture((Rectangle)sender);
-        }
-
-        private void BottomRightCorner_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (_isResizing)
-            {
-                this.Width = e.GetPosition(this).X + ((Rectangle)sender).Width / 2;
-                this.Height = e.GetPosition(this).Y + ((Rectangle)sender).Height / 2;
-            }
-        }
-        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonUp(e);
-            _isResizing = false;
-            Mouse.Capture(null);
-        }
 
     }
 }

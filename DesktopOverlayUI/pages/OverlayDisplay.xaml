@@ -16,8 +16,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Rectangle Height="10" Width="10" Fill="{ui:ThemeResource ControlSolidFillColorDefaultBrush}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Rectangle Grid.Column="1" Grid.Row="1" Height="10" Width="10" Fill="{ui:ThemeResource ControlSolidFillColorDefaultBrush}" HorizontalAlignment="Right" VerticalAlignment="Bottom" MouseLeftButtonDown="Corner_MouseLeftButtonDown" MouseMove="BottomRightCorner_MouseMove"/>
         
     </Grid>
 </Window>
