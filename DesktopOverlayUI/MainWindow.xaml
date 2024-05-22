@@ -15,7 +15,7 @@
 		
         Title="DesktopOverlay" Height="450" Width="800" 
         WindowCornerPreference="Round"
-        ExtendsContentIntoTitleBar="True" WindowStyle="None" ResizeMode="NoResize">
+        ExtendsContentIntoTitleBar="True" WindowStyle="None" ResizeMode="NoResize" >
     <ui:FluentWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,7 +26,7 @@
 
 
     <Grid>
-        <ui:TitleBar HorizontalAlignment="Right" Height="32" Width="800"/>
+        <ui:TitleBar HorizontalAlignment="Right" Height="32" Width="800" ShowMaximize="False"/>
         <ContentPresenter x:Name="Dialog" Panel.ZIndex="10"/>
         <Grid Margin="0,37,675,12">
             <Grid.RowDefinitions>
