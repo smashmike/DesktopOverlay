@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -190,14 +191,23 @@ public class NavigationItem : Button
         Page renameDialogPage = new dialogViews.RenameView();
         frame.Navigate(renameDialogPage);
 
-
-        var result = await contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions()
+        var result = await contentDialogService.ShowAsync(new ContentDialog()
         {
             Title = "Rename Item",
             Content = frame,
             PrimaryButtonText = "Apply",
-            CloseButtonText = "Cancel"
-        });
+            CloseButtonText = "Cancel",
+            Padding = new Thickness(16),
+            DialogHeight = double.NaN
+        }, CancellationToken.None);
+
+        //var result = await contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions()
+        //{
+        //    Title = "Rename Item",
+        //    Content = frame,
+        //    PrimaryButtonText = "Apply",
+        //    CloseButtonText = "Cancel"
+        //});
 
         var resultText = result switch
         {
