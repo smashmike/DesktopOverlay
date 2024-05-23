@@ -32,6 +32,7 @@ public partial class ItemTemplate : Page
     private ImagesTab imagesTab;
     private TextTab textTab;
     private TextStyleTab textStyleTab;
+    private LocationTab locationTab;
 
     public ItemTemplate(string itemType)
     {
@@ -42,6 +43,7 @@ public partial class ItemTemplate : Page
         imagesTab = new ImagesTab();
         textTab = new TextTab(Overlay);
         textStyleTab = new TextStyleTab(Overlay);
+        locationTab = new LocationTab(Overlay);
 
 
         switch (itemType)
@@ -63,6 +65,8 @@ public partial class ItemTemplate : Page
                 break;
             }
         }
+        var locationMenuButton = new NavigationItem(MenuPanel, this, locationTab, "Location");
+        MenuPanel.Children.Add(locationMenuButton);
     }
 
 
