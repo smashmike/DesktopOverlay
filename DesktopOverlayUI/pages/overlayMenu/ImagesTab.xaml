@@ -19,11 +19,15 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0" Grid.Row="0" Margin="16">
+            <ui:TextBlock Text="General Settings" FontTypography="Subtitle" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" Margin="0,0,0,8" />
+            <ui:ToggleSwitch x:Name="ToggleVisibility" Content="Enable Overlay" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" Click="ToggleOverlay"/>
+        </StackPanel>
 
-        <StackPanel Grid.Column="0" Margin="16">
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="16">
             <ui:TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Loaded Images" VerticalAlignment="Top" FontSize="20" Margin="0,0,0,8"/>
             <Border Background="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush}" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="10" BorderThickness="1" Height="180" Width="220" HorizontalAlignment="Left" Margin="0,0,12,0">
-                <ui:ListView x:Name="ImageListView"  ItemsSource="{Binding ImageItemsList}" Height="180" Width="220" HorizontalAlignment="Left">
+                <ui:ListView x:Name="ImageListView" SelectionChanged="SelectImage"  ItemsSource="{Binding ImageItemsList}" Height="180" Width="220" HorizontalAlignment="Left">
                     <ui:ListView.ItemTemplate>
                         <DataTemplate DataType="{x:Type local:ImageItem}">
                             <TextBlock Margin="0,5,0,5" Text="{Binding Name}"/>
@@ -31,14 +35,10 @@
                     </ui:ListView.ItemTemplate>
                 </ui:ListView>
             </Border>
-            <Grid Margin="0,8,12,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <ui:Button Grid.Column="0" Content="Add Image" Margin="0,0,8,12" VerticalAlignment="Top" Click="AddImage"/>
-                <ui:Button Grid.Column="1" Content="Remove Image" Margin="0,0,0,12" VerticalAlignment="Top" Click="RemoveImage" HorizontalAlignment="Right"/>
-            </Grid>
+            <StackPanel Orientation="Horizontal" Margin="0,8,12,0">
+                <ui:Button Content="Add Image" Margin="0,0,8,12" VerticalAlignment="Top" Click="AddImage"/>
+                <ui:Button Content="Remove Image" Margin="0,0,0,12" VerticalAlignment="Top" Click="RemoveImage" HorizontalAlignment="Right"/>
+            </StackPanel>
 
 
 

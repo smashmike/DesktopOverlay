@@ -33,6 +33,7 @@ namespace DesktopOverlayUI.pages.overlayMenu
         public TextTab(OverlayDisplay overlay)
         {
             _overlay = overlay;
+            _overlay.SetText("Text Overlay");
             _editor = new EditorForm();
             _editor.OkButton.Click += OkEditor;
             _editor.CancelButton.Click += HideEditor;

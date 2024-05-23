@@ -24,6 +24,9 @@ namespace DesktopOverlayUI.pages.overlayMenu
     /// </summary>
     public partial class ImagesTab : Page
     {
+
+        private OverlayDisplay _overlay;
+
         private List<ImageItem> _imageItemsList = [];
         public List<ImageItem> ImageItemsList { 
             get => _imageItemsList;
@@ -31,12 +34,13 @@ namespace DesktopOverlayUI.pages.overlayMenu
         }
 
 
-        public ImagesTab()
+        public ImagesTab(OverlayDisplay overlay)
         {
-            var test1 = new ImageItem("test1");
-            var test2 = new ImageItem("test2");
-            _imageItemsList.Add(test1);
-            _imageItemsList.Add(test2);
+            _overlay = overlay;
+            //var test1 = new ImageItem("test1");
+            //var test2 = new ImageItem("test2");
+            //_imageItemsList.Add(test1);
+            //_imageItemsList.Add(test2);
             DataContext = this;
             InitializeComponent();
         }
@@ -49,7 +53,8 @@ namespace DesktopOverlayUI.pages.overlayMenu
                 Filter = "Image Files(*.jpg; *.jpeg; *.png)|*.jpg; *.jpeg; *.png"
             };
             if (getImage.ShowDialog() != true) return;
-            var newImage = new ImageItem(System.IO.Path.GetFileName(getImage.FileName));
+            var ImageFile = new BitmapImage(new Uri(getImage.FileName));
+            var newImage = new ImageItem(System.IO.Path.GetFileName(getImage.FileName), ImageFile);
             ImageItemsList.Add(newImage);
             ImageListView.Items.Refresh();
         }
@@ -61,6 +66,26 @@ namespace DesktopOverlayUI.pages.overlayMenu
             ImageListView.Items.Refresh();
         }
 
-        
+        private void ToggleOverlay(object sender, RoutedEventArgs e)
+        {
+            var status = ToggleVisibility.IsChecked != null && ToggleVisibility.IsChecked.Value;
+
+            if (status)
+            {
+                _overlay.Show();
+            }
+            else
+            {
+                _overlay.Hide();
+            }
+        }
+
+        private void SelectImage(object sender, SelectionChangedEventArgs e)
+        {
+            if (ImageListView == null) return;
+            var selectedImage = (ImageItem)ImageListView.SelectedItem;
+            if (selectedImage == null) return;
+            _overlay.SetImage(selectedImage.Source);
+        }
     }
 }

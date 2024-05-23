@@ -39,6 +39,15 @@ namespace DesktopOverlayUI.pages
             InitializeComponent();
             OriginPoint = new Point(Left,Top);
             InitTextOverlay("Test");
+            InitImageOverlay(null);
+
+        }
+
+        public OverlayDisplay(ImageSource image)
+        {
+            InitializeComponent();
+            OriginPoint = new Point(Left,Top);
+            InitImageOverlay(image);
         }
 
         public OverlayDisplay(string overlayText)
@@ -49,6 +58,13 @@ namespace DesktopOverlayUI.pages
             InitTextOverlay(overlayText);
         }
 
+        public void SetText(string text)
+        {
+            OverlayText = text;
+            OverlayTextBlock.Text = OverlayText;
+            OverlayTextBlock.Visibility = Visibility.Visible;
+        }
+
         private void InitTextOverlay(string text)
         {
             OverlayText = text;
@@ -57,7 +73,41 @@ namespace DesktopOverlayUI.pages
             OverlayTextBlock.Foreground = Brushes.Black;
             OverlayTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
             OverlayTextBlock.VerticalAlignment = VerticalAlignment.Top;
+            OverlayTextBlock.Visibility = Visibility.Collapsed;
             Content.As<Grid>().Children.Add(OverlayTextBlock);
+        }
+
+        public void SetImage(ImageSource image)
+        {
+            var imageControl = new Wpf.Ui.Controls.Image()
+            {
+                Source = image,
+                Width = 100,
+                Height = 100,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+            imageControl.Visibility = Visibility.Visible;
+            OverlayTextBlock.Visibility = Visibility.Collapsed;
+            Content.As<Grid>().Children.Add(imageControl);
+        }
+
+        private void InitImageOverlay(ImageSource image)
+        {
+            if (image == null)
+            {
+                return;
+            }
+            var imageControl = new Wpf.Ui.Controls.Image()
+            {
+                Source = image,
+                Width = 100,
+                Height = 100,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+            imageControl.Visibility = Visibility.Collapsed;
+            Content.As<Grid>().Children.Add(imageControl);
         }
 
 

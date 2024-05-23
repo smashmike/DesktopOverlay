@@ -39,8 +39,8 @@ public partial class ItemTemplate : Page
         InitializeComponent();
 
         //TextMenuButton.Content = "Text";
-        Overlay = new OverlayDisplay("Test");
-        imagesTab = new ImagesTab();
+        Overlay = new OverlayDisplay();
+        imagesTab = new ImagesTab(Overlay);
         textTab = new TextTab(Overlay);
         textStyleTab = new TextStyleTab(Overlay);
         locationTab = new LocationTab(Overlay);
