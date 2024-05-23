@@ -39,25 +39,24 @@ public partial class ItemTemplate : Page
         InitializeComponent();
 
         //TextMenuButton.Content = "Text";
-        Overlay = new OverlayDisplay();
-        imagesTab = new ImagesTab(Overlay);
-        textTab = new TextTab(Overlay);
-        textStyleTab = new TextStyleTab(Overlay);
-        locationTab = new LocationTab(Overlay);
 
 
+        Overlay = new OverlayDisplay("Image", null, null);
         switch (itemType)
         {
             case "Image":
             {
-                var imageMenuButton = new NavigationItem(MenuPanel, this, imagesTab, "General");
+                imagesTab = new ImagesTab(Overlay);
+                    var imageMenuButton = new NavigationItem(MenuPanel, this, imagesTab, "General");
                 MenuPanel.Children.Add(imageMenuButton);
                 imageMenuButton.SetSelected(true);
                 break;
             }
             case "Text":
             {
-                var textMenuButton = new NavigationItem(MenuPanel, this, textTab, "General");
+                textTab = new TextTab(Overlay);
+                textStyleTab = new TextStyleTab(Overlay);
+                    var textMenuButton = new NavigationItem(MenuPanel, this, textTab, "General");
                 MenuPanel.Children.Add(textMenuButton);
                 textMenuButton.SetSelected(true);
                 var textStyleMenuButton = new NavigationItem(MenuPanel, this, textStyleTab, "Style");
@@ -65,6 +64,7 @@ public partial class ItemTemplate : Page
                 break;
             }
         }
+        locationTab = new LocationTab(Overlay);
         var locationMenuButton = new NavigationItem(MenuPanel, this, locationTab, "Location");
         MenuPanel.Children.Add(locationMenuButton);
     }

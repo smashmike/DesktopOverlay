@@ -34,29 +34,19 @@ namespace DesktopOverlayUI.pages
             set => OverlayTextBlock.Text = value;
         }
 
-        public OverlayDisplay()
-        {
-            InitializeComponent();
-            OriginPoint = new Point(Left,Top);
-            InitTextOverlay("Test");
-            InitImageOverlay(null);
+        
 
-        }
-
-        public OverlayDisplay(ImageSource image)
+        public OverlayDisplay(string overlayType, ImageSource? image, string? str)
         {
+
             InitializeComponent();
             OriginPoint = new Point(Left,Top);
             InitImageOverlay(image);
+            InitTextOverlay(str);
+
         }
 
-        public OverlayDisplay(string overlayText)
-        {
-
-            InitializeComponent();
-            OriginPoint = new Point(Left,Top);
-            InitTextOverlay(overlayText);
-        }
+        
 
         public void SetText(string text)
         {
@@ -65,16 +55,16 @@ namespace DesktopOverlayUI.pages
             OverlayTextBlock.Visibility = Visibility.Visible;
         }
 
-        private void InitTextOverlay(string text)
+        private void InitTextOverlay(string? text)
         {
-            OverlayText = text;
             OverlayTextBlock.Text = text;
+            OverlayTextBlock.Text = OverlayText;
             OverlayTextBlock.FontSize = 24;
             OverlayTextBlock.Foreground = Brushes.Black;
             OverlayTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
             OverlayTextBlock.VerticalAlignment = VerticalAlignment.Top;
-            OverlayTextBlock.Visibility = Visibility.Collapsed;
             Content.As<Grid>().Children.Add(OverlayTextBlock);
+            OverlayTextBlock.Visibility = Visibility.Collapsed;
         }
 
         public void SetImage(ImageSource image)
@@ -87,17 +77,13 @@ namespace DesktopOverlayUI.pages
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top
             };
-            imageControl.Visibility = Visibility.Visible;
             OverlayTextBlock.Visibility = Visibility.Collapsed;
             Content.As<Grid>().Children.Add(imageControl);
         }
 
-        private void InitImageOverlay(ImageSource image)
+        private void InitImageOverlay(ImageSource? image)
         {
-            if (image == null)
-            {
-                return;
-            }
+            
             var imageControl = new Wpf.Ui.Controls.Image()
             {
                 Source = image,
