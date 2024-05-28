@@ -51,6 +51,29 @@ namespace DesktopOverlayUI.pages.overlayMenu
             _overlay.OverlayTextBlock.FontFamily = fontFamily;
         }
 
+        private void OpacityValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            OpacitySlider.Value = (int)OpacitySlider.Value;
+            if (OpacityTextBox == null) return;
+            OpacityTextBox.Text = OpacitySlider.Value.ToString();
+            _overlay.OverlayTextBlock.Opacity = OpacitySlider.Value / 100;
+        }
+
+        private void OpacityValueChanged(object sender, TextChangedEventArgs e)
+        {
+            if (OpacityTextBox == null) return;
+            if (!System.Text.RegularExpressions.Regex.IsMatch(OpacityTextBox.Text, @"\A\b[0-9]+\b\Z") || int.Parse(OpacityTextBox.Text) > 100)
+            {
+                OpacityTextBox.Text = "";
+            }
+
+            if (OpacityTextBox.Text.Length != 0)
+            {
+                OpacitySlider.Value = int.Parse(OpacityTextBox.Text);
+                _overlay.OverlayTextBlock.Opacity = OpacitySlider.Value / 100;
+            }
+        }
+
         private void HexValueChanged(object sender, TextChangedEventArgs e)
         {
             if (!System.Text.RegularExpressions.Regex.IsMatch(HexTextBox.Text, @"\A\b[0-9a-fA-F]+\b\Z"))

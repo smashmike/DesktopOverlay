@@ -31,10 +31,15 @@
             </StackPanel>
             <StackPanel x:Name="FontSizePanel" Margin="0,8,0,8" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <ui:TextBlock Text="Font Size" FontTypography="Subtitle" Margin="0,0,0,8" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
-                <WrapPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">
                     <Slider x:Name="FontSizeSlider" Width="200" Maximum="72" Minimum="1" Value="24" TickFrequency="4" ValueChanged="UpdateFontSize" />
                     <ui:TextBlock x:Name="FontSizeValueBox" MaxWidth="48" MinWidth="48" Margin="8,0,0,0" Text="{Binding Value, ElementName=FontSizeSlider}" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
-                </WrapPanel>
+                </StackPanel>
+                <ui:TextBlock Text="Opacity" FontTypography="Subtitle" Margin="0,8,0,8" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
+                <StackPanel Orientation="Horizontal">
+                    <Slider x:Name="OpacitySlider" Width="200" Maximum="100" Minimum="0" Value="100" TickFrequency="5" ValueChanged="OpacityValueChanged"/>
+                    <TextBox x:Name="OpacityTextBox" Text="100" MinWidth="48" MaxWidth="48" MaxLength="3" TextChanged="OpacityValueChanged" Margin="8,0,0,0"/>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="16">
