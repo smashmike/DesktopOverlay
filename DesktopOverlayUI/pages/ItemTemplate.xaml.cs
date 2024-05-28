@@ -30,6 +30,7 @@ public partial class ItemTemplate : Page
 {
     public OverlayDisplay Overlay;
     private ImagesTab? imagesTab;
+    private ImageStyleTab? imageStyleTab;
     private TextTab? textTab;
     private TextStyleTab? textStyleTab;
     private LocationTab locationTab;
@@ -49,6 +50,9 @@ public partial class ItemTemplate : Page
                 imagesTab = new ImagesTab(Overlay);
                     var imageMenuButton = new NavigationItem(MenuPanel, this, imagesTab, "General");
                 MenuPanel.Children.Add(imageMenuButton);
+                imageStyleTab = new ImageStyleTab(Overlay);
+                var imageStyleMenuButton = new NavigationItem(MenuPanel, this, imageStyleTab, "Style");
+                MenuPanel.Children.Add(imageStyleMenuButton);
                 imageMenuButton.SetSelected(true);
                 break;
             }

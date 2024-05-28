@@ -51,7 +51,11 @@ namespace DesktopOverlayUI.pages
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Top,
             IsHitTestVisible = false,
-            Visibility = Visibility.Collapsed
+            Visibility = Visibility.Collapsed,
+            HorizontalContentAlignment = HorizontalAlignment.Stretch,
+            VerticalContentAlignment = VerticalAlignment.Stretch,
+            Stretch = Stretch.Fill,
+            
         };
 
         public string OverlayText {
