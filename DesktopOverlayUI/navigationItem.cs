@@ -48,7 +48,7 @@ public class NavigationItem : Button
     private readonly MainWindow? _currentWindow;
     private readonly ItemTemplate? _currentItem;
     private readonly StackPanel _itemStackPanel;
-    private readonly Page _page;
+    private Page _page;
 
 
     /**
@@ -114,6 +114,7 @@ public class NavigationItem : Button
         _currentItem = itemWindow;
         _itemStackPanel = stackPanel;
         _page = displayPage;
+
         var resources = new ResourceDictionary
         {
             Source = new Uri("/MenuItemTemplate.xaml", UriKind.Relative)
@@ -138,14 +139,13 @@ public class NavigationItem : Button
         if (!IsItem)
         {
             _itemStackPanel.Children.Remove(this);
-
-            if (_currentWindow != null && !_currentWindow.FrameDisplay.CanGoBack) return;
+            _page.As<ItemTemplate>().Overlay.Close();
             switch (_itemStackPanel.Children.Count)
             {
-                case 0:
+                case <= 1:
                     if (_currentWindow != null) _currentWindow.FrameDisplay.Content = "";
                     return;
-                case > 0:
+                case > 1:
                 {
                     var lastChild = _itemStackPanel.Children[^1] as NavigationItem;
                     lastChild?.SelectItem();
