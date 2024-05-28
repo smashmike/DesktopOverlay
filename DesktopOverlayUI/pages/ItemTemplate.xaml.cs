@@ -29,9 +29,9 @@ namespace DesktopOverlayUI.pages;
 public partial class ItemTemplate : Page
 {
     public OverlayDisplay Overlay;
-    private ImagesTab imagesTab;
-    private TextTab textTab;
-    private TextStyleTab textStyleTab;
+    private ImagesTab? imagesTab;
+    private TextTab? textTab;
+    private TextStyleTab? textStyleTab;
     private LocationTab locationTab;
 
     public ItemTemplate(string itemType)
@@ -67,8 +67,12 @@ public partial class ItemTemplate : Page
         locationTab = new LocationTab(Overlay);
         var locationMenuButton = new NavigationItem(MenuPanel, this, locationTab, "Location");
         MenuPanel.Children.Add(locationMenuButton);
+
+        
+
     }
 
+    
 
     public void SetView(Uri uri)
     {
