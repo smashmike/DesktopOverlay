@@ -6,7 +6,7 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:DesktopOverlayUI.pages"
         mc:Ignorable="d"
-        Title="OverlayDisplay" Height="Auto" Width="Auto" WindowStyle="None" ResizeMode="NoResize"  Background="#00000000" AllowsTransparency="True" ShowInTaskbar="False" Topmost="True" Focusable="False" IsTabStop="False" >
+        Title="OverlayDisplay" Height="Auto" Width="Auto" WindowStyle="None" ResizeMode="NoResize"  Background="#00000000" AllowsTransparency="True" ShowInTaskbar="False" Topmost="True" Focusable="False" IsTabStop="False" IsHitTestVisible="False" >
     <Grid x:Name="OverlayGrid" Width="Auto" Height="Auto">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
