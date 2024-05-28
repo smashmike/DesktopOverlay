@@ -54,7 +54,7 @@ namespace DesktopOverlayUI.pages.overlayMenu
             };
             if (getImage.ShowDialog() != true) return;
             var ImageFile = new BitmapImage(new Uri(getImage.FileName));
-            var newImage = new ImageItem(System.IO.Path.GetFileName(getImage.FileName), ImageFile);
+            var newImage = new ImageItem(System.IO.Path.GetFileName(getImage.FileName), new Uri(getImage.FileName));
             ImageItemsList.Add(newImage);
             ImageListView.Items.Refresh();
         }
@@ -85,7 +85,7 @@ namespace DesktopOverlayUI.pages.overlayMenu
             if (ImageListView == null) return;
             var selectedImage = (ImageItem)ImageListView.SelectedItem;
             if (selectedImage == null) return;
-            _overlay.SetImage(selectedImage.Source);
+            _overlay.SetImage(selectedImage);
         }
     }
 }

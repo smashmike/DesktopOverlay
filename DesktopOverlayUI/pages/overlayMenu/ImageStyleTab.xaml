@@ -17,11 +17,22 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
             <ui:TextBlock Text="Image Size" FontTypography="Subtitle" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" Margin="0,0,0,0"/>
-            <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                <ui:TextBlock Text="X" FontTypography="BodyStrong" VerticalAlignment="Center" Padding="0,0,8,0"></ui:TextBlock>
-                <TextBox x:Name="SizeXBox" Text="255" MinWidth="52" MaxWidth="52" MaxLength="4" TextChanged="SizeValueChanged"/>
-                <ui:TextBlock Text="Y" FontTypography="BodyStrong" VerticalAlignment="Center" Padding="16,0,8,0"></ui:TextBlock>
-                <TextBox x:Name="SizeYBox" Text="255" MinWidth="52" MaxWidth="52" MaxLength="4" TextChanged="SizeValueChanged"/>
+            <StackPanel Orientation="Vertical" Margin="0,8,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ui:TextBlock Grid.Row="0" Grid.Column="0" Text="X" FontTypography="BodyStrong" VerticalAlignment="Center" Padding="0,0,8,0"/>
+                    <ui:NumberBox x:Name="XNumberBox" Grid.Row="0" Grid.Column="1" MinWidth="136" MaxWidth="136" Minimum="0" ValueChanged="SizeValueChanged"/>
+                    <ui:TextBlock Grid.Row="1" Grid.Column="0" Text="Y" FontTypography="BodyStrong" VerticalAlignment="Center" Padding="0,0,8,0"/>
+                    <ui:NumberBox x:Name="YNumberBox" Grid.Row="1" Grid.Column="1" MinWidth="136" MaxWidth="136" Minimum="0" ValueChanged="SizeValueChanged"/>
+                </Grid>
+                <ui:Button Content="Reset" Margin="0,8,0,0" Click="ResetSizeBoxes"/>
             </StackPanel>
             <Image/>
         </StackPanel>

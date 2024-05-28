@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -17,6 +18,8 @@ using Windows.Graphics.Imaging;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using Wpf.Ui.Controls;
+using Size = SixLabors.ImageSharp.Size;
 
 namespace DesktopOverlayUI.pages.overlayMenu
 {
@@ -28,42 +31,42 @@ namespace DesktopOverlayUI.pages.overlayMenu
 
         private readonly OverlayDisplay _overlay;
 
+        private bool _ignoreSizeChange = false;
+
         public ImageStyleTab(OverlayDisplay overlay)
         {
             _overlay = overlay;
             InitializeComponent();
+            overlay.OverlayImageItemChanged += (sender, args) =>
+            {
+                if (_ignoreSizeChange) return;
+                XNumberBox.Value = overlay.OverlayImageItem.Width;
+                YNumberBox.Value = overlay.OverlayImageItem.Height;
+            };
         }
 
-        private void SizeValueChanged(object sender, TextChangedEventArgs e)
+        private void SizeValueChanged(object sender, RoutedEventArgs e)
         {
-            if (SizeXBox == null || SizeYBox == null) return;
+            if (XNumberBox == null || YNumberBox == null) return;
+            if (XNumberBox.Value == null || YNumberBox.Value == null) return;
+            if (_overlay.OverlayImage.Source == null) return;
 
-            if (!System.Text.RegularExpressions.Regex.IsMatch(SizeXBox.Text, @"\A\b[0-9]+\b\Z") ||
-                int.Parse(SizeXBox.Text) > SystemParameters.VirtualScreenWidth)
-            {
-                SizeXBox.Text = "1";
-            }
+            _ignoreSizeChange = true;
 
-            if (!System.Text.RegularExpressions.Regex.IsMatch(SizeYBox.Text, @"\A\b[0-9]+\b\Z") ||
-                int.Parse(SizeYBox.Text) > SystemParameters.VirtualScreenHeight)
-            {
-                SizeYBox.Text = "1";
-            }
+            _overlay.OverlayImageItem.Resize((int)XNumberBox.Value, (int)YNumberBox.Value);
+            _overlay.SetImage(_overlay.OverlayImageItem);
 
-            _overlay.OverlayImage.Width = int.Parse(SizeXBox.Text);
-            _overlay.OverlayImage.MinWidth = int.Parse(SizeXBox.Text);
-            _overlay.OverlayImage.Height = int.Parse(SizeYBox.Text);
-
-           
-            var newImage = SixLabors.ImageSharp.Image.Load(_overlay.OverlayImage.Source.ToString());
-            newImage.Mutate(x => x.Resize(int.Parse(SizeXBox.Text), int.Parse(SizeYBox.Text)));
-            
+            _ignoreSizeChange = false;
         }
-        
 
 
-        
-
+        private void ResetSizeBoxes(object sender, RoutedEventArgs e)
+        {
+            if (_overlay.OverlayImage.Source == null) return;
+            Size originalSize = _overlay.OverlayImageItem.ResetSize();
+            XNumberBox.Value = originalSize.Width;
+            YNumberBox.Value = originalSize.Height;
+        }
     }
 
 }

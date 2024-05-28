@@ -35,20 +35,21 @@ public partial class ItemTemplate : Page
     private TextStyleTab? textStyleTab;
     private LocationTab locationTab;
 
+
     public ItemTemplate(string itemType)
     {
         InitializeComponent();
 
         //TextMenuButton.Content = "Text";
 
-
+        
         Overlay = new OverlayDisplay("Image", null, null);
         switch (itemType)
         {
             case "Image":
             {
                 imagesTab = new ImagesTab(Overlay);
-                    var imageMenuButton = new NavigationItem(MenuPanel, this, imagesTab, "General");
+                var imageMenuButton = new NavigationItem(MenuPanel, this, imagesTab, "General");
                 MenuPanel.Children.Add(imageMenuButton);
                 imageStyleTab = new ImageStyleTab(Overlay);
                 var imageStyleMenuButton = new NavigationItem(MenuPanel, this, imageStyleTab, "Style");
@@ -60,7 +61,7 @@ public partial class ItemTemplate : Page
             {
                 textTab = new TextTab(Overlay);
                 textStyleTab = new TextStyleTab(Overlay);
-                    var textMenuButton = new NavigationItem(MenuPanel, this, textTab, "General");
+                var textMenuButton = new NavigationItem(MenuPanel, this, textTab, "General");
                 MenuPanel.Children.Add(textMenuButton);
                 textMenuButton.SetSelected(true);
                 var textStyleMenuButton = new NavigationItem(MenuPanel, this, textStyleTab, "Style");

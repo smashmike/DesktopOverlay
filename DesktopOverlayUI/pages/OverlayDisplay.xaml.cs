@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Windows.UI.WindowManagement;
+using DesktopOverlayUI.pages.overlayMenu;
 using WinRT;
 using Wpf.Ui.Controls;
 using static System.Net.Mime.MediaTypeNames;
@@ -30,9 +31,21 @@ namespace DesktopOverlayUI.pages
 
         public Point OriginPoint { get; set; }
 
+        public event EventHandler OverlayImageItemChanged;
 
+        public ImageItem OverlayImageItem
+        {
+            get => _overlayImageItem;
+            set
+            {
+                _overlayImageItem = value;
+                OverlayImageItemChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
 
-        public TextBlock OverlayTextBlock= new TextBlock
+        private ImageItem _overlayImageItem;
+
+        public TextBlock OverlayTextBlock = new TextBlock
         {
             Text = "",
             FontSize = 24,
@@ -46,15 +59,11 @@ namespace DesktopOverlayUI.pages
         public Image OverlayImage = new Image
         {
             Source = null,
-            Width = 100,
-            Height = 100,
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Top,
             IsHitTestVisible = false,
-            Visibility = Visibility.Collapsed,
-            HorizontalContentAlignment = HorizontalAlignment.Stretch,
-            VerticalContentAlignment = VerticalAlignment.Stretch,
-            Stretch = Stretch.Fill,
+            Visibility = Visibility.Visible,
+            Stretch = Stretch.None,
             
         };
 
@@ -70,15 +79,14 @@ namespace DesktopOverlayUI.pages
         }
 
         
-
-        public OverlayDisplay(string overlayType, ImageSource? image, string? str)
+        public OverlayDisplay(string overlayType, ImageItem imageItem, string? str)
         {
             InitializeComponent();
-
+            OverlayImageItem = imageItem;
             OriginPoint = new Point(Left,Top);
             OverlayText = str;
             Content.As<Grid>().Children.Add(OverlayTextBlock);
-            OverlayImageSource = image;
+            OverlayImageSource = null;
             Content.As<Grid>().Children.Add(OverlayImage);
 
             foreach (UIElement item in Content.As<Grid>().Children)
@@ -86,6 +94,7 @@ namespace DesktopOverlayUI.pages
                 item.IsHitTestVisible = false;
             }
         }
+
 
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -102,19 +111,23 @@ namespace DesktopOverlayUI.pages
             OverlayTextBlock.Visibility = Visibility.Visible;
         }
 
-        public void SetImage(ImageSource image)
+        public void SetImage(ImageItem image)
         {
-            var imageControl = new Wpf.Ui.Controls.Image()
+            OverlayImageItem = image;
+            var imageControl = new Image
             {
-                Source = image,
-                Width = 100,
-                Height = 100,
+                Source = OverlayImageItem.Source,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
-                IsHitTestVisible = false
+                IsHitTestVisible = false,
+                Visibility = Visibility.Visible,
+                HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                VerticalContentAlignment = VerticalAlignment.Stretch,
+                Stretch = Stretch.None,
+
             };
+            OverlayImage.Source = imageControl.Source;
             OverlayTextBlock.Visibility = Visibility.Collapsed;
-            Content.As<Grid>().Children.Add(imageControl);
         }
 
 
