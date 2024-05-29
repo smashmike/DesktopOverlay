@@ -1,6 +1,6 @@
 # DesktopOverlay
 
-DesktopOverlay is a overlay utility developed by Smasmike to modernize adding overlays to user's desktops. 
+DesktopOverlay is a overlay utility made to modernize adding overlays to user's desktops. 
 
 DesktopOverlay provides a modern, easy to use user-interface, with various customizable features which make DesktopOverlay a great option for those who would like to use an overlay but want to avoid dated software.
 
