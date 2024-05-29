@@ -16,6 +16,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GameOverlay.Drawing;
+using GameOverlay.Windows;
+using Image = GameOverlay.Drawing.Image;
 
 namespace DesktopOverlayUI.pages.overlayMenu
 {
@@ -26,6 +29,7 @@ namespace DesktopOverlayUI.pages.overlayMenu
     {
 
         private OverlayDisplay _overlay;
+        private OverlayDriver _overlayDriver;
 
         private List<ImageItem> _imageItemsList = [];
         public List<ImageItem> ImageItemsList { 
@@ -33,10 +37,12 @@ namespace DesktopOverlayUI.pages.overlayMenu
             set => _imageItemsList = value;
         }
 
+        private GraphicsWindow _testWindow;
 
-        public ImagesTab(OverlayDisplay overlay)
+        public ImagesTab(OverlayDisplay overlay, OverlayDriver driver)
         {
             _overlay = overlay;
+            _overlayDriver = driver;
             //var test1 = new ImageItem("test1");
             //var test2 = new ImageItem("test2");
             //_imageItemsList.Add(test1);
@@ -44,6 +50,7 @@ namespace DesktopOverlayUI.pages.overlayMenu
             DataContext = this;
             InitializeComponent();
         }
+
 
 
         private void AddImage(object sender, RoutedEventArgs e)
@@ -64,6 +71,7 @@ namespace DesktopOverlayUI.pages.overlayMenu
             var selectedImage = (ImageItem)ImageListView.SelectedItem;
             ImageItemsList.Remove(selectedImage);
             ImageListView.Items.Refresh();
+            _overlayDriver.ClearOverlay();
         }
 
         private void ToggleOverlay(object sender, RoutedEventArgs e)
@@ -72,20 +80,27 @@ namespace DesktopOverlayUI.pages.overlayMenu
 
             if (status)
             {
-                _overlay.Show();
+                _overlayDriver.Show();
             }
             else
             {
-                _overlay.Hide();
+                _overlayDriver.Hide();
             }
         }
 
         private void SelectImage(object sender, SelectionChangedEventArgs e)
         {
+
             if (ImageListView == null) return;
             var selectedImage = (ImageItem)ImageListView.SelectedItem;
             if (selectedImage == null) return;
-            _overlay.SetImage(selectedImage);
+            _overlayDriver.ClearOverlay();
+            ToggleVisibility.IsChecked = true;
+            _overlayDriver.Show();
+            //_overlay.SetImage(selectedImage);
+            _overlayDriver.SetImage(selectedImage);
+            //_overlayDriver.Show();
+            //ToggleVisibility.IsChecked = true;
         }
     }
 }

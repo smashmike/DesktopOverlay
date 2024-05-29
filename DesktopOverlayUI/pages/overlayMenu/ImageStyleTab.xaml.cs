@@ -30,18 +30,26 @@ namespace DesktopOverlayUI.pages.overlayMenu
     {
 
         private readonly OverlayDisplay _overlay;
+        private OverlayDriver _overlayDriver;
+
+        private int _imageWidth;
+        private int _imageHeight;
+
 
         private bool _ignoreSizeChange = false;
 
-        public ImageStyleTab(OverlayDisplay overlay)
+        public ImageStyleTab(OverlayDisplay overlay, OverlayDriver driver)
         {
             _overlay = overlay;
+            _overlayDriver = driver;
             InitializeComponent();
-            overlay.OverlayImageItemChanged += (sender, args) =>
+            _overlayDriver.ImageItemChanged += (sender, args) =>
             {
-                if (_ignoreSizeChange) return;
-                XNumberBox.Value = overlay.OverlayImageItem.Width;
-                YNumberBox.Value = overlay.OverlayImageItem.Height;
+                if (_ignoreSizeChange || _overlayDriver.ImageItem == null) return;
+                _imageHeight = _overlayDriver.ImageItem.GetSize().Height;
+                _imageWidth = _overlayDriver.ImageItem.GetSize().Width;
+                XNumberBox.Value = _imageWidth;
+                YNumberBox.Value = _imageHeight;
             };
         }
 
@@ -50,39 +58,30 @@ namespace DesktopOverlayUI.pages.overlayMenu
             if (XNumberBox == null || YNumberBox == null) return;
             if (XNumberBox.Value == null || YNumberBox.Value == null) return;
             if (AspectRatioToggle == null) return;
-            if (_overlay.OverlayImage.Source == null) return;
+            if (_overlayDriver.ImageItem == null) return;
 
             _ignoreSizeChange = true;
             double? height = YNumberBox.Value;
             double? width = XNumberBox.Value;
 
-            bool keepAspectRatio = AspectRatioToggle.IsChecked != null && AspectRatioToggle.IsChecked.Value;
-            if (keepAspectRatio)
-            {
-                if (sender == XNumberBox)
-                {
-                    height = (YNumberBox.Value * (_overlay.Width / _overlay.Height));
-                }
-                else if (sender == YNumberBox)
-                {
-                    width = (XNumberBox.Value * (_overlay.Width / _overlay.Height));
 
-                }
+            //_overlay.OverlayImageItem.Resize((int)width, (int)height);
+            //_overlay.SetImage(_overlay.OverlayImageItem);
 
-                _overlay.OverlayImageItem.Resize((int)width, (int)height);
-                _overlay.SetImage(_overlay.OverlayImageItem);
-
-                _ignoreSizeChange = false;
-                XNumberBox.Value = width;
-                YNumberBox.Value = height;
-            }
+            _overlayDriver.ImageItem.Resize((int)width, (int)height);
+            _overlayDriver.SetImage(_overlayDriver.ImageItem);
+                //overlayDriver.SetSize((int)width, (int)height);
+            
+            
+            _overlayDriver.SetSize((int)width, (int)height);
+            _ignoreSizeChange = false;
         }
 
 
         private void ResetSizeBoxes(object sender, RoutedEventArgs e)
         {
-            if (_overlay.OverlayImage.Source == null) return;
-            Size originalSize = _overlay.OverlayImageItem.ResetSize();
+            if (_overlayDriver.ImageItem == null) return;
+            Size originalSize = _overlayDriver.ImageItem.ResetSize();
             XNumberBox.Value = originalSize.Width;
             YNumberBox.Value = originalSize.Height;
         }

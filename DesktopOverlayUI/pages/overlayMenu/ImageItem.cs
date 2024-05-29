@@ -20,6 +20,7 @@ namespace DesktopOverlayUI.pages.overlayMenu
     {
         public string Name { get; set; }
         public ImageSource Source { get; set; }
+        public Uri SourceUri { get; set; }
 
         public static readonly DependencyProperty WidthProperty = DependencyProperty.Register(
             nameof(Width), typeof(int), typeof(NavigationItem), new PropertyMetadata(0));
@@ -37,6 +38,8 @@ namespace DesktopOverlayUI.pages.overlayMenu
             get => (int)GetValue(HeightProperty);
             private set => SetValue(HeightProperty, value);
         }
+        
+        public byte[] ImageArray { get; set; }
 
         private Image _image;
         private Uri _sourceUri;
@@ -44,10 +47,12 @@ namespace DesktopOverlayUI.pages.overlayMenu
         {
             Name = name;
             Source = new BitmapImage(source);
+            SourceUri = source;
             _image = Image.Load(source.LocalPath);
             Width = _image.Width;
             Height = _image.Height;
             _sourceUri = source;
+            ImageArray = toArray(_image);
         }
 
         public void Resize(int width, int height)
@@ -55,6 +60,14 @@ namespace DesktopOverlayUI.pages.overlayMenu
             var newImage = Image.Load(_sourceUri.LocalPath);
             newImage.Mutate(x => x.Resize(width, height));
             Source = toBitmapImage(toArray(newImage));
+            ImageArray = toArray(newImage);
+            Width = width;
+            Height = height;
+        }
+
+        public Size GetSize()
+        {
+            return new Size(Width, Height);
         }
 
         public Size ResetSize()

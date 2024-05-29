@@ -28,14 +28,14 @@ public partial class LocationTab : Page
     private Point _overlayPoint;
     private Point _offsetPoint;
 
-    private Process _targetProcess;
+    private System.Diagnostics.Process _targetProcess;
     private DispatcherTimer _timer;
 
     public LocationTab(OverlayDisplay overlay)
     {
         _overlay = overlay;
-        var processes = Process.GetProcesses();
-        var processList = new List<Process>();
+        var processes = System.Diagnostics.Process.GetProcesses();
+        var processList = new List<System.Diagnostics.Process>();
         foreach (var process in processes)
             if (!string.IsNullOrEmpty(process.MainWindowTitle))
                 processList.Add(process);
@@ -60,7 +60,7 @@ public partial class LocationTab : Page
         }
         else if (AttachedButton.IsChecked != null && AttachedButton.IsChecked.Value)
         {
-            var selectedProcess = (Process)WindowsComboBox.SelectedItem;
+            var selectedProcess = (System.Diagnostics.Process)WindowsComboBox.SelectedItem;
             if (selectedProcess != null)
             {
                 var windowRect = new RECT();
@@ -94,11 +94,11 @@ public partial class LocationTab : Page
 
     private void WindowsComboBox_DropDownOpened(object sender, EventArgs e)
     {
-        var processes = Process.GetProcesses();
-        var processList = new List<Process>();
+        var processes = System.Diagnostics.Process.GetProcesses();
+        var processList = new List<System.Diagnostics.Process>();
         foreach (var process in processes)
             if (!string.IsNullOrEmpty(process.MainWindowTitle) &&
-                process.MainWindowHandle != Process.GetCurrentProcess().MainWindowHandle)
+                process.MainWindowHandle != System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle)
                 processList.Add(process);
 
         WindowsComboBox.ItemsSource = processList;

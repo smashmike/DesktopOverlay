@@ -19,6 +19,9 @@ using Wpf.Ui;
 using Wpf.Ui.Animations;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Extensions;
+using GameOverlay.Drawing;
+using GameOverlay.Windows;
+using Image = GameOverlay.Drawing.Image;
 using NavigationService = Wpf.Ui.NavigationService;
 
 namespace DesktopOverlayUI.pages;
@@ -35,23 +38,29 @@ public partial class ItemTemplate : Page
     private TextStyleTab? textStyleTab;
     private LocationTab locationTab;
 
+    private OverlayDriver _overlayDriver;
 
-    public ItemTemplate(string itemType)
+
+    public ItemTemplate(string itemType, OverlayDriver driver)
     {
         InitializeComponent();
 
         //TextMenuButton.Content = "Text";
 
-        
+
+
         Overlay = new OverlayDisplay("Image", null, null);
+        _overlayDriver = new OverlayDriver();
+
+
         switch (itemType)
         {
             case "Image":
             {
-                imagesTab = new ImagesTab(Overlay);
+                imagesTab = new ImagesTab(Overlay,_overlayDriver);
                 var imageMenuButton = new NavigationItem(MenuPanel, this, imagesTab, "General");
                 MenuPanel.Children.Add(imageMenuButton);
-                imageStyleTab = new ImageStyleTab(Overlay);
+                imageStyleTab = new ImageStyleTab(Overlay,_overlayDriver);
                 var imageStyleMenuButton = new NavigationItem(MenuPanel, this, imageStyleTab, "Style");
                 MenuPanel.Children.Add(imageStyleMenuButton);
                 imageMenuButton.SetSelected(true);
@@ -73,7 +82,8 @@ public partial class ItemTemplate : Page
         var locationMenuButton = new NavigationItem(MenuPanel, this, locationTab, "Location");
         MenuPanel.Children.Add(locationMenuButton);
 
-        
+        //DirectXTest.Graphics.CreateImage(new Uri("C:\\Users\\Michael\\Source\\Repos\\smashmike1\\DesktopOverlay\\DesktopOverlayUI\\pages\\f13ca1208198058a.png").LocalPath);
+
 
     }
 

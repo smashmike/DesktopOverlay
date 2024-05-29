@@ -45,6 +45,7 @@ public class NavigationItem : Button
 
 
 
+
     private readonly MainWindow? _currentWindow;
     private readonly ItemTemplate? _currentItem;
     private readonly StackPanel _itemStackPanel;
@@ -69,7 +70,7 @@ public class NavigationItem : Button
         };
         var template = resources["ItemButtonTemplate"] as ControlTemplate;
 
-        _page = new ItemTemplate(itemType);
+        _page = new ItemTemplate(itemType, MainWindow._OverlayDriver);
 
 
         var cm = new ContextMenu();
