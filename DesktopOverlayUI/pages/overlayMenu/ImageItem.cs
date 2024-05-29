@@ -44,7 +44,7 @@ namespace DesktopOverlayUI.pages.overlayMenu
         {
             Name = name;
             Source = new BitmapImage(source);
-            _image = Image.Load(source.AbsolutePath);
+            _image = Image.Load(source.LocalPath);
             Width = _image.Width;
             Height = _image.Height;
             _sourceUri = source;
@@ -52,7 +52,7 @@ namespace DesktopOverlayUI.pages.overlayMenu
 
         public void Resize(int width, int height)
         {
-            var newImage = Image.Load(_sourceUri.AbsolutePath);
+            var newImage = Image.Load(_sourceUri.LocalPath);
             newImage.Mutate(x => x.Resize(width, height));
             Source = toBitmapImage(toArray(newImage));
         }

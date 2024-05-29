@@ -49,14 +49,33 @@ namespace DesktopOverlayUI.pages.overlayMenu
         {
             if (XNumberBox == null || YNumberBox == null) return;
             if (XNumberBox.Value == null || YNumberBox.Value == null) return;
+            if (AspectRatioToggle == null) return;
             if (_overlay.OverlayImage.Source == null) return;
 
             _ignoreSizeChange = true;
+            double? height = YNumberBox.Value;
+            double? width = XNumberBox.Value;
 
-            _overlay.OverlayImageItem.Resize((int)XNumberBox.Value, (int)YNumberBox.Value);
-            _overlay.SetImage(_overlay.OverlayImageItem);
+            bool keepAspectRatio = AspectRatioToggle.IsChecked != null && AspectRatioToggle.IsChecked.Value;
+            if (keepAspectRatio)
+            {
+                if (sender == XNumberBox)
+                {
+                    height = (YNumberBox.Value * (_overlay.Width / _overlay.Height));
+                }
+                else if (sender == YNumberBox)
+                {
+                    width = (XNumberBox.Value * (_overlay.Width / _overlay.Height));
 
-            _ignoreSizeChange = false;
+                }
+
+                _overlay.OverlayImageItem.Resize((int)width, (int)height);
+                _overlay.SetImage(_overlay.OverlayImageItem);
+
+                _ignoreSizeChange = false;
+                XNumberBox.Value = width;
+                YNumberBox.Value = height;
+            }
         }
 
 

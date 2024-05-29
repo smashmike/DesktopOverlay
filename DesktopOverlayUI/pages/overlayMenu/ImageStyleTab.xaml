@@ -18,6 +18,8 @@
         <StackPanel Grid.Column="0">
             <ui:TextBlock Text="Image Size" FontTypography="Subtitle" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" Margin="0,0,0,0"/>
             <StackPanel Orientation="Vertical" Margin="0,8,0,0">
+                <ui:ToggleSwitch x:Name="AspectRatioToggle" IsChecked="True" Content="Lock Aspect Ratio" Margin="0,0,0,8" />
+
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -28,11 +30,13 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <ui:TextBlock Grid.Row="0" Grid.Column="0" Text="X" FontTypography="BodyStrong" VerticalAlignment="Center" Padding="0,0,8,0"/>
-                    <ui:NumberBox x:Name="XNumberBox" Grid.Row="0" Grid.Column="1" MinWidth="136" MaxWidth="136" Minimum="0" ValueChanged="SizeValueChanged"/>
+                    <ui:NumberBox x:Name="XNumberBox" Grid.Row="0" Grid.Column="1" MinWidth="136" MaxWidth="136" Minimum="0" ValueChanged="SizeValueChanged" HorizontalAlignment="Left"/>
                     <ui:TextBlock Grid.Row="1" Grid.Column="0" Text="Y" FontTypography="BodyStrong" VerticalAlignment="Center" Padding="0,0,8,0"/>
-                    <ui:NumberBox x:Name="YNumberBox" Grid.Row="1" Grid.Column="1" MinWidth="136" MaxWidth="136" Minimum="0" ValueChanged="SizeValueChanged"/>
+                    <ui:NumberBox x:Name="YNumberBox" Grid.Row="1" Grid.Column="1" MinWidth="136" MaxWidth="136" Minimum="0" ValueChanged="SizeValueChanged" HorizontalAlignment="Left"/>
                 </Grid>
-                <ui:Button Content="Reset" Margin="0,8,0,0" Click="ResetSizeBoxes"/>
+                <StackPanel Orientation="Horizontal">
+                    <ui:Button Content="Reset" Margin="0,8,8,0" Click="ResetSizeBoxes"/>
+                </StackPanel>
             </StackPanel>
             <Image/>
         </StackPanel>
