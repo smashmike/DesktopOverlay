@@ -1,48 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Automation;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace DesktopOverlayUI.pages.overlayMenu;
 
 /// <summary>
-/// Interaction logic for LocationTab.xaml
+///     Interaction logic for LocationTab.xaml
 /// </summary>
 public partial class LocationTab : Page
 {
-    private OverlayDisplay _overlay;
-    private Point _overlayPoint;
+    private readonly OverlayDisplay _overlay;
+    private readonly DispatcherTimer _timer;
     private Point _offsetPoint;
+    private Point _overlayPoint;
 
-    private System.Diagnostics.Process _targetProcess;
-    private DispatcherTimer _timer;
+    private Process? _targetProcess;
 
     public LocationTab(OverlayDisplay overlay)
     {
         _overlay = overlay;
-        var processes = System.Diagnostics.Process.GetProcesses();
-        var processList = new List<System.Diagnostics.Process>();
+        var processes = Process.GetProcesses();
+        var processList = new List<Process>();
         foreach (var process in processes)
             if (!string.IsNullOrEmpty(process.MainWindowTitle))
                 processList.Add(process);
         _overlayPoint = new Point(0, 0);
         _offsetPoint = new Point(0, 0);
-        _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromMilliseconds(100);
+        _timer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(100)
+        };
         _timer.Tick += OnTimerTick;
         InitializeComponent();
         WindowsComboBox.ItemsSource = processList;
@@ -60,10 +52,10 @@ public partial class LocationTab : Page
         }
         else if (AttachedButton.IsChecked != null && AttachedButton.IsChecked.Value)
         {
-            var selectedProcess = (System.Diagnostics.Process)WindowsComboBox.SelectedItem;
+            var selectedProcess = (Process)WindowsComboBox.SelectedItem;
             if (selectedProcess != null)
             {
-                var windowRect = new RECT();
+                var windowRect = new Rect();
                 GetWindowRect(selectedProcess.MainWindowHandle, ref windowRect);
                 _targetProcess = selectedProcess;
                 _overlayPoint = new Point(windowRect.Left + _offsetPoint.X, windowRect.Top + _offsetPoint.Y);
@@ -77,15 +69,11 @@ public partial class LocationTab : Page
     private void UpdateOffset(object sender, TextChangedEventArgs e)
     {
         if (OffsetXTextBox == null || OffsetYTextBox == null) return;
-        if (!System.Text.RegularExpressions.Regex.IsMatch(OffsetXTextBox.Text, @"\A\b[0-9]+\b\Z"))
-        {
+        if (!Regex.IsMatch(OffsetXTextBox.Text, @"\A\b[0-9]+\b\Z"))
             OffsetXTextBox.Text = "";
-        }
 
-        if (!System.Text.RegularExpressions.Regex.IsMatch(OffsetYTextBox.Text, @"\A\b[0-9]+\b\Z"))
-        {
+        if (!Regex.IsMatch(OffsetYTextBox.Text, @"\A\b[0-9]+\b\Z"))
             OffsetYTextBox.Text = "";
-        }
         if (string.IsNullOrEmpty(OffsetXTextBox.Text) || string.IsNullOrEmpty(OffsetYTextBox.Text)) return;
         _offsetPoint = new Point(int.Parse(OffsetXTextBox.Text), int.Parse(OffsetYTextBox.Text));
         _overlay.Left = _overlayPoint.X + _offsetPoint.X;
@@ -94,30 +82,27 @@ public partial class LocationTab : Page
 
     private void WindowsComboBox_DropDownOpened(object sender, EventArgs e)
     {
-        var processes = System.Diagnostics.Process.GetProcesses();
-        var processList = new List<System.Diagnostics.Process>();
+        var processes = Process.GetProcesses();
+        var processList = new List<Process>();
         foreach (var process in processes)
             if (!string.IsNullOrEmpty(process.MainWindowTitle) &&
-                process.MainWindowHandle != System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle)
+                process.MainWindowHandle != Process.GetCurrentProcess().MainWindowHandle)
                 processList.Add(process);
 
         WindowsComboBox.ItemsSource = processList;
     }
 
     [DllImport("user32.dll")]
-    public static extern bool GetWindowRect(IntPtr hWnd, ref RECT rect);
+    private static extern bool GetWindowRect(IntPtr hWnd, ref Rect rect);
 
 
-    private void OnTimerTick(object sender, EventArgs e)
+    private void OnTimerTick(object? sender, EventArgs e)
     {
-        if (_overlay.IsVisible == false)
-        {
-            return;
-        }
-        var windowRect = new RECT();
-        GetWindowRect(_targetProcess.MainWindowHandle, ref windowRect);
+        if (_overlay.IsVisible == false) return;
+        var windowRect = new Rect();
+        if (_targetProcess != null) GetWindowRect(_targetProcess.MainWindowHandle, ref windowRect);
 
-        if (_overlay.Left != windowRect.Left || _overlay.Top != windowRect.Top)
+        if (Math.Abs(_overlay.Left - windowRect.Left) > 0.1 || Math.Abs(_overlay.Top - windowRect.Top) > 0.1)
         {
             _overlayPoint = new Point(windowRect.Left + _offsetPoint.X, windowRect.Top + _offsetPoint.Y);
             _overlay.Left = _overlayPoint.X;
@@ -126,10 +111,10 @@ public partial class LocationTab : Page
     }
 }
 
-public struct RECT
+public struct Rect(int left, int top)
 {
-    public int Left;
-    public int Top;
+    public readonly int Left = left;
+    public readonly int Top = top;
     public int Right;
     public int Bottom;
 }

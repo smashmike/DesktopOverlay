@@ -31,14 +31,7 @@ namespace DesktopOverlayUI.pages;
 /// </summary>
 public partial class ItemTemplate : Page
 {
-    public OverlayDisplay Overlay;
-    private ImagesTab? imagesTab;
-    private ImageStyleTab? imageStyleTab;
-    private TextTab? textTab;
-    private TextStyleTab? textStyleTab;
-    private LocationTab locationTab;
-
-    private OverlayDriver _overlayDriver;
+    public readonly OverlayDisplay Overlay;
 
 
     public ItemTemplate(string itemType)
@@ -48,19 +41,18 @@ public partial class ItemTemplate : Page
         //TextMenuButton.Content = "Text";
 
 
-
         Overlay = new OverlayDisplay("Image", null, null);
-        _overlayDriver = new OverlayDriver(Overlay);
+        var overlayDriver = new OverlayDriver(Overlay);
 
 
         switch (itemType)
         {
             case "Image":
             {
-                imagesTab = new ImagesTab(Overlay,_overlayDriver);
+                var imagesTab = new ImagesTab(Overlay, overlayDriver);
                 var imageMenuButton = new NavigationItem(MenuPanel, this, imagesTab, "General");
                 MenuPanel.Children.Add(imageMenuButton);
-                imageStyleTab = new ImageStyleTab(Overlay,_overlayDriver);
+                var imageStyleTab = new ImageStyleTab(Overlay, overlayDriver);
                 var imageStyleMenuButton = new NavigationItem(MenuPanel, this, imageStyleTab, "Style");
                 MenuPanel.Children.Add(imageStyleMenuButton);
                 imageMenuButton.SetSelected(true);
@@ -68,8 +60,8 @@ public partial class ItemTemplate : Page
             }
             case "Text":
             {
-                textTab = new TextTab(Overlay);
-                textStyleTab = new TextStyleTab(Overlay);
+                var textTab = new TextTab(Overlay);
+                var textStyleTab = new TextStyleTab(Overlay);
                 var textMenuButton = new NavigationItem(MenuPanel, this, textTab, "General");
                 MenuPanel.Children.Add(textMenuButton);
                 textMenuButton.SetSelected(true);
@@ -78,16 +70,12 @@ public partial class ItemTemplate : Page
                 break;
             }
         }
-        locationTab = new LocationTab(Overlay);
+
+        var locationTab = new LocationTab(Overlay);
         var locationMenuButton = new NavigationItem(MenuPanel, this, locationTab, "Location");
         MenuPanel.Children.Add(locationMenuButton);
-
-        //DirectXTest.Graphics.CreateImage(new Uri("C:\\Users\\Michael\\Source\\Repos\\smashmike1\\DesktopOverlay\\DesktopOverlayUI\\pages\\f13ca1208198058a.png").LocalPath);
-
-
     }
 
-    
 
     public void SetView(Uri uri)
     {

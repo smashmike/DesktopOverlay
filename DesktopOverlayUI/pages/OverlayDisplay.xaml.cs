@@ -1,160 +1,136 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Windows.UI.WindowManagement;
 using DesktopOverlayUI.pages.overlayMenu;
 using WinRT;
-using Wpf.Ui.Controls;
-using static System.Net.Mime.MediaTypeNames;
 using Image = Wpf.Ui.Controls.Image;
 using TextBlock = Wpf.Ui.Controls.TextBlock;
-using System.Reflection.Metadata;
 
-namespace DesktopOverlayUI.pages
+namespace DesktopOverlayUI.pages;
+
+/// <summary>
+///     Interaction logic for OverlayDisplay.xaml
+/// </summary>
+public partial class OverlayDisplay
 {
-    /// <summary>
-    /// Interaction logic for OverlayDisplay.xaml
-    /// </summary>
-    public partial class OverlayDisplay
+    private readonly Image _overlayImage = new()
     {
+        Source = null,
+        HorizontalAlignment = HorizontalAlignment.Left,
+        VerticalAlignment = VerticalAlignment.Top,
+        IsHitTestVisible = false,
+        Visibility = Visibility.Visible,
+        Stretch = Stretch.None
+    };
 
-        public Point OriginPoint { get; set; }
+    public readonly TextBlock OverlayTextBlock = new()
+    {
+        Text = "",
+        FontSize = 24,
+        Foreground = Brushes.Black,
+        HorizontalAlignment = HorizontalAlignment.Left,
+        VerticalAlignment = VerticalAlignment.Top,
+        IsHitTestVisible = false,
+        Visibility = Visibility.Collapsed
+    };
 
-        public event EventHandler OverlayImageItemChanged;
-        public nint Handle
+    private ImageItem? _overlayImageItem;
+
+
+    public OverlayDisplay(string overlayType, ImageItem? imageItem, string? str)
+    {
+        InitializeComponent();
+        OverlayImageItem = imageItem;
+        OriginPoint = new Point(Left, Top);
+        if (str != null) OverlayText = str;
+        Content.As<Grid>().Children.Add(OverlayTextBlock);
+        OverlayImageSource = null;
+        Content.As<Grid>().Children.Add(_overlayImage);
+
+        foreach (UIElement item in Content.As<Grid>().Children) item.IsHitTestVisible = false;
+    }
+
+    public Point OriginPoint { get; set; }
+    public nint Handle { get; private set; }
+
+    private ImageItem? OverlayImageItem
+    {
+        get => _overlayImageItem;
+        set
         {
-            get { return _handle; }
+            _overlayImageItem = value;
+            OverlayImageItemChanged?.Invoke(this, EventArgs.Empty);
         }
-        private nint _handle;
+    }
 
-        public ImageItem OverlayImageItem
+    public string OverlayText
+    {
+        get => OverlayTextBlock.Text;
+        set => OverlayTextBlock.Text = value;
+    }
+
+    public ImageSource? OverlayImageSource
+    {
+        get => _overlayImage.Source;
+        set => _overlayImage.Source = value;
+    }
+
+    public event EventHandler? OverlayImageItemChanged;
+
+
+    protected override void OnSourceInitialized(EventArgs e)
+    {
+        base.OnSourceInitialized(e);
+        var hwnd = new WindowInteropHelper(this).Handle;
+        Handle = Process.GetCurrentProcess().Handle;
+        WindowsServices.SetWindowExTransparent(hwnd);
+    }
+
+
+    public void SetText(string text)
+    {
+        OverlayText = text;
+        OverlayTextBlock.Text = OverlayText;
+        OverlayTextBlock.Visibility = Visibility.Visible;
+    }
+
+    public void SetImage(ImageItem? image)
+    {
+        OverlayImageItem = image;
+        var imageControl = new Image
         {
-            get => _overlayImageItem;
-            set
-            {
-                _overlayImageItem = value;
-                OverlayImageItemChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        private ImageItem _overlayImageItem;
-
-        public TextBlock OverlayTextBlock = new TextBlock
-        {
-            Text = "",
-            FontSize = 24,
-            Foreground = Brushes.Black,
-            HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalAlignment = VerticalAlignment.Top,
-            IsHitTestVisible = false,
-            Visibility = Visibility.Collapsed
-        };
-
-        public Image OverlayImage = new Image
-        {
-            Source = null,
+            Source = OverlayImageItem?.Source,
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Top,
             IsHitTestVisible = false,
             Visibility = Visibility.Visible,
-            Stretch = Stretch.None,
-            
+            HorizontalContentAlignment = HorizontalAlignment.Stretch,
+            VerticalContentAlignment = VerticalAlignment.Stretch,
+            Stretch = Stretch.None
         };
-
-        public string OverlayText {
-            get => OverlayTextBlock.Text;
-            set => OverlayTextBlock.Text = value;
-        }
-
-        public ImageSource? OverlayImageSource
-        {
-            get => OverlayImage.Source;
-            set => OverlayImage.Source = value;
-        }
-
-        
-        public OverlayDisplay(string overlayType, ImageItem imageItem, string? str)
-        {
-            InitializeComponent();
-            OverlayImageItem = imageItem;
-            OriginPoint = new Point(Left,Top);
-            OverlayText = str;
-            Content.As<Grid>().Children.Add(OverlayTextBlock);
-            OverlayImageSource = null;
-            Content.As<Grid>().Children.Add(OverlayImage);
-
-            foreach (UIElement item in Content.As<Grid>().Children)
-            {
-                item.IsHitTestVisible = false;
-            }
-        }
-
-
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-            var hwnd = new WindowInteropHelper(this).Handle;
-            _handle = System.Diagnostics.Process.GetCurrentProcess().Handle;
-            WindowsServices.SetWindowExTransparent(hwnd);
-        }
-
-
-        public void SetText(string text)
-        {
-            OverlayText = text;
-            OverlayTextBlock.Text = OverlayText;
-            OverlayTextBlock.Visibility = Visibility.Visible;
-        }
-
-        public void SetImage(ImageItem image)
-        {
-            OverlayImageItem = image;
-            var imageControl = new Image
-            {
-                Source = OverlayImageItem.Source,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top,
-                IsHitTestVisible = false,
-                Visibility = Visibility.Visible,
-                HorizontalContentAlignment = HorizontalAlignment.Stretch,
-                VerticalContentAlignment = VerticalAlignment.Stretch,
-                Stretch = Stretch.None,
-
-            };
-            OverlayImage.Source = imageControl.Source;
-            OverlayTextBlock.Visibility = Visibility.Collapsed;
-        }
-
-
+        _overlayImage.Source = imageControl.Source;
+        OverlayTextBlock.Visibility = Visibility.Collapsed;
     }
+}
 
-    public static class WindowsServices
+public static class WindowsServices
+{
+    private const int WsExTransparent = 0x00000020;
+    private const int GwlExstyle = -20;
+
+    [DllImport("user32.dll")]
+    private static extern int GetWindowLong(IntPtr hwnd, int index);
+
+    [DllImport("user32.dll")]
+    private static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+
+    public static void SetWindowExTransparent(IntPtr hwnd)
     {
-        const int WS_EX_TRANSPARENT = 0x00000020;
-        const int GWL_EXSTYLE = (-20);
-
-        [DllImport("user32.dll")]
-        static extern int GetWindowLong(IntPtr hwnd, int index);
-
-        [DllImport("user32.dll")]
-        static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
-
-        public static void SetWindowExTransparent(IntPtr hwnd)
-        {
-            var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
-            SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
-        }
+        var extendedStyle = GetWindowLong(hwnd, GwlExstyle);
+        SetWindowLong(hwnd, GwlExstyle, extendedStyle | WsExTransparent);
     }
 }

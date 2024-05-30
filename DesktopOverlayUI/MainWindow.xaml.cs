@@ -1,34 +1,23 @@
 ﻿using System;
-using System.Collections;
-using System.Diagnostics.Tracing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using DesktopOverlayUI.pages;
 using Wpf.Ui;
 using Wpf.Ui.Animations;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Extensions;
-using Wpf.Ui.Markup;
-using Button = Wpf.Ui.Controls.Button;
 
 namespace DesktopOverlayUI;
 
 /// <summary>
-/// Interaction logic for MainWindow.xaml
+///     Interaction logic for MainWindow.xaml
 /// </summary>
 public partial class MainWindow
 
 {
-
     private readonly Page _settingsPage;
 
 
@@ -36,15 +25,14 @@ public partial class MainWindow
     {
         InitializeComponent();
         //frameDisplay.Source = new Uri("/pages/template.xaml", UriKind.Relative);
-        _settingsPage = new pages.SettingsPage(this);
+        _settingsPage = new SettingsPage(this);
 
 
         var themeService = new ThemeService();
         themeService.SetTheme(themeService.GetSystemTheme());
         ApplicationThemeManager.Apply(
             ApplicationTheme.Dark,
-            WindowBackdropType.Acrylic,
-            true
+            WindowBackdropType.Acrylic
         );
         //WindowBackdropType = WindowBackdropType.Mica;
     }
@@ -75,7 +63,7 @@ public partial class MainWindow
         var contentDialogService = new ContentDialogService();
         contentDialogService.SetDialogHost(Dialog);
 
-        var result = await contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions()
+        var result = await contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions
         {
             Title = "New Overlay",
             Content = "Select an Overlay type.",

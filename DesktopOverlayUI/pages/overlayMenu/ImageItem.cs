@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Windows;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using SixLabors.ImageSharp;
@@ -14,90 +8,86 @@ using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Processing;
 using Size = SixLabors.ImageSharp.Size;
 
-namespace DesktopOverlayUI.pages.overlayMenu
+namespace DesktopOverlayUI.pages.overlayMenu;
+
+public class ImageItem : DependencyObject
 {
-    public class ImageItem : DependencyObject
+    public static readonly DependencyProperty WidthProperty = DependencyProperty.Register(
+        nameof(Width), typeof(int), typeof(NavigationItem), new PropertyMetadata(0));
+
+    public static readonly DependencyProperty HeightProperty = DependencyProperty.Register(
+        nameof(Height), typeof(int), typeof(NavigationItem), new PropertyMetadata(0));
+
+    private readonly Image _image;
+    private readonly Uri _sourceUri;
+
+    public ImageItem(string name, Uri source)
     {
-        public string Name { get; set; }
-        public ImageSource Source { get; set; }
-        public Uri SourceUri { get; set; }
+        Name = name;
+        Source = new BitmapImage(source);
+        SourceUri = source;
+        _image = Image.Load(source.LocalPath);
+        Width = _image.Width;
+        Height = _image.Height;
+        _sourceUri = source;
+        ImageArray = ToArray(_image);
+    }
 
-        public static readonly DependencyProperty WidthProperty = DependencyProperty.Register(
-            nameof(Width), typeof(int), typeof(NavigationItem), new PropertyMetadata(0));
+    public string Name { get; }
+    public ImageSource Source { get; private set; }
+    public Uri SourceUri { get; set; }
 
-        public int Width
-        {
-            get => (int)GetValue(WidthProperty);
-            private set => SetValue(WidthProperty, value);
-        }
+    public int Width
+    {
+        get => (int)GetValue(WidthProperty);
+        private set => SetValue(WidthProperty, value);
+    }
 
-        public static readonly DependencyProperty HeightProperty = DependencyProperty.Register(
-            nameof(Height), typeof(int), typeof(NavigationItem), new PropertyMetadata(0));
-        public int Height
-        {
-            get => (int)GetValue(HeightProperty);
-            private set => SetValue(HeightProperty, value);
-        }
-        
-        public byte[] ImageArray { get; set; }
+    public int Height
+    {
+        get => (int)GetValue(HeightProperty);
+        private set => SetValue(HeightProperty, value);
+    }
 
-        private Image _image;
-        private Uri _sourceUri;
-        public ImageItem(string name, Uri source)
-        {
-            Name = name;
-            Source = new BitmapImage(source);
-            SourceUri = source;
-            _image = Image.Load(source.LocalPath);
-            Width = _image.Width;
-            Height = _image.Height;
-            _sourceUri = source;
-            ImageArray = toArray(_image);
-        }
+    public byte[] ImageArray { get; private set; }
 
-        public void Resize(int width, int height)
-        {
-            var newImage = Image.Load(_sourceUri.LocalPath);
-            newImage.Mutate(x => x.Resize(width, height));
-            Source = toBitmapImage(toArray(newImage));
-            ImageArray = toArray(newImage);
-            Width = width;
-            Height = height;
-        }
+    public void Resize(int width, int height)
+    {
+        var newImage = Image.Load(_sourceUri.LocalPath);
+        newImage.Mutate(x => x.Resize(width, height));
+        Source = ToBitmapImage(ToArray(newImage));
+        ImageArray = ToArray(newImage);
+        Width = width;
+        Height = height;
+    }
 
-        public Size GetSize()
-        {
-            return new Size(Width, Height);
-        }
+    public Size GetSize()
+    {
+        return new Size(Width, Height);
+    }
 
-        public Size ResetSize()
-        {
-            Width = _image.Width;
-            Height = _image.Height;
-            return new Size(Width, Height);
-        }
+    public Size ResetSize()
+    {
+        Width = _image.Width;
+        Height = _image.Height;
+        return new Size(Width, Height);
+    }
 
-        private byte[] toArray(Image image)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                image.Save(ms, PngFormat.Instance);
-                return ms.ToArray();
-            }
-        }
+    private static byte[] ToArray(Image image)
+    {
+        using var ms = new MemoryStream();
+        image.Save(ms, PngFormat.Instance);
+        return ms.ToArray();
+    }
 
-        private BitmapImage toBitmapImage(byte[] byteArray)
-        {
-            using (MemoryStream ms = new MemoryStream(byteArray))
-            {
-                BitmapImage returnImage = new BitmapImage();
-                returnImage.BeginInit();
-                returnImage.StreamSource = ms;
-                returnImage.CacheOption = BitmapCacheOption.OnLoad;
-                returnImage.EndInit();
-                return returnImage;
-            }
-        }
-
+    private static BitmapImage ToBitmapImage(byte[] byteArray)
+    {
+        using var ms = new MemoryStream(byteArray);
+        var returnImage = new BitmapImage();
+        returnImage.BeginInit();
+        returnImage.StreamSource = ms;
+        returnImage.CacheOption = BitmapCacheOption.OnLoad;
+        returnImage.EndInit();
+        return returnImage;
     }
 }

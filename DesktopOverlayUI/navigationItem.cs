@@ -35,7 +35,7 @@ public class NavigationItem : Button
     }
 
     public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register(
-            nameof(IsSelected), typeof(bool), typeof(NavigationItem), new PropertyMetadata(false));
+        nameof(IsSelected), typeof(bool), typeof(NavigationItem), new PropertyMetadata(false));
 
     public bool IsSelected
     {
@@ -44,12 +44,10 @@ public class NavigationItem : Button
     }
 
 
-
-
     private readonly MainWindow? _currentWindow;
     private readonly ItemTemplate? _currentItem;
     private readonly StackPanel _itemStackPanel;
-    private Page _page;
+    private readonly Page _page;
 
 
     /**
@@ -123,7 +121,7 @@ public class NavigationItem : Button
         var template = resources["ItemButtonTopTemplate"] as ControlTemplate;
 
         Template = template;
-        
+
 
         Content = itemName;
 

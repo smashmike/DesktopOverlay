@@ -1,132 +1,119 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Interop;
 using DesktopOverlayUI.pages;
 using DesktopOverlayUI.pages.overlayMenu;
 using GameOverlay.Drawing;
 using GameOverlay.Windows;
 
-namespace DesktopOverlayUI
+namespace DesktopOverlayUI;
+
+public class OverlayDriver
 {
-    public class OverlayDriver
+    private readonly Graphics _gfx;
+    private readonly GraphicsWindow _mainWindow;
+
+    private ImageItem? _imageItem;
+    private bool _isSetUp;
+
+    public OverlayDriver(OverlayDisplay baseDisplay)
     {
-        private GraphicsWindow _mainWindow;
-        private Graphics _gfx;
+        var baseHandle = new WindowInteropHelper(baseDisplay).EnsureHandle();
+        baseDisplay.Show();
+        _isSetUp = false;
+        IsAttached = false;
 
-        public event EventHandler ImageItemChanged;
-
-        private ImageItem? _imageItem;
-        private bool _isSetUp;
-        public ImageItem? ImageItem
+        _gfx = new Graphics(baseHandle)
         {
-            get { return _imageItem; }
-            set
-            {
-                _imageItem = value;
-                ImageItemChanged.Invoke(this,EventArgs.Empty);
-            }
-        }
-
-        public bool IsAttatched { get; set; }
-        private nint _baseHandle;
-
-        public OverlayDriver(OverlayDisplay baseDisplay)
+            MeasureFPS = true,
+            PerPrimitiveAntiAliasing = true,
+            TextAntiAliasing = true,
+            UseMultiThreadedFactories = true,
+            Width = 1,
+            Height = 1
+        };
+        _mainWindow = new GraphicsWindow(_gfx)
         {
-            _baseHandle = baseDisplay.Handle;
-            baseDisplay.Show();
-            _isSetUp = false;
-            IsAttatched = false;
-
-            _gfx = new Graphics(new WindowInteropHelper(baseDisplay).EnsureHandle())
-            {
-                MeasureFPS = true,
-                PerPrimitiveAntiAliasing = true,
-                TextAntiAliasing = true,
-                UseMultiThreadedFactories = true,
-                Width = 1,
-                Height = 1,
-
-            };
-            _mainWindow = new GraphicsWindow(_gfx)
-            {
-                IsTopmost = true,
-                IsVisible = true,
-            };
+            IsTopmost = true,
+            IsVisible = true
+        };
 
 
+        //var stick = new StickyWindow(new WindowInteropHelper(baseDisplay).EnsureHandle(), _gfx)
+        //{
+        //    IsTopmost = true,
+        //    IsVisible = true,
+        //};
+        //stick.AttachToClientArea = true;
+        //stick.Create();
+    }
 
-            //var stick = new StickyWindow(new WindowInteropHelper(baseDisplay).EnsureHandle(), _gfx)
-            //{
-            //    IsTopmost = true,
-            //    IsVisible = true,
-            //};
-            //stick.AttachToClientArea = true;
-            //stick.Create();
-
-            
-
-
-
-        }
-
-        private void SetUp()
+    public ImageItem? ImageItem
+    {
+        get => _imageItem;
+        private set
         {
-            _mainWindow.Create();
-            _gfx.Setup();
-            _isSetUp = true;
+            _imageItem = value;
+            if (ImageItemChanged != null) ImageItemChanged.Invoke(this, EventArgs.Empty);
         }
+    }
 
-        public void SetSize(int width, int height)
-        {
-            _mainWindow.Resize(width, height);
-        }
+    public bool IsAttached { get; set; }
 
-        public void SetPosition(int x, int y)
-        {
-            _mainWindow.X = x;
-            _mainWindow.Y = y;
-        }
+    public event EventHandler? ImageItemChanged;
 
-        public void SetImage(ImageItem image)
-        {
-            if (!_isSetUp) SetUp();
-            ImageItem = image;
-            SetSize(ImageItem.Width, ImageItem.Height);
-            _gfx.BeginScene();
-            _gfx.ClearScene();
-            _gfx.DrawImage(new Image(_gfx, image.ImageArray), 0, 0);
-            _gfx.EndScene();
-        }
+    private void SetUp()
+    {
+        _mainWindow.Create();
+        _gfx.Setup();
+        _isSetUp = true;
+    }
 
-        public void ClearOverlay()
-        {
-            if (!_isSetUp) SetUp();
-            _gfx.BeginScene();
-            _gfx.ClearScene();
-            _gfx.EndScene();
-        }
+    public void SetSize(int width, int height)
+    {
+        _mainWindow.Resize(width, height);
+    }
 
-        public void Dispose()
-        {
-            _mainWindow.Dispose();
-            _gfx.Dispose();
-            _isSetUp = false;
-        }
+    public void SetPosition(int x, int y)
+    {
+        _mainWindow.X = x;
+        _mainWindow.Y = y;
+    }
 
-        public void Show()
-        {
-            if (!_mainWindow.IsInitialized) return;
-            _mainWindow.Show();
-        }
+    public void SetImage(ImageItem image)
+    {
+        if (!_isSetUp) SetUp();
+        ImageItem = image;
+        SetSize(ImageItem.Width, ImageItem.Height);
+        _gfx.BeginScene();
+        _gfx.ClearScene();
+        _gfx.DrawImage(new Image(_gfx, image.ImageArray), 0, 0);
+        _gfx.EndScene();
+    }
 
-        public void Hide()
-        {
-            if (!_mainWindow.IsInitialized) return;
-            _mainWindow.Hide();
-        }
+    public void ClearOverlay()
+    {
+        if (!_isSetUp) SetUp();
+        _gfx.BeginScene();
+        _gfx.ClearScene();
+        _gfx.EndScene();
+    }
 
+    public void Dispose()
+    {
+        _mainWindow.Dispose();
+        _gfx.Dispose();
+        _isSetUp = false;
+    }
+
+    public void Show()
+    {
+        if (!_mainWindow.IsInitialized) return;
+        _mainWindow.Show();
+    }
+
+    public void Hide()
+    {
+        if (!_mainWindow.IsInitialized) return;
+        _mainWindow.Hide();
     }
 }

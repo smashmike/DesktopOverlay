@@ -19,10 +19,13 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Grid.Row="0">
-            <ui:TextBlock Text="Z-Level" FontTypography="Subtitle" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
-            <RadioButton x:Name="TopMostButton" Content="Top Most" IsChecked="True" Checked="UpdateZLevel"/>
-            <RadioButton x:Name="AttachedButton"  Content="Attached to Window" Checked="UpdateZLevel"/>
-            <ComboBox x:Name="WindowsComboBox"  IsEnabled="{Binding IsChecked, ElementName=AttachedButton}" SelectionChanged="UpdateZLevel" DropDownOpened="WindowsComboBox_DropDownOpened" MaxWidth="160" MinWidth="160" >
+            <ui:TextBlock Text="Z-Level" FontTypography="Subtitle"
+                          Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
+            <RadioButton x:Name="TopMostButton" Content="Top Most" IsChecked="True" Checked="UpdateZLevel" />
+            <RadioButton x:Name="AttachedButton" Content="Attached to Window" Checked="UpdateZLevel" />
+            <ComboBox x:Name="WindowsComboBox" IsEnabled="{Binding IsChecked, ElementName=AttachedButton}"
+                      SelectionChanged="UpdateZLevel" DropDownOpened="WindowsComboBox_DropDownOpened" MaxWidth="160"
+                      MinWidth="160">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type diagnostics:Process}">
                         <TextBlock Text="{Binding MainWindowTitle}" />
@@ -30,16 +33,19 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="0" Margin="16,0,0,0" >
-            <ui:TextBlock Text="Offset" FontTypography="Subtitle" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
+        <StackPanel Grid.Column="1" Grid.Row="0" Margin="16,0,0,0">
+            <ui:TextBlock Text="Offset" FontTypography="Subtitle"
+                          Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
             <StackPanel Orientation="Horizontal">
-                <ui:TextBlock Text="X" Margin="0,0,8,0" FontTypography="BodyStrong"/>
-                <TextBox x:Name="OffsetXTextBox" Text="0" Width="80" MaxWidth="80" MaxLength="4" TextChanged="UpdateOffset"/>
-                </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <ui:TextBlock Text="Y" Margin="0,0,8,0" FontTypography="BodyStrong"/>
-                <TextBox x:Name="OffsetYTextBox" Text="0" Width="80" MaxWidth="80" MaxLength="4" TextChanged="UpdateOffset"/>
-                </StackPanel>
+                <ui:TextBlock Text="X" Margin="0,0,8,0" FontTypography="BodyStrong" />
+                <TextBox x:Name="OffsetXTextBox" Text="0" Width="80" MaxWidth="80" MaxLength="4"
+                         TextChanged="UpdateOffset" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <ui:TextBlock Text="Y" Margin="0,0,8,0" FontTypography="BodyStrong" />
+                <TextBox x:Name="OffsetYTextBox" Text="0" Width="80" MaxWidth="80" MaxLength="4"
+                         TextChanged="UpdateOffset" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>
