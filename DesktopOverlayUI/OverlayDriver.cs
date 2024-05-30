@@ -3,11 +3,13 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Threading;
 using DesktopOverlayUI.pages;
 using DesktopOverlayUI.pages.overlayMenu;
 using GameOverlay.Drawing;
 using GameOverlay.Windows;
+using Color = System.Windows.Media.Color;
 using Point = GameOverlay.Drawing.Point;
 
 namespace DesktopOverlayUI;
@@ -21,10 +23,19 @@ public class OverlayDriver
     private bool _isSetUp;
     private Process _process;
     private DispatcherTimer _timer;
+
+    private String _text;
+    private Font _font;
+    private float _fontSize;
+    private Color _color;
+    private SolidBrush _brush;
+
     private Size _position;
     private Size _offset;
 
-    public OverlayDriver(OverlayDisplay baseDisplay)
+
+
+    public OverlayDriver(BaseDisplay baseDisplay)
     {
         var baseHandle = new WindowInteropHelper(baseDisplay).EnsureHandle();
         baseDisplay.Show();
@@ -71,6 +82,11 @@ public class OverlayDriver
     {
         _mainWindow.Create();
         _gfx.Setup();
+        _text = "testing";
+        _font = _gfx.CreateFont("Segoe UI", 12);
+        _fontSize = 12;
+        _color = Color.FromArgb(255, 255, 255, 255);
+        _brush = _gfx.CreateSolidBrush(255, 255, 255, 255);
         _isSetUp = true;
     }
 
@@ -152,6 +168,82 @@ public class OverlayDriver
         _gfx.ClearScene();
         _gfx.DrawImage(new Image(_gfx, image.ImageArray), 0, 0);
         _gfx.EndScene();
+    }
+
+    public void SetText(String text, System.Windows.Media.FontFamily fontFamily, double size, Color color)
+    {
+        if (!_isSetUp) SetUp();
+        _text = fontFamily.ToString();
+        _font = _gfx.CreateFont(fontFamily.ToString(), (float)size);
+        _brush = _gfx.CreateSolidBrush(color.R, color.G, color.B, color.A);
+        _gfx.BeginScene();
+        _gfx.ClearScene();
+        _gfx.DrawText(_font, _brush, 0, 0, _text);
+        _gfx.EndScene();
+        UpdatePosition();
+    }
+    public void SetText(String text)
+    {
+        if (!_isSetUp) SetUp();
+        _text = text;
+        _gfx.BeginScene();
+        _gfx.ClearScene();
+        _gfx.DrawText(_font, _brush, 0, 0, _text);
+        _gfx.EndScene();
+        UpdatePosition();
+    }
+
+    public void SetTextStyle(FontFamily fontFamily, double size, Color color)
+    {
+        if (!_isSetUp) SetUp();
+        _fontSize = (float)size;
+        _font = _gfx.CreateFont(fontFamily.ToString(), _fontSize);
+        _brush = _gfx.CreateSolidBrush(color.R, color.G, color.B);
+        _gfx.BeginScene();
+        _gfx.ClearScene();
+        _gfx.DrawText(_font, _brush, 0, 0, _text);
+        _gfx.EndScene();
+        UpdatePosition();
+    }
+
+    public void SetFontFamily(FontFamily fontFamily)
+    {
+        if (!_isSetUp) SetUp();
+        _font = _gfx.CreateFont(fontFamily.ToString(), _fontSize);
+        _gfx.BeginScene();
+        _gfx.ClearScene();
+        _gfx.DrawText(_font, _brush, 0, 0, _text);
+        _gfx.EndScene();
+        UpdatePosition();
+    }
+
+    public void SetFontSize(float fontSize)
+    {
+        if (!_isSetUp) SetUp();
+        _fontSize = fontSize;
+        _font = _gfx.CreateFont(_font.FontFamilyName, _fontSize);
+        _gfx.BeginScene();
+        _gfx.ClearScene();
+        _gfx.DrawText(_font, _brush, 0, 0, _text);
+        _gfx.EndScene();
+        UpdatePosition();
+    }
+
+    public void SetTextColor(Color color)
+    {
+        if (!_isSetUp) SetUp();
+        _color = color;
+        _brush = _gfx.CreateSolidBrush(color.R, color.G, color.B, color.A);
+        _gfx.BeginScene();
+        _gfx.ClearScene();
+        _gfx.DrawText(_font, _brush, 0, 0, _text);
+        _gfx.EndScene();
+        UpdatePosition();
+    }
+
+    public String GetText()
+    {
+        return _text;
     }
 
     public void ClearOverlay()

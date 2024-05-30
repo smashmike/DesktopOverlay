@@ -23,30 +23,34 @@ namespace DesktopOverlayUI.pages.overlayMenu
     public sealed partial class TextTab : Page
     {
 
-        private readonly OverlayDisplay _overlay;
+        private readonly BaseDisplay _base;
+        private readonly OverlayDriver _overlayDriver;
  
 
 
         private readonly EditorForm _editor;
 
 
-        public TextTab(OverlayDisplay overlay)
+        public TextTab(BaseDisplay @base, OverlayDriver overlayDriver)
         {
-            _overlay = overlay;
-            _overlay.SetText("Text Overlay");
+            _base = @base;
+            _overlayDriver = overlayDriver;
+            _overlayDriver.SetText("Text Overlay");
+            //_base.SetText("Text Base");
             _editor = new EditorForm();
             _editor.OkButton.Click += OkEditor;
             _editor.CancelButton.Click += HideEditor;
             _editor.ApplyButton.Click += ApplyEditor;
-            _editor.ValueBox.Document = new FlowDocument(new Paragraph(new Run(_overlay.OverlayText)));
+            _editor.ValueBox.Document = new FlowDocument(new Paragraph(new Run(_overlayDriver.GetText())));
             InitializeComponent();
         }
 
         private void UpdateText(object sender, RoutedEventArgs e)
         {
-            _overlay.OverlayText = TextInputBox.Text;
-            _editor.ValueBox.Document = new FlowDocument(new Paragraph(new Run(_overlay.OverlayText)));
-            //Overlay.Show();
+            //_base.OverlayText = TextInputBox.Text;
+            _overlayDriver.SetText(TextInputBox.Text);
+            _editor.ValueBox.Document = new FlowDocument(new Paragraph(new Run(_overlayDriver.GetText())));
+            //Base.Show();
         }
 
         private void ToggleOverlay(object sender, RoutedEventArgs e)
@@ -55,11 +59,13 @@ namespace DesktopOverlayUI.pages.overlayMenu
             
             if (status)
             {
-                _overlay.Show();
+                _base.Show();
+                _overlayDriver.Show();
             }
             else
             {
-                _overlay.Hide();
+                _base.Hide();
+                _overlayDriver.Hide();
             }
         }
 
@@ -78,7 +84,8 @@ namespace DesktopOverlayUI.pages.overlayMenu
         {
             var fromRichText = new TextRange(_editor.ValueBox.Document.ContentStart, _editor.ValueBox.Document.ContentEnd).Text;
             TextInputBox.Text = fromRichText;
-            _overlay.OverlayText = fromRichText;
+            _overlayDriver.SetText(fromRichText);
+            //_base.OverlayText = fromRichText;
         }
 
         private void HideEditor(object sender, RoutedEventArgs e)

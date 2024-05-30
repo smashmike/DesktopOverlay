@@ -13,12 +13,12 @@ namespace DesktopOverlayUI.pages.overlayMenu;
 /// </summary>
 public partial class ImagesTab : Page
 {
-    private OverlayDisplay _overlay;
+    private BaseDisplay _base;
     private readonly OverlayDriver _overlayDriver;
 
-    public ImagesTab(OverlayDisplay overlay, OverlayDriver driver)
+    public ImagesTab(BaseDisplay @base, OverlayDriver driver)
     {
-        _overlay = overlay;
+        _base = @base;
         _overlayDriver = driver;
         //var test1 = new ImageItem("test1");
         //var test2 = new ImageItem("test2");
@@ -69,7 +69,7 @@ public partial class ImagesTab : Page
         _overlayDriver.ClearOverlay();
         ToggleVisibility.IsChecked = true;
         _overlayDriver.Show();
-        //_overlay.SetImage(selectedImage);
+        //_base.SetImage(selectedImage);
         _overlayDriver.SetImage(selectedImage);
         //_overlayDriver.Show();
         //ToggleVisibility.IsChecked = true;

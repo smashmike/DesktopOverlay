@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Grid.Row="0" Margin="16">
             <ui:TextBlock Text="General Settings" FontTypography="Subtitle" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" Margin="0,0,0,8" />
-            <ui:ToggleSwitch x:Name="ToggleVisibility" Content="Enable Overlay" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" Click="ToggleOverlay"/>
+            <ui:ToggleSwitch x:Name="ToggleVisibility" Content="Enable Base" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" Click="ToggleOverlay"/>
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="16">

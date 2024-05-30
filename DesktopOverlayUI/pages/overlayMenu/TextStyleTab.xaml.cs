@@ -1,7 +1,11 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using GameOverlay.Drawing;
+using WinRT;
+using Color = System.Windows.Media.Color;
 
 namespace DesktopOverlayUI.pages.overlayMenu;
 
@@ -10,11 +14,13 @@ namespace DesktopOverlayUI.pages.overlayMenu;
 /// </summary>
 public partial class TextStyleTab : Page
 {
-    private readonly OverlayDisplay _overlay;
+    private readonly BaseDisplay _base;
+    private readonly OverlayDriver _overlayDriver;
 
-    public TextStyleTab(OverlayDisplay overlay)
+    public TextStyleTab(BaseDisplay @base, OverlayDriver overlayDriver)
     {
-        _overlay = overlay;
+        _base = @base;
+        _overlayDriver = overlayDriver;
         InitializeComponent();
         FontFamilyComboBox.SelectedItem = new FontFamily("Segoe UI");
     }
@@ -26,20 +32,27 @@ public partial class TextStyleTab : Page
         BlueSlider.Value = (int)BlueSlider.Value;
         ColorPreview.Background =
             new SolidColorBrush(Color.FromRgb((byte)RedSlider.Value, (byte)GreenSlider.Value, (byte)BlueSlider.Value));
-        _overlay.OverlayTextBlock.Foreground = new SolidColorBrush(Color.FromRgb((byte)RedSlider.Value,
-            (byte)GreenSlider.Value, (byte)BlueSlider.Value));
+        //_base.OverlayTextBlock.Foreground = new SolidColorBrush(Color.FromRgb((byte)RedSlider.Value,
+        //    (byte)GreenSlider.Value, (byte)BlueSlider.Value));
+        _overlayDriver.SetTextColor(Color.FromArgb((byte)(OpacitySlider.Value * 2.55), (byte)RedSlider.Value, (byte)GreenSlider.Value, (byte)BlueSlider.Value));
     }
 
     private void UpdateFontSize(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
         FontSizeSlider.Value = (int)FontSizeSlider.Value;
-        _overlay.OverlayTextBlock.FontSize = FontSizeSlider.Value;
+        //_base.OverlayTextBlock.FontSize = FontSizeSlider.Value;
+        _overlayDriver.SetFontSize((float)FontSizeSlider.Value);
+
     }
 
     private void UpdateFontFamily(object sender, SelectionChangedEventArgs e)
     {
         var fontFamily = (FontFamily)FontFamilyComboBox.SelectedItem;
-        _overlay.OverlayTextBlock.FontFamily = fontFamily;
+        //_base.OverlayTextBlock.FontFamily = fontFamily;
+    
+        if (FontSizeSlider == null) return;
+
+        _overlayDriver.SetFontFamily(fontFamily);
     }
 
     private void OpacityValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -47,7 +60,8 @@ public partial class TextStyleTab : Page
         OpacitySlider.Value = (int)OpacitySlider.Value;
         if (OpacityTextBox == null) return;
         OpacityTextBox.Text = OpacitySlider.Value + "";
-        _overlay.OverlayTextBlock.Opacity = OpacitySlider.Value / 100;
+        //_base.OverlayTextBlock.Opacity = OpacitySlider.Value / 100;
+        _overlayDriver.SetTextColor(Color.FromArgb((byte)(OpacitySlider.Value * 2.55), (byte)RedSlider.Value, (byte)GreenSlider.Value, (byte)BlueSlider.Value));
     }
 
     private void OpacityValueChanged(object sender, TextChangedEventArgs e)
@@ -59,7 +73,7 @@ public partial class TextStyleTab : Page
         if (OpacityTextBox.Text.Length != 0)
         {
             OpacitySlider.Value = int.Parse(OpacityTextBox.Text);
-            _overlay.OverlayTextBlock.Opacity = OpacitySlider.Value / 100;
+            //_base.OverlayTextBlock.Opacity = OpacitySlider.Value / 100;
         }
     }
 
@@ -74,7 +88,7 @@ public partial class TextStyleTab : Page
         GreenSlider.Value = rgb.G;
         BlueSlider.Value = rgb.B;
         ColorPreview.Background = new SolidColorBrush(rgb);
-        _overlay.OverlayTextBlock.Foreground = new SolidColorBrush(rgb);
+        //_base.OverlayTextBlock.Foreground = new SolidColorBrush(rgb);
     }
 
     private void RgbValueChanged(object sender, TextChangedEventArgs e)
@@ -99,7 +113,7 @@ public partial class TextStyleTab : Page
             ColorPreview.Background = new SolidColorBrush(rgb);
             var toHex = rgb.R.ToString("X2") + rgb.G.ToString("X2") + rgb.B.ToString("X2");
             HexTextBox.Text = toHex;
-            _overlay.OverlayTextBlock.Foreground = new SolidColorBrush(rgb);
+            //_base.OverlayTextBlock.Foreground = new SolidColorBrush(rgb);
         }
     }
 }

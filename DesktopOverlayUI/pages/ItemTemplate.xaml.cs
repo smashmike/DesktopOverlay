@@ -31,7 +31,7 @@ namespace DesktopOverlayUI.pages;
 /// </summary>
 public partial class ItemTemplate : Page
 {
-    public readonly OverlayDisplay Overlay;
+    public readonly BaseDisplay Base;
 
 
     public ItemTemplate(string itemType)
@@ -41,18 +41,18 @@ public partial class ItemTemplate : Page
         //TextMenuButton.Content = "Text";
 
 
-        Overlay = new OverlayDisplay("Image", null, null);
-        var overlayDriver = new OverlayDriver(Overlay);
+        Base = new BaseDisplay();
+        var overlayDriver = new OverlayDriver(Base);
 
 
         switch (itemType)
         {
             case "Image":
             {
-                var imagesTab = new ImagesTab(Overlay, overlayDriver);
+                var imagesTab = new ImagesTab(Base, overlayDriver);
                 var imageMenuButton = new NavigationItem(MenuPanel, this, imagesTab, "General");
                 MenuPanel.Children.Add(imageMenuButton);
-                var imageStyleTab = new ImageStyleTab(Overlay, overlayDriver);
+                var imageStyleTab = new ImageStyleTab(Base, overlayDriver);
                 var imageStyleMenuButton = new NavigationItem(MenuPanel, this, imageStyleTab, "Style");
                 MenuPanel.Children.Add(imageStyleMenuButton);
                 imageMenuButton.SetSelected(true);
@@ -60,8 +60,8 @@ public partial class ItemTemplate : Page
             }
             case "Text":
             {
-                var textTab = new TextTab(Overlay);
-                var textStyleTab = new TextStyleTab(Overlay);
+                var textTab = new TextTab(Base, overlayDriver);
+                var textStyleTab = new TextStyleTab(Base, overlayDriver);
                 var textMenuButton = new NavigationItem(MenuPanel, this, textTab, "General");
                 MenuPanel.Children.Add(textMenuButton);
                 textMenuButton.SetSelected(true);
@@ -71,7 +71,7 @@ public partial class ItemTemplate : Page
             }
         }
 
-        var locationTab = new LocationTab(Overlay, overlayDriver);
+        var locationTab = new LocationTab(Base, overlayDriver);
         var locationMenuButton = new NavigationItem(MenuPanel, this, locationTab, "Location");
         MenuPanel.Children.Add(locationMenuButton);
     }
