@@ -24,7 +24,7 @@ public class OverlayDriver
     private Process _process;
     private DispatcherTimer _timer;
 
-    private String _text;
+    private string _text;
     private Font _font;
     private float _fontSize;
     private Color _color;
@@ -32,7 +32,6 @@ public class OverlayDriver
 
     private Size _position;
     private Size _offset;
-
 
 
     public OverlayDriver(BaseDisplay baseDisplay)
@@ -45,7 +44,7 @@ public class OverlayDriver
         _offset = new Size(0, 0);
         _timer = new DispatcherTimer
         {
-            Interval = TimeSpan.FromMilliseconds(100)
+            Interval = TimeSpan.FromMilliseconds(10)
         };
         _timer.Tick += OnTimerTick;
         _gfx = new Graphics(baseHandle)
@@ -129,33 +128,34 @@ public class OverlayDriver
     {
         if (!_isSetUp) SetUp();
         IsAttached = attach;
-        if (IsAttached) _timer.Start();
+        if (IsAttached)
+        {
+            _timer.Start();
+        }
         else
         {
             _timer.Stop();
-            SetPosition(0,0);
+            SetPosition(0, 0);
         }
-
     }
 
     private void OnTimerTick(object sender, EventArgs e)
     {
         if (IsAttached)
         {
-            WindowBounds bounds = new WindowBounds();
+            var bounds = new WindowBounds();
             WindowHelper.GetWindowClientBounds(_process.MainWindowHandle, out bounds);
-            if (bounds.Top < 0 && bounds.Left < 0)
-            {
-                SetPosition(0, 0);
-                return;
-            }
+            var tempX = bounds.Left;
+            var tempY = bounds.Top;
+            if (bounds.Top < 0) tempY = 0;
+            if (bounds.Left < 0) tempX = 0;
+
             //_gfx.BeginScene(); //Debugging
             //_gfx.ClearScene();
             //_gfx.DrawText(_gfx.CreateFont("Arial", 12), _gfx.CreateSolidBrush(255, 255, 255), 20, 20, bounds.Top + " " + bounds.Left);
             //_gfx.EndScene();
-            WindowHelper.EnableBlurBehind(_process.MainWindowHandle);
             //_mainWindow.FitTo(_process.MainWindowHandle);
-            SetPosition(bounds.Left, bounds.Top);
+            SetPosition(tempX, tempY);
         }
     }
 
@@ -170,7 +170,7 @@ public class OverlayDriver
         _gfx.EndScene();
     }
 
-    public void SetText(String text, System.Windows.Media.FontFamily fontFamily, double size, Color color)
+    public void SetText(string text, FontFamily fontFamily, double size, Color color)
     {
         if (!_isSetUp) SetUp();
         _text = fontFamily.ToString();
@@ -182,23 +182,11 @@ public class OverlayDriver
         _gfx.EndScene();
         UpdatePosition();
     }
-    public void SetText(String text)
+
+    public void SetText(string text)
     {
         if (!_isSetUp) SetUp();
         _text = text;
-        _gfx.BeginScene();
-        _gfx.ClearScene();
-        _gfx.DrawText(_font, _brush, 0, 0, _text);
-        _gfx.EndScene();
-        UpdatePosition();
-    }
-
-    public void SetTextStyle(FontFamily fontFamily, double size, Color color)
-    {
-        if (!_isSetUp) SetUp();
-        _fontSize = (float)size;
-        _font = _gfx.CreateFont(fontFamily.ToString(), _fontSize);
-        _brush = _gfx.CreateSolidBrush(color.R, color.G, color.B);
         _gfx.BeginScene();
         _gfx.ClearScene();
         _gfx.DrawText(_font, _brush, 0, 0, _text);
@@ -241,7 +229,7 @@ public class OverlayDriver
         UpdatePosition();
     }
 
-    public String GetText()
+    public string GetText()
     {
         return _text;
     }
