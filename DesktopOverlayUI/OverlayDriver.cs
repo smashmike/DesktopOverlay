@@ -8,8 +8,6 @@ using DesktopOverlayUI.pages;
 using DesktopOverlayUI.pages.overlayMenu;
 using GameOverlay.Drawing;
 using GameOverlay.Windows;
-using Overlay.NET.Common;
-using Overlay.NET.Directx;
 
 namespace DesktopOverlayUI
 {
