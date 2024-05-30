@@ -15,15 +15,17 @@ namespace DesktopOverlayUI.pages.overlayMenu;
 public partial class LocationTab : Page
 {
     private readonly OverlayDisplay _overlay;
+    private readonly OverlayDriver _overlayDriver;
     private readonly DispatcherTimer _timer;
     private Point _offsetPoint;
     private Point _overlayPoint;
 
     private Process? _targetProcess;
 
-    public LocationTab(OverlayDisplay overlay)
+    public LocationTab(OverlayDisplay overlay, OverlayDriver driver)
     {
         _overlay = overlay;
+        _overlayDriver = driver;
         var processes = Process.GetProcesses();
         var processList = new List<Process>();
         foreach (var process in processes)
@@ -35,7 +37,7 @@ public partial class LocationTab : Page
         {
             Interval = TimeSpan.FromMilliseconds(100)
         };
-        _timer.Tick += OnTimerTick;
+        //_timer.Tick += OnTimerTick;
         InitializeComponent();
         WindowsComboBox.ItemsSource = processList;
     }
@@ -49,6 +51,7 @@ public partial class LocationTab : Page
             _overlayPoint = new Point(0, 0);
             _overlay.Left = _offsetPoint.X;
             _overlay.Top = _offsetPoint.Y;
+            _overlayDriver.SetAttach(false);
         }
         else if (AttachedButton.IsChecked != null && AttachedButton.IsChecked.Value)
         {
@@ -58,6 +61,7 @@ public partial class LocationTab : Page
                 var windowRect = new Rect();
                 GetWindowRect(selectedProcess.MainWindowHandle, ref windowRect);
                 _targetProcess = selectedProcess;
+                _overlayDriver.SetTarget(_targetProcess);
                 _overlayPoint = new Point(windowRect.Left + _offsetPoint.X, windowRect.Top + _offsetPoint.Y);
                 _overlay.Left = _overlayPoint.X;
                 _overlay.Top = _overlayPoint.Y;
@@ -78,6 +82,7 @@ public partial class LocationTab : Page
         _offsetPoint = new Point(int.Parse(OffsetXTextBox.Text), int.Parse(OffsetYTextBox.Text));
         _overlay.Left = _overlayPoint.X + _offsetPoint.X;
         _overlay.Top = _overlayPoint.Y + _offsetPoint.Y;
+        _overlayDriver.SetOffset((int)_offsetPoint.X, (int)_offsetPoint.Y);
     }
 
     private void WindowsComboBox_DropDownOpened(object sender, EventArgs e)

@@ -33,7 +33,7 @@ public class ImageItem : DependencyObject
         ImageArray = ToArray(_image);
     }
 
-    public string Name { get; }
+    public string Name { get; set; }
     public ImageSource Source { get; private set; }
     public Uri SourceUri { get; set; }
 

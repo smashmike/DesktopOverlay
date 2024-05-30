@@ -71,7 +71,7 @@ public partial class ItemTemplate : Page
             }
         }
 
-        var locationTab = new LocationTab(Overlay);
+        var locationTab = new LocationTab(Overlay, overlayDriver);
         var locationMenuButton = new NavigationItem(MenuPanel, this, locationTab, "Location");
         MenuPanel.Children.Add(locationMenuButton);
     }

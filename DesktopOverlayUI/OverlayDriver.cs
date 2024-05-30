@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using System.Windows.Threading;
 using DesktopOverlayUI.pages;
 using DesktopOverlayUI.pages.overlayMenu;
 using GameOverlay.Drawing;
 using GameOverlay.Windows;
+using Point = GameOverlay.Drawing.Point;
 
 namespace DesktopOverlayUI;
 
@@ -14,6 +19,10 @@ public class OverlayDriver
 
     private ImageItem? _imageItem;
     private bool _isSetUp;
+    private Process _process;
+    private DispatcherTimer _timer;
+    private Size _position;
+    private Size _offset;
 
     public OverlayDriver(OverlayDisplay baseDisplay)
     {
@@ -21,7 +30,13 @@ public class OverlayDriver
         baseDisplay.Show();
         _isSetUp = false;
         IsAttached = false;
-
+        _position = new Size(0, 0);
+        _offset = new Size(0, 0);
+        _timer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(100)
+        };
+        _timer.Tick += OnTimerTick;
         _gfx = new Graphics(baseHandle)
         {
             MeasureFPS = true,
@@ -36,15 +51,6 @@ public class OverlayDriver
             IsTopmost = true,
             IsVisible = true
         };
-
-
-        //var stick = new StickyWindow(new WindowInteropHelper(baseDisplay).EnsureHandle(), _gfx)
-        //{
-        //    IsTopmost = true,
-        //    IsVisible = true,
-        //};
-        //stick.AttachToClientArea = true;
-        //stick.Create();
     }
 
     public ImageItem? ImageItem
@@ -71,12 +77,70 @@ public class OverlayDriver
     public void SetSize(int width, int height)
     {
         _mainWindow.Resize(width, height);
+        //_stickyWindow.Resize(width, height);
     }
 
     public void SetPosition(int x, int y)
     {
-        _mainWindow.X = x;
-        _mainWindow.Y = y;
+        _position = new Size(x, y);
+        _mainWindow.X = x + _offset.Width;
+        _mainWindow.Y = y + _offset.Height;
+    }
+
+    private void UpdatePosition()
+    {
+        _mainWindow.X = _position.Width + _offset.Width;
+        _mainWindow.Y = _position.Height + _offset.Height;
+    }
+
+    public void SetOffset(int x, int y)
+    {
+        _offset = new Size(x, y);
+        UpdatePosition();
+    }
+
+    public void SetTarget(Process process)
+    {
+        _timer.Stop();
+        _process = process;
+        IsAttached = true;
+        if (!_isSetUp) SetUp();
+        if (IsAttached) _timer.Start();
+        else _timer.Stop();
+    }
+
+    public void SetAttach(bool attach)
+    {
+        if (!_isSetUp) SetUp();
+        IsAttached = attach;
+        if (IsAttached) _timer.Start();
+        else
+        {
+            _timer.Stop();
+            SetPosition(0,0);
+        }
+
+    }
+
+    private void OnTimerTick(object sender, EventArgs e)
+    {
+        if (IsAttached)
+        {
+            WindowBounds bounds = new WindowBounds();
+            WindowHelper.GetWindowClientBounds(_process.MainWindowHandle, out bounds);
+            if (bounds.Top < 0 && bounds.Left < 0)
+            {
+                SetPosition(0, 0);
+                return;
+            }
+            //_gfx.BeginScene(); //Debugging
+            //_gfx.ClearScene();
+            //_gfx.DrawText(_gfx.CreateFont("Arial", 12), _gfx.CreateSolidBrush(255, 255, 255), 20, 20, bounds.Top + " " + bounds.Left);
+            //_gfx.EndScene();
+            WindowHelper.EnableBlurBehind(_process.MainWindowHandle);
+            //_mainWindow.FitTo(_process.MainWindowHandle);
+            SetPosition(bounds.Left, bounds.Top);
+        }
     }
 
     public void SetImage(ImageItem image)
