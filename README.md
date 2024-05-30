@@ -12,11 +12,12 @@ DesktopOverlay provides a modern, easy to use user-interface, with various custo
 
 * Run DesktopOverlayUI.exe
 
-## Acknowledgments
+## Credits
 
 This project would not be made possible without
 * [WPF-UI](https://wpfui.lepo.co) by lepo.co
 * [ImageSharp](https://github.com/SixLabors/ImageSharp) by Six Labors
+* [GameOverlay.Net](https://github.com/michel-pi/GameOverlay.Net) by michel-pi
 
 This project was inspired by [Custom Desktop Logo](http://customdesktoplogo.wikidot.com/download).
 
