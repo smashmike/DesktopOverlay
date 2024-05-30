@@ -20,6 +20,7 @@ using Wpf.Ui.Controls;
 using static System.Net.Mime.MediaTypeNames;
 using Image = Wpf.Ui.Controls.Image;
 using TextBlock = Wpf.Ui.Controls.TextBlock;
+using System.Reflection.Metadata;
 
 namespace DesktopOverlayUI.pages
 {
@@ -32,6 +33,11 @@ namespace DesktopOverlayUI.pages
         public Point OriginPoint { get; set; }
 
         public event EventHandler OverlayImageItemChanged;
+        public nint Handle
+        {
+            get { return _handle; }
+        }
+        private nint _handle;
 
         public ImageItem OverlayImageItem
         {
@@ -100,6 +106,7 @@ namespace DesktopOverlayUI.pages
         {
             base.OnSourceInitialized(e);
             var hwnd = new WindowInteropHelper(this).Handle;
+            _handle = System.Diagnostics.Process.GetCurrentProcess().Handle;
             WindowsServices.SetWindowExTransparent(hwnd);
         }
 

@@ -70,7 +70,7 @@ public class NavigationItem : Button
         };
         var template = resources["ItemButtonTemplate"] as ControlTemplate;
 
-        _page = new ItemTemplate(itemType, MainWindow._OverlayDriver);
+        _page = new ItemTemplate(itemType);
 
 
         var cm = new ContextMenu();

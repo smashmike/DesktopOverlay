@@ -41,7 +41,7 @@ public partial class ItemTemplate : Page
     private OverlayDriver _overlayDriver;
 
 
-    public ItemTemplate(string itemType, OverlayDriver driver)
+    public ItemTemplate(string itemType)
     {
         InitializeComponent();
 
@@ -50,7 +50,7 @@ public partial class ItemTemplate : Page
 
 
         Overlay = new OverlayDisplay("Image", null, null);
-        _overlayDriver = new OverlayDriver();
+        _overlayDriver = new OverlayDriver(Overlay);
 
 
         switch (itemType)

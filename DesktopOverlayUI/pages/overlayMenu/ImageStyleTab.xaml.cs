@@ -72,7 +72,8 @@ namespace DesktopOverlayUI.pages.overlayMenu
             _overlayDriver.SetImage(_overlayDriver.ImageItem);
                 //overlayDriver.SetSize((int)width, (int)height);
             
-            
+            _overlay.Height = (int)height;
+            _overlay.Width = (int)width;
             _overlayDriver.SetSize((int)width, (int)height);
             _ignoreSizeChange = false;
         }

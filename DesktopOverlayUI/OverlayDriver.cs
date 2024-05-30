@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Interop;
+using DesktopOverlayUI.pages;
 using DesktopOverlayUI.pages.overlayMenu;
 using GameOverlay.Drawing;
 using GameOverlay.Windows;
@@ -31,17 +33,16 @@ namespace DesktopOverlayUI
         }
 
         public bool IsAttatched { get; set; }
+        private nint _baseHandle;
 
-        public OverlayDriver()
+        public OverlayDriver(OverlayDisplay baseDisplay)
         {
+            _baseHandle = baseDisplay.Handle;
+            baseDisplay.Show();
             _isSetUp = false;
             IsAttatched = false;
-            _mainWindow = new GraphicsWindow()
-            {
-                IsTopmost = true,
-                IsVisible = true,
-            };
-            _gfx = new Graphics(_mainWindow.Handle)
+
+            _gfx = new Graphics(new WindowInteropHelper(baseDisplay).EnsureHandle())
             {
                 MeasureFPS = true,
                 PerPrimitiveAntiAliasing = true,
@@ -51,6 +52,24 @@ namespace DesktopOverlayUI
                 Height = 1,
 
             };
+            _mainWindow = new GraphicsWindow(_gfx)
+            {
+                IsTopmost = true,
+                IsVisible = true,
+            };
+
+
+
+            //var stick = new StickyWindow(new WindowInteropHelper(baseDisplay).EnsureHandle(), _gfx)
+            //{
+            //    IsTopmost = true,
+            //    IsVisible = true,
+            //};
+            //stick.AttachToClientArea = true;
+            //stick.Create();
+
+            
+
 
 
         }
@@ -58,28 +77,7 @@ namespace DesktopOverlayUI
         private void SetUp()
         {
             _mainWindow.Create();
-            if (_gfx.IsInitialized) _gfx.Destroy();
-            try
-            {
-                _gfx.Setup();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                _gfx = new Graphics(_mainWindow.Handle)
-                {
-                    MeasureFPS = true,
-                    PerPrimitiveAntiAliasing = true,
-                    TextAntiAliasing = true,
-                    UseMultiThreadedFactories = true,
-                    Width = 1,
-                    Height = 1,
-
-                };
-                throw;
-            }
-            
-            
+            _gfx.Setup();
             _isSetUp = true;
         }
 
@@ -98,12 +96,11 @@ namespace DesktopOverlayUI
         {
             if (!_isSetUp) SetUp();
             ImageItem = image;
+            SetSize(ImageItem.Width, ImageItem.Height);
             _gfx.BeginScene();
             _gfx.ClearScene();
-            SetSize(ImageItem.Width, ImageItem.Height);
             _gfx.DrawImage(new Image(_gfx, image.ImageArray), 0, 0);
             _gfx.EndScene();
-            
         }
 
         public void ClearOverlay()

@@ -29,8 +29,6 @@ public partial class MainWindow
 
 {
 
-    public static OverlayDriver _OverlayDriver = new();
-
     private readonly Page _settingsPage;
 
 
