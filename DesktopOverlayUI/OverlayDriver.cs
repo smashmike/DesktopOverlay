@@ -20,6 +20,7 @@ public class OverlayDriver
     private readonly GraphicsWindow _mainWindow;
 
     private ImageItem? _imageItem;
+    private float _imageOpacity;
     private bool _isSetUp;
     private Process _process;
     private DispatcherTimer _timer;
@@ -42,6 +43,7 @@ public class OverlayDriver
         IsAttached = false;
         _position = new Size(0, 0);
         _offset = new Size(0, 0);
+        _imageOpacity = 1.0f;
         _timer = new DispatcherTimer
         {
             Interval = TimeSpan.FromMilliseconds(10)
@@ -166,7 +168,17 @@ public class OverlayDriver
         SetSize(ImageItem.Width, ImageItem.Height);
         _gfx.BeginScene();
         _gfx.ClearScene();
-        _gfx.DrawImage(new Image(_gfx, image.ImageArray), 0, 0);
+        _gfx.DrawImage(new Image(_gfx, image.ImageArray), 0, 0, _imageOpacity);
+        _gfx.EndScene();
+    }
+
+    public void SetImageOpacity(float opacity)
+    {
+        if (!_isSetUp) SetUp();
+        _imageOpacity = opacity;
+        _gfx.BeginScene();
+        _gfx.ClearScene();
+        _gfx.DrawImage(new Image(_gfx, ImageItem!.ImageArray), 0, 0, opacity);
         _gfx.EndScene();
     }
 

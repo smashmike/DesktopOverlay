@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace DesktopOverlayUI.pages.overlayMenu;
@@ -62,5 +63,27 @@ public partial class ImageStyleTab : Page
         var originalSize = _overlayDriver.ImageItem.ResetSize();
         XNumberBox.Value = originalSize.Width;
         YNumberBox.Value = originalSize.Height;
+    }
+
+    private void OpacityValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        if (OpacitySlider == null) return;
+        if (_overlayDriver.ImageItem == null) return;
+        OpacityTextBox.Text = OpacitySlider.Value + "";
+        _overlayDriver.SetImageOpacity((int)OpacitySlider.Value / 100);
+        _overlayDriver.SetImage(_overlayDriver.ImageItem);
+    }
+
+    private void OpacityValueChanged(object sender, TextChangedEventArgs e)
+    {
+        if (OpacityTextBox == null) return;
+        if (!Regex.IsMatch(OpacityTextBox.Text, @"\A\b[0-9]+\b\Z") || int.Parse(OpacityTextBox.Text) > 100)
+            OpacityTextBox.Text = "";
+
+        if (OpacityTextBox.Text.Length != 0)
+        {
+            OpacitySlider.Value = int.Parse(OpacityTextBox.Text);
+            //_base.OverlayTextBlock.Opacity = OpacitySlider.Value / 100;
+        }
     }
 }
