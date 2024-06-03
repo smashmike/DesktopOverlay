@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -69,8 +70,8 @@ public partial class ImageStyleTab : Page
     {
         if (OpacitySlider == null) return;
         if (_overlayDriver.ImageItem == null) return;
-        OpacityTextBox.Text = OpacitySlider.Value + "";
-        _overlayDriver.SetImageOpacity((int)OpacitySlider.Value / 100);
+        //OpacityTextBox.Text = OpacitySlider.Value + "";
+        _overlayDriver.SetImageOpacity((float)(OpacitySlider.Value / 100.0));
         _overlayDriver.SetImage(_overlayDriver.ImageItem);
     }
 
@@ -82,7 +83,7 @@ public partial class ImageStyleTab : Page
 
         if (OpacityTextBox.Text.Length != 0)
         {
-            OpacitySlider.Value = int.Parse(OpacityTextBox.Text);
+            //OpacitySlider.Value = int.Parse(OpacityTextBox.Text);
             //_base.OverlayTextBlock.Opacity = OpacitySlider.Value / 100;
         }
     }
