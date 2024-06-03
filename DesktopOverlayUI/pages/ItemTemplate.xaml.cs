@@ -32,6 +32,7 @@ namespace DesktopOverlayUI.pages;
 public partial class ItemTemplate : Page
 {
     public readonly BaseDisplay Base;
+    public readonly OverlayDriver overlayDriver;
 
 
     public ItemTemplate(string itemType)
@@ -42,7 +43,7 @@ public partial class ItemTemplate : Page
 
 
         Base = new BaseDisplay();
-        var overlayDriver = new OverlayDriver(Base);
+        overlayDriver = new OverlayDriver(Base);
 
 
         switch (itemType)
