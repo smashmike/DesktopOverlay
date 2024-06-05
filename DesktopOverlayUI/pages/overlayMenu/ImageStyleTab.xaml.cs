@@ -70,9 +70,9 @@ public partial class ImageStyleTab : Page
     {
         if (OpacitySlider == null) return;
         if (_overlayDriver.ImageItem == null) return;
-        OpacityTextBox.Text = (int)OpacitySlider.Value + "";
-        _overlayDriver.SetImageOpacity((float)(OpacitySlider.Value / 100.0));
-        _overlayDriver.SetImage(_overlayDriver.ImageItem);
+        OpacityTextBox.Text = ((int)OpacitySlider.Value).ToString();
+        _overlayDriver.SetImageOpacity(((int)OpacitySlider.Value / 100f));
+        //_overlayDriver.SetImage(_overlayDriver.ImageItem);
     }
 
     private void OpacityValueChanged(object sender, TextChangedEventArgs e)
