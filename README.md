@@ -6,7 +6,7 @@ DesktopOverlay provides a modern, easy to use user-interface, with various custo
 
 ## Getting Started
 
-* Download DesktopOverlay from Releases (Make sure it's the DesktopOverlayUI zip and not Source zip)
+* Download DesktopOverlay from Releases (Make sure it's the release zip and not Source zip)
 
 * Extract the release.zip file
 
