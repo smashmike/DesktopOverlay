@@ -13,6 +13,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -20,7 +21,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Grid.Row="0">
             <ui:TextBlock Text="Z-Level" FontTypography="Subtitle"
-                          Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
+                          Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" Margin="0,0,0,8" />
             <RadioButton x:Name="TopMostButton" Content="Top Most" IsChecked="True" Checked="UpdateZLevel" />
             <RadioButton x:Name="AttachedButton" Content="Attached to Window" Checked="UpdateZLevel" />
             <ComboBox x:Name="WindowsComboBox" IsEnabled="{Binding IsChecked, ElementName=AttachedButton}"
@@ -33,9 +34,9 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="0" Margin="16,0,0,0">
+        <StackPanel Grid.Column="1" Grid.Row="0" Margin="16,0,16,0">
             <ui:TextBlock Text="Offset" FontTypography="Subtitle"
-                          Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
+                          Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" Margin="0,0,0,8" />
             <StackPanel Orientation="Horizontal">
                 <ui:TextBlock Text="X" Margin="0,0,8,0" FontTypography="BodyStrong" />
                 <TextBox x:Name="OffsetXTextBox" Text="0" Width="80" MaxWidth="80" MaxLength="4"
@@ -46,6 +47,14 @@
                 <TextBox x:Name="OffsetYTextBox" Text="0" Width="80" MaxWidth="80" MaxLength="4"
                          TextChanged="UpdateOffset" />
             </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Grid.Row="0" >
+            <StackPanel>
+                <ui:TextBlock Text="Elevation" FontTypography="Subtitle"
+                          Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
+                <ui:TextBlock Text="Relative to other overlays." HorizontalAlignment="Left" VerticalAlignment="Bottom" FontTypography="Caption" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Margin="0,0,0,8"/>
+            </StackPanel>
+            <ui:NumberBox x:Name="ZLevelBox" Minimum="0" Maximum="10" Value="10" Margin="0,0,0,8" ValueChanged="UpdateWindowHeight" HorizontalAlignment="Left" MinWidth="98"  ClearButtonEnabled="False" MaxWidth="98"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -16,6 +17,9 @@ namespace DesktopOverlayUI;
 
 public class OverlayDriver
 {
+
+    public static List<OverlayDriver> ActiveWindows = new List<OverlayDriver>();
+
     private readonly Graphics _gfx;
     private readonly GraphicsWindow _mainWindow;
 
@@ -33,6 +37,7 @@ public class OverlayDriver
 
     private Size _position;
     private Size _offset;
+    private int _zLevel;
 
 
     public OverlayDriver(BaseDisplay baseDisplay)
@@ -43,6 +48,7 @@ public class OverlayDriver
         IsAttached = false;
         _position = new Size(0, 0);
         _offset = new Size(0, 0);
+        _zLevel = 0;
         _imageOpacity = 1.0f;
         _timer = new DispatcherTimer
         {
@@ -63,6 +69,7 @@ public class OverlayDriver
             IsTopmost = true,
             IsVisible = true
         };
+        ActiveWindows.Add(this);
     }
 
     public ImageItem? ImageItem
@@ -160,6 +167,24 @@ public class OverlayDriver
             SetPosition(tempX, tempY);
         }
     }
+
+    public void SetZLevel(int zLevel)
+    {
+        _zLevel = zLevel;
+        foreach (var _gWindow in ActiveWindows)
+        {
+            if (_gWindow == this) continue;
+            if (_gWindow._zLevel < zLevel)
+            {
+                _mainWindow.PlaceAbove(_gWindow._mainWindow.Handle);
+            }
+            else if (_gWindow._zLevel > zLevel)
+            {
+                _gWindow._mainWindow.PlaceAbove(_mainWindow.Handle);
+            }
+        }
+    }
+
 
     public void SetImage(ImageItem image)
     {

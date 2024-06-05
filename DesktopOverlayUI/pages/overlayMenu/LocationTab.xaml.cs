@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using Wpf.Ui.Controls;
 
 namespace DesktopOverlayUI.pages.overlayMenu;
 
@@ -113,6 +114,17 @@ public partial class LocationTab : Page
             _base.Left = _overlayPoint.X;
             _base.Top = _overlayPoint.Y;
         }
+    }
+
+    private void UpdateWindowHeight(object sender, RoutedEventArgs e)
+    {
+        if (ZLevelBox == null) return;
+        if (ZLevelBox.Value == null) return;
+        if (!Regex.IsMatch(ZLevelBox.Value.ToString(), @"\A\b[0-9]+\b\Z") || (int)ZLevelBox.Value > 10)
+            ZLevelBox.Text = "";
+
+        ZLevelBox.Value = (int)ZLevelBox.Value;
+        _overlayDriver.SetZLevel((int)ZLevelBox.Value);
     }
 }
 
