@@ -8,7 +8,7 @@ DesktopOverlay provides a modern, easy to use user-interface, with various custo
 
 * Download DesktopOverlay from Releases (Make sure it's the DesktopOverlayUI zip and not Source zip)
 
-* Extract the DesktopOverlayUI.zip file
+* Extract the release.zip file
 
 * Run DesktopOverlayUI.exe
 
