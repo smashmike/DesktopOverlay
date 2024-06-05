@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,6 +21,7 @@ public partial class MainWindow
 
 {
     private readonly Page _settingsPage;
+    public static List<NavigationItem> NavigationItems = new List<NavigationItem>();
 
 
     public MainWindow()
@@ -35,6 +38,12 @@ public partial class MainWindow
             WindowBackdropType.Acrylic
         );
         //WindowBackdropType = WindowBackdropType.Mica;
+        this.Closing += CloseApp;
+    }
+
+    private void CloseApp(object? sender, CancelEventArgs e)
+    {
+        Application.Current.Shutdown();
     }
 
     private async void NewItem(object sender, RoutedEventArgs e)
