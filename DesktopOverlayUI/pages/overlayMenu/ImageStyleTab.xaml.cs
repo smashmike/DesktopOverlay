@@ -38,12 +38,25 @@ public partial class ImageStyleTab : Page
         if (XNumberBox.Value == null || YNumberBox.Value == null) return;
         if (AspectRatioToggle == null) return;
         if (_overlayDriver.ImageItem == null) return;
+        if (_ignoreSizeChange) return;
 
         _ignoreSizeChange = true;
         var height = YNumberBox.Value;
         var width = XNumberBox.Value;
 
-
+        if (AspectRatioToggle.IsChecked != null && AspectRatioToggle.IsChecked.Value)
+        {
+            if (sender == XNumberBox)
+            {
+                height = _overlayDriver.GetAspectRatio() * width;
+                YNumberBox.Value = height;
+            }
+            else
+            {
+                width = height / _overlayDriver.GetAspectRatio();
+                XNumberBox.Value = width;
+            }
+        }
         //_base.OverlayImageItem.Resize((int)width, (int)height);
         //_base.SetImage(_base.OverlayImageItem);
 
@@ -62,8 +75,10 @@ public partial class ImageStyleTab : Page
     {
         if (_overlayDriver.ImageItem == null) return;
         var originalSize = _overlayDriver.ImageItem.ResetSize();
+        _ignoreSizeChange = true;
         XNumberBox.Value = originalSize.Width;
         YNumberBox.Value = originalSize.Height;
+        _ignoreSizeChange = false;
     }
 
     private void OpacityValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

@@ -26,6 +26,7 @@ public class OverlayDriver
     private ImageItem? _imageItem;
     private float _imageOpacity;
     private bool _isSetUp;
+    private double _aspectRatio;
     private Process _process;
     private DispatcherTimer _timer;
 
@@ -50,6 +51,8 @@ public class OverlayDriver
         _offset = new Size(0, 0);
         _zLevel = 0;
         _imageOpacity = 1.0f;
+
+        _aspectRatio = 1.0;
         _timer = new DispatcherTimer
         {
             Interval = TimeSpan.FromMilliseconds(10)
@@ -102,6 +105,11 @@ public class OverlayDriver
     {
         _mainWindow.Resize(width, height);
         //_stickyWindow.Resize(width, height);
+    }
+
+    public double GetAspectRatio()
+    {
+        return _aspectRatio;
     }
 
     public void SetPosition(int x, int y)
@@ -190,6 +198,7 @@ public class OverlayDriver
     {
         if (!_isSetUp) SetUp();
         ImageItem = image;
+        _aspectRatio = (ImageItem.Height * 1.0) / (ImageItem.Width * 1.0);
         SetSize(ImageItem.Width, ImageItem.Height);
         _gfx.BeginScene();
         _gfx.ClearScene();
