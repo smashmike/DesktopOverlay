@@ -1,6 +1,7 @@
 > [!IMPORTANT]
 > .NET 8 is required to run this application. Please download and install it from [here](https://dotnet.microsoft.com/en-us/download).
 
+![](/DesktopOverlayUI/images/iconLarge.bmp)
 # DesktopOverlay
 
 DesktopOverlay is a overlay utility made to modernize adding overlays to user's desktops. 
