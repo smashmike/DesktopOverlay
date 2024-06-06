@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Net.Mime;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -18,7 +19,7 @@ namespace DesktopOverlayUI;
 public class OverlayDriver
 {
 
-    public static List<OverlayDriver> ActiveWindows = new List<OverlayDriver>();
+    private static readonly List<OverlayDriver> ActiveWindows = new List<OverlayDriver>();
 
     private readonly Graphics _gfx;
     private readonly GraphicsWindow _mainWindow;
@@ -27,46 +28,48 @@ public class OverlayDriver
     private float _imageOpacity;
     private bool _isSetUp;
     private double _aspectRatio;
-    private Process _process;
-    private DispatcherTimer _timer;
+    private Process? _process;
+    private readonly DispatcherTimer _timer;
 
-    private string _text;
-    private Font _font;
+    private string? _text;
+    private Font? _font;
     private float _fontSize;
     private Color _color;
-    private SolidBrush _brush;
+    private SolidBrush? _brush;
 
     private Size _position;
     private Size _offset;
     private int _zLevel;
 
 
-    public OverlayDriver(BaseDisplay baseDisplay)
+    public OverlayDriver()
     {
-        var baseHandle = new WindowInteropHelper(baseDisplay).EnsureHandle();
-        baseDisplay.Show();
-        _isSetUp = false;
-        IsAttached = false;
-        _position = new Size(0, 0);
-        _offset = new Size(0, 0);
-        _zLevel = 0;
-        _imageOpacity = 1.0f;
+            var baseHandle = new WindowInteropHelper(System.Windows.Application.Current.MainWindow).EnsureHandle();
+            //baseDisplay.Show();
+            _isSetUp = false;
+            IsAttached = false;
+            _position = new Size(0, 0);
+            _offset = new Size(0, 0);
+            _zLevel = 0;
+            _imageOpacity = 1.0f;
+            _aspectRatio = 1.0;
 
-        _aspectRatio = 1.0;
-        _timer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromMilliseconds(10)
-        };
-        _timer.Tick += OnTimerTick;
-        _gfx = new Graphics(baseHandle)
-        {
-            MeasureFPS = true,
-            PerPrimitiveAntiAliasing = true,
-            TextAntiAliasing = true,
-            UseMultiThreadedFactories = true,
-            Width = 1,
-            Height = 1
-        };
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(10)
+            };
+            _timer.Tick += OnTimerTick;
+            _gfx = new Graphics(baseHandle)
+            {
+                MeasureFPS = true,
+                PerPrimitiveAntiAliasing = true,
+                TextAntiAliasing = true,
+                UseMultiThreadedFactories = true,
+                Width = 1,
+                Height = 1
+            };
+        
+
         _mainWindow = new GraphicsWindow(_gfx)
         {
             IsTopmost = true,
@@ -85,7 +88,7 @@ public class OverlayDriver
         }
     }
 
-    public bool IsAttached { get; set; }
+    private bool IsAttached { get; set; }
 
     public event EventHandler? ImageItemChanged;
 
@@ -112,7 +115,7 @@ public class OverlayDriver
         return _aspectRatio;
     }
 
-    public void SetPosition(int x, int y)
+    private void SetPosition(int x, int y)
     {
         _position = new Size(x, y);
         _mainWindow.X = x + _offset.Width;
@@ -131,7 +134,7 @@ public class OverlayDriver
         UpdatePosition();
     }
 
-    public void SetTarget(Process process)
+    public void SetTarget(Process? process)
     {
         _timer.Stop();
         _process = process;
@@ -156,9 +159,9 @@ public class OverlayDriver
         }
     }
 
-    private void OnTimerTick(object sender, EventArgs e)
+    private void OnTimerTick(object? sender, EventArgs e)
     {
-        if (IsAttached)
+        if (IsAttached && _process != null)
         {
             var bounds = new WindowBounds();
             WindowHelper.GetWindowClientBounds(_process.MainWindowHandle, out bounds);
@@ -229,7 +232,7 @@ public class OverlayDriver
         UpdatePosition();
     }
 
-    public void SetText(string text)
+    public void SetText(string? text)
     {
         if (!_isSetUp) SetUp();
         _text = text;
@@ -254,6 +257,7 @@ public class OverlayDriver
     public void SetFontSize(float fontSize)
     {
         if (!_isSetUp) SetUp();
+        if (_font == null) return;
         _fontSize = fontSize;
         _font = _gfx.CreateFont(_font.FontFamilyName, _fontSize);
         _gfx.BeginScene();
@@ -275,7 +279,7 @@ public class OverlayDriver
         UpdatePosition();
     }
 
-    public string GetText()
+    public string? GetText()
     {
         return _text;
     }
@@ -299,6 +303,7 @@ public class OverlayDriver
     {
         if (!_mainWindow.IsInitialized) return;
         _mainWindow.Show();
+        SetZLevel(_zLevel);
     }
 
     public void Hide()

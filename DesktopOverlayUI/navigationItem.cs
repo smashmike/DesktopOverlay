@@ -138,7 +138,6 @@ public class NavigationItem : Button
         if (!IsItem)
         {
             _itemStackPanel.Children.Remove(this);
-            _page.As<ItemTemplate>().Base.Close();
             _page.As<ItemTemplate>().overlayDriver.Dispose();
             switch (_itemStackPanel.Children.Count)
             {

@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using WinRT;
 using Wpf.Ui.Controls;
 
 namespace DesktopOverlayUI.pages.overlayMenu;
@@ -15,7 +16,6 @@ namespace DesktopOverlayUI.pages.overlayMenu;
 /// </summary>
 public partial class LocationTab : Page
 {
-    private readonly BaseDisplay _base;
     private readonly OverlayDriver _overlayDriver;
     private readonly DispatcherTimer _timer;
     private Point _offsetPoint;
@@ -23,9 +23,8 @@ public partial class LocationTab : Page
 
     private Process? _targetProcess;
 
-    public LocationTab(BaseDisplay @base, OverlayDriver driver)
+    public LocationTab(OverlayDriver driver)
     {
-        _base = @base;
         _overlayDriver = driver;
         var processes = Process.GetProcesses();
         var processList = new List<Process>();
@@ -48,10 +47,7 @@ public partial class LocationTab : Page
         if (TopMostButton.IsChecked != null && TopMostButton.IsChecked.Value)
         {
             _timer.Stop();
-            _base.Topmost = true;
             _overlayPoint = new Point(0, 0);
-            _base.Left = _offsetPoint.X;
-            _base.Top = _offsetPoint.Y;
             _overlayDriver.SetAttach(false);
         }
         else if (AttachedButton.IsChecked != null && AttachedButton.IsChecked.Value)
@@ -64,8 +60,6 @@ public partial class LocationTab : Page
                 _targetProcess = selectedProcess;
                 _overlayDriver.SetTarget(_targetProcess);
                 _overlayPoint = new Point(windowRect.Left + _offsetPoint.X, windowRect.Top + _offsetPoint.Y);
-                _base.Left = _overlayPoint.X;
-                _base.Top = _overlayPoint.Y;
                 _timer.Start();
             }
         }
@@ -81,8 +75,6 @@ public partial class LocationTab : Page
             OffsetYTextBox.Text = "";
         if (string.IsNullOrEmpty(OffsetXTextBox.Text) || string.IsNullOrEmpty(OffsetYTextBox.Text)) return;
         _offsetPoint = new Point(int.Parse(OffsetXTextBox.Text), int.Parse(OffsetYTextBox.Text));
-        _base.Left = _overlayPoint.X + _offsetPoint.X;
-        _base.Top = _overlayPoint.Y + _offsetPoint.Y;
         _overlayDriver.SetOffset((int)_offsetPoint.X, (int)_offsetPoint.Y);
     }
 
@@ -104,23 +96,30 @@ public partial class LocationTab : Page
 
     private void OnTimerTick(object? sender, EventArgs e)
     {
-        if (_base.IsVisible == false) return;
         var windowRect = new Rect();
         if (_targetProcess != null) GetWindowRect(_targetProcess.MainWindowHandle, ref windowRect);
 
-        if (Math.Abs(_base.Left - windowRect.Left) > 0.1 || Math.Abs(_base.Top - windowRect.Top) > 0.1)
+        //if (Math.Abs(_base.Left - windowRect.Left) > 0.1 || Math.Abs(_base.Top - windowRect.Top) > 0.1)
+        if (windowRect.Left >= 0 && windowRect.Top >= 0)
         {
             _overlayPoint = new Point(windowRect.Left + _offsetPoint.X, windowRect.Top + _offsetPoint.Y);
-            _base.Left = _overlayPoint.X;
-            _base.Top = _overlayPoint.Y;
+        } 
+        if (windowRect.Left < 0)
+        {
+            _overlayPoint.X = 0;
+        } 
+        if (windowRect.Top < 0)
+        {
+            _overlayPoint.Y = 0;
         }
+
     }
 
     private void UpdateWindowHeight(object sender, RoutedEventArgs e)
     {
         if (ZLevelBox == null) return;
         if (ZLevelBox.Value == null) return;
-        if (!Regex.IsMatch(ZLevelBox.Value.ToString(), @"\A\b[0-9]+\b\Z") || (int)ZLevelBox.Value > 10)
+        if (!Regex.IsMatch(ZLevelBox.Value.ToString()!, @"\A\b[0-9]+\b\Z") || (int)ZLevelBox.Value > 10)
             ZLevelBox.Text = "";
 
         ZLevelBox.Value = (int)ZLevelBox.Value;

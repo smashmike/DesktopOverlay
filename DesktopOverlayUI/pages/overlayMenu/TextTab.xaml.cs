@@ -22,8 +22,6 @@ namespace DesktopOverlayUI.pages.overlayMenu
     /// </summary>
     public sealed partial class TextTab : Page
     {
-
-        private readonly BaseDisplay _base;
         private readonly OverlayDriver _overlayDriver;
  
 
@@ -31,9 +29,8 @@ namespace DesktopOverlayUI.pages.overlayMenu
         private readonly EditorForm _editor;
 
 
-        public TextTab(BaseDisplay @base, OverlayDriver overlayDriver)
+        public TextTab(OverlayDriver overlayDriver)
         {
-            _base = @base;
             _overlayDriver = overlayDriver;
             _overlayDriver.SetText("Text Overlay");
             //_base.SetText("Text Base");
@@ -59,12 +56,10 @@ namespace DesktopOverlayUI.pages.overlayMenu
             
             if (status)
             {
-                _base.Show();
                 _overlayDriver.Show();
             }
             else
             {
-                _base.Hide();
                 _overlayDriver.Hide();
             }
         }

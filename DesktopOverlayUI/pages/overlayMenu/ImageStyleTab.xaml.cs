@@ -10,16 +10,14 @@ namespace DesktopOverlayUI.pages.overlayMenu;
 /// </summary>
 public partial class ImageStyleTab : Page
 {
-    private readonly BaseDisplay _base;
 
 
     private bool _ignoreSizeChange;
 
     private readonly OverlayDriver _overlayDriver;
 
-    public ImageStyleTab(BaseDisplay @base, OverlayDriver driver)
+    public ImageStyleTab(OverlayDriver driver)
     {
-        _base = @base;
         _overlayDriver = driver;
         InitializeComponent();
         _overlayDriver.ImageItemChanged += (sender, args) =>
@@ -64,8 +62,6 @@ public partial class ImageStyleTab : Page
         _overlayDriver.SetImage(_overlayDriver.ImageItem);
         //overlayDriver.SetSize((int)width, (int)height);
 
-        _base.Height = (int)height;
-        _base.Width = (int)width;
         _overlayDriver.SetSize((int)width, (int)height);
         _ignoreSizeChange = false;
     }

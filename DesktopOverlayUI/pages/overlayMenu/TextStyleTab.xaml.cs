@@ -14,12 +14,10 @@ namespace DesktopOverlayUI.pages.overlayMenu;
 /// </summary>
 public partial class TextStyleTab : Page
 {
-    private readonly BaseDisplay _base;
     private readonly OverlayDriver _overlayDriver;
 
-    public TextStyleTab(BaseDisplay @base, OverlayDriver overlayDriver)
+    public TextStyleTab(OverlayDriver overlayDriver)
     {
-        _base = @base;
         _overlayDriver = overlayDriver;
         InitializeComponent();
         FontFamilyComboBox.SelectedItem = new FontFamily("Segoe UI");

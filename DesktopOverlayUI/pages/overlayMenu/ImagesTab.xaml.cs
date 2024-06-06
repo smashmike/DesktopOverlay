@@ -13,12 +13,10 @@ namespace DesktopOverlayUI.pages.overlayMenu;
 /// </summary>
 public partial class ImagesTab : Page
 {
-    private BaseDisplay _base;
     private readonly OverlayDriver _overlayDriver;
 
-    public ImagesTab(BaseDisplay @base, OverlayDriver driver)
+    public ImagesTab(OverlayDriver driver)
     {
-        _base = @base;
         _overlayDriver = driver;
         //var test1 = new ImageItem("test1");
         //var test2 = new ImageItem("test2");
