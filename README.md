@@ -15,7 +15,7 @@ DesktopOverlay provides a modern, easy to use user-interface, with various custo
 
 * Extract the release.zip file
 
-* Run DesktopOverlayUI.exe
+* Run DesktopOverlay.exe
 
 ## Credits
 
