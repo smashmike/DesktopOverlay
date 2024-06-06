@@ -6,8 +6,6 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using WinRT;
-using Wpf.Ui.Controls;
 
 namespace DesktopOverlayUI.pages.overlayMenu;
 
@@ -101,18 +99,9 @@ public partial class LocationTab : Page
 
         //if (Math.Abs(_base.Left - windowRect.Left) > 0.1 || Math.Abs(_base.Top - windowRect.Top) > 0.1)
         if (windowRect.Left >= 0 && windowRect.Top >= 0)
-        {
             _overlayPoint = new Point(windowRect.Left + _offsetPoint.X, windowRect.Top + _offsetPoint.Y);
-        } 
-        if (windowRect.Left < 0)
-        {
-            _overlayPoint.X = 0;
-        } 
-        if (windowRect.Top < 0)
-        {
-            _overlayPoint.Y = 0;
-        }
-
+        if (windowRect.Left < 0) _overlayPoint.X = 0;
+        if (windowRect.Top < 0) _overlayPoint.Y = 0;
     }
 
     private void UpdateWindowHeight(object sender, RoutedEventArgs e)
