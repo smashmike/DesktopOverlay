@@ -6,9 +6,13 @@
     <UseWPF>true</UseWPF>
     <WindowsPackageType>None</WindowsPackageType>
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <ApplicationIcon>iconlarge_6Pa_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="images\iconLarge.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="iconlarge_6Pa_icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GameOverlay.Net" Version="4.3.1" />
