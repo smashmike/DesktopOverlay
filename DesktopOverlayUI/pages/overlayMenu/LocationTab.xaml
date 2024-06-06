@@ -54,7 +54,7 @@
                           Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
                 <ui:TextBlock Text="Relative to other overlays." HorizontalAlignment="Left" VerticalAlignment="Bottom" FontTypography="Caption" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Margin="0,0,0,8"/>
             </StackPanel>
-            <ui:NumberBox x:Name="ZLevelBox" Minimum="0" Maximum="10" Value="10" Margin="0,0,0,8" ValueChanged="UpdateWindowHeight" HorizontalAlignment="Left" MinWidth="98"  ClearButtonEnabled="False" MaxWidth="98"/>
+            <ui:NumberBox x:Name="ZLevelBox" Minimum="0" Maximum="10" Value="10" Margin="0,0,0,8" ValueChanged="UpdateWindowHeight" HorizontalAlignment="Left" MinWidth="98"  ClearButtonEnabled="False" MaxWidth="98" MaxLength="2"/>
         </StackPanel>
     </Grid>
 </Page>
