@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DesktopOverlayUI.pages.overlayMenu;
+namespace DesktopOverlay.pages.overlayMenu;
 
 /// <summary>
 ///     Interaction logic for ImageStyleTab.xaml

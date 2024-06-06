@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using WinRT;
 using Wpf.Ui.Controls;
 
-namespace DesktopOverlayUI.pages.overlayMenu
+namespace DesktopOverlay.pages.overlayMenu
 {
     /// <summary>
     /// Interaction logic for TextTab.xaml

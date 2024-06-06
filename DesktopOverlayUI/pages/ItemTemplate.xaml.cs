@@ -1,5 +1,4 @@
-﻿using DesktopOverlayUI.pages.overlayMenu;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DesktopOverlay.pages.overlayMenu;
 using WinRT;
 using Wpf.Ui;
 using Wpf.Ui.Animations;
@@ -24,7 +24,7 @@ using GameOverlay.Windows;
 using Image = GameOverlay.Drawing.Image;
 using NavigationService = Wpf.Ui.NavigationService;
 
-namespace DesktopOverlayUI.pages;
+namespace DesktopOverlay.pages;
 
 /// <summary>
 /// Interaction logic for template.xaml

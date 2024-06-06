@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DesktopOverlayUI.pages
+namespace DesktopOverlay.pages
 {
     /// <summary>
     /// Interaction logic for HomePage.xaml

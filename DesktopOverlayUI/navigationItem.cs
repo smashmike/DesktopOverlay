@@ -1,5 +1,4 @@
-﻿using DesktopOverlayUI.pages;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using DesktopOverlay.pages;
 using WinRT;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
@@ -21,7 +21,7 @@ using Wpf.Ui.Markup;
 using Button = Wpf.Ui.Controls.Button;
 using TextBox = Wpf.Ui.Controls.TextBox;
 
-namespace DesktopOverlayUI;
+namespace DesktopOverlay;
 
 public class NavigationItem : Button
 {

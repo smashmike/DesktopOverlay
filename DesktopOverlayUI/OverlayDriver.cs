@@ -7,14 +7,14 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
-using DesktopOverlayUI.pages;
-using DesktopOverlayUI.pages.overlayMenu;
+using DesktopOverlay.pages.overlayMenu;
+using DesktopOverlay.pages;
 using GameOverlay.Drawing;
 using GameOverlay.Windows;
 using Color = System.Windows.Media.Color;
 using Point = GameOverlay.Drawing.Point;
 
-namespace DesktopOverlayUI;
+namespace DesktopOverlay;
 
 public class OverlayDriver
 {

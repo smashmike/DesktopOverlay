@@ -5,14 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using DesktopOverlayUI.pages;
+using DesktopOverlay.pages;
 using Wpf.Ui;
 using Wpf.Ui.Animations;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Extensions;
 
-namespace DesktopOverlayUI;
+namespace DesktopOverlay;
 
 /// <summary>
 ///     Interaction logic for MainWindow.xaml

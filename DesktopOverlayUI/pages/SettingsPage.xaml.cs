@@ -16,7 +16,7 @@ using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
-namespace DesktopOverlayUI.pages
+namespace DesktopOverlay.pages
 {
     /// <summary>
     /// Interaction logic for SettingsPage.xaml

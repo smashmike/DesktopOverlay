@@ -1,7 +1,7 @@
 ﻿
 using System.Windows;
 
-namespace DesktopOverlayUI
+namespace DesktopOverlay
 {
     /// <summary>
     /// Interaction logic for App.xaml
