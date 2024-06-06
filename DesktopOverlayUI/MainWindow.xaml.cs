@@ -21,15 +21,18 @@ public partial class MainWindow
 
 {
     private readonly Page _settingsPage;
-    public static List<NavigationItem> NavigationItems = new List<NavigationItem>();
+    private readonly Page _homePage;
+    public static List<NavigationItem> NavigationItems = new();
 
 
     public MainWindow()
     {
         InitializeComponent();
+        
         //frameDisplay.Source = new Uri("/pages/template.xaml", UriKind.Relative);
         _settingsPage = new SettingsPage(this);
-
+        _homePage = new HomePage(this);
+        SetView(_homePage);
 
         var themeService = new ThemeService();
         themeService.SetTheme(themeService.GetSystemTheme());
@@ -38,7 +41,7 @@ public partial class MainWindow
             WindowBackdropType.Acrylic
         );
         //WindowBackdropType = WindowBackdropType.Mica;
-        this.Closing += CloseApp;
+        Closing += CloseApp;
     }
 
     private void CloseApp(object? sender, CancelEventArgs e)
@@ -65,6 +68,30 @@ public partial class MainWindow
 
         ItemStackPanel.Children.Add(btn);
         btn.SetSelected(true);
+    }
+
+    public void TriggerNewItem(bool isText)
+    {
+        if (isText)
+        {
+            var btn = new NavigationItem(ItemStackPanel, this, "Text")
+            {
+                Name = "item" + ItemStackPanel.Children.Count
+            };
+
+            ItemStackPanel.Children.Add(btn);
+            btn.SetSelected(true);
+        }
+        else
+        {
+            var btn = new NavigationItem(ItemStackPanel, this, "Image")
+            {
+                Name = "item" + ItemStackPanel.Children.Count
+            };
+
+            ItemStackPanel.Children.Add(btn);
+            btn.SetSelected(true);
+        }
     }
 
     private async Task<string> PromptDialog()
@@ -114,5 +141,12 @@ public partial class MainWindow
         foreach (var item in ItemStackPanel.Children.OfType<NavigationItem>()) item.SetSelected(false);
 
         SetView(_settingsPage);
+    }
+
+    private void HomeView(object sender, RoutedEventArgs e)
+    {
+        foreach (var item in ItemStackPanel.Children.OfType<NavigationItem>()) item.SetSelected(false);
+
+        SetView(_homePage);
     }
 }
