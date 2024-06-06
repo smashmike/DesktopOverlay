@@ -1,6 +1,10 @@
 > [!IMPORTANT]
 > .NET 8 is required to run this application. Please download and install it from [here](https://dotnet.microsoft.com/en-us/download).
 
+> [!WARNING]
+> DesktopOverlay.exe could get flagged by Microsoft Defender or other antivirus programs since it does not have any certificates. [VirusTotal](https://www.virustotal.com/gui/file/d70df07e24f9daeccaf23592b6288b54cc89982d811d1bba8cfcccb4aebc6f5e/detection)
+
+
 ![](/DesktopOverlayUI/images/iconLarge.bmp)
 # DesktopOverlay
 
