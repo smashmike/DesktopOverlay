@@ -1,10 +1,10 @@
-﻿<ui:FluentWindow x:Class="DesktopOverlayUI.MainWindow"
+﻿<ui:FluentWindow x:Class="DesktopOverlay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DesktopOverlayUI"
-        xmlns:pages="clr-namespace:DesktopOverlayUI.pages"
+        xmlns:local="clr-namespace:DesktopOverlay"
+        xmlns:pages="clr-namespace:DesktopOverlay.pages"
         
         
 		xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -15,7 +15,7 @@
 		
         Title="DesktopOverlay" Height="450" Width="800" 
         WindowCornerPreference="Round"
-        ExtendsContentIntoTitleBar="True" WindowStyle="None" ResizeMode="NoResize" >
+        ExtendsContentIntoTitleBar="True" WindowStyle="None" ResizeMode="NoResize" Icon="/images/iconLarge.bmp" >
     <ui:FluentWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,6 +26,8 @@
 
 
     <Grid>
+        <ui:ImageIcon Source="images/iconLarge.bmp" Height="16" Width="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,8,0,0"/>
+        <ui:TextBlock Text="DesktopOverlay" Margin="40,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontTypography="Caption" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
         <ui:TitleBar HorizontalAlignment="Right" Height="32" Width="800" ShowMaximize="False"/>
         <ContentPresenter x:Name="Dialog" Panel.ZIndex="10"/>
         <Grid Margin="0,32,0,0">

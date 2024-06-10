@@ -7,7 +7,7 @@ using GameOverlay.Drawing;
 using WinRT;
 using Color = System.Windows.Media.Color;
 
-namespace DesktopOverlayUI.pages.overlayMenu;
+namespace DesktopOverlay.pages.overlayMenu;
 
 /// <summary>
 ///     Interaction logic for TextStyleTab.xaml

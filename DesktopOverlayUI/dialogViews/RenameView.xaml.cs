@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DesktopOverlayUI.dialogViews
+namespace DesktopOverlay.dialogViews
 {
     /// <summary>
     /// Interaction logic for renameView.xaml

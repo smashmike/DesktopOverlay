@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 
-namespace DesktopOverlayUI.pages.overlayMenu;
+namespace DesktopOverlay.pages.overlayMenu;
 
 /// <summary>
 ///     Interaction logic for ImagesTab.xaml

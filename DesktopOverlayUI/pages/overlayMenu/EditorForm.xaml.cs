@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Wpf.Ui.Controls;
 
-namespace DesktopOverlayUI.pages.overlayMenu
+namespace DesktopOverlay.pages.overlayMenu
 {
     /// <summary>
     /// Interaction logic for EditorForm.xaml

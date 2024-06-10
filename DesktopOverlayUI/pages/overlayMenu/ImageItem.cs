@@ -8,7 +8,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Processing;
 using Size = SixLabors.ImageSharp.Size;
 
-namespace DesktopOverlayUI.pages.overlayMenu;
+namespace DesktopOverlay.pages.overlayMenu;
 
 public class ImageItem : DependencyObject
 {

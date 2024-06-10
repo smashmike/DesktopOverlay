@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesktopOverlayUI", "DesktopOverlayUI\DesktopOverlayUI.csproj", "{4144AD0A-F9FB-4A4A-AEB7-EFE9DC2E9482}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesktopOverlay", "DesktopOverlayUI\DesktopOverlay.csproj", "{4144AD0A-F9FB-4A4A-AEB7-EFE9DC2E9482}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

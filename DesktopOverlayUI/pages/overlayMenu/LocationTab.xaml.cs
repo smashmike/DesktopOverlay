@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
-namespace DesktopOverlayUI.pages.overlayMenu;
+namespace DesktopOverlay.pages.overlayMenu;
 
 /// <summary>
 ///     Interaction logic for LocationTab.xaml
