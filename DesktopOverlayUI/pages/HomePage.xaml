@@ -53,9 +53,20 @@
                     </StackPanel>
                 </Grid>
             </ui:Button>
+            <ui:Button MinWidth="214" HorizontalContentAlignment="Left" Padding="11,5,11,6" Click="OpenGithub" Margin="0,8,0,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ui:SymbolIcon Grid.Column="0" Symbol="Star28" FontSize="32" Margin="0,0,8,0" />
+                    <StackPanel Grid.Column="1">
+                        <ui:TextBlock Text="Star on GitHub" FontTypography="BodyStrong" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
+                        <ui:TextBlock Text="Leave a star on GitHub." FontTypography="Caption" Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"></ui:TextBlock>
+                    </StackPanel>
+                </Grid>
+            </ui:Button>
         </StackPanel>
-
-        <ui:Button Grid.Row="0" Grid.Column="1" VerticalAlignment="Top"></ui:Button>
 
     </Grid>
 </Page>

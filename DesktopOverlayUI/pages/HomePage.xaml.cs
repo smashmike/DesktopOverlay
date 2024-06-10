@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +41,20 @@ namespace DesktopOverlayUI.pages
         private void NewImageItem(object sender, RoutedEventArgs e)
         {
             _mainWindow.TriggerNewItem(false);
+        }
+
+        private void OpenGithub(object sender, RoutedEventArgs e)
+        {
+            var psi = new ProcessStartInfo
+            {
+                FileName = "cmd",
+                WindowStyle = ProcessWindowStyle.Hidden,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                Arguments = "/c start http://github.com/smashmike/DesktopOverlay"
+            };
+            Process.Start(psi);
+
         }
 
 
