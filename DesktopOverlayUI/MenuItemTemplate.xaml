@@ -11,7 +11,7 @@
             Padding="0,0,0,0"
             HorizontalContentAlignment="Stretch"
             MinHeight="40"
-            Margin="1" BorderBrush="#00000000"
+            Margin="0,1,0,1" BorderBrush="#00000000"
             Background="{TemplateBinding Background}"
             MouseOverBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}"
             PressedBackground="{ui:ThemeResource ControlStrokeColorDefaultBrush}"

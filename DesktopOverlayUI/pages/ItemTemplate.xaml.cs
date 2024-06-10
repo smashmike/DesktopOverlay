@@ -50,9 +50,11 @@ public partial class ItemTemplate : Page
                 var imagesTab = new ImagesTab(overlayDriver);
                 var imageMenuButton = new NavigationItem(MenuPanel, this, imagesTab, "General");
                 MenuPanel.Children.Add(imageMenuButton);
+
                 var imageStyleTab = new ImageStyleTab(overlayDriver);
                 var imageStyleMenuButton = new NavigationItem(MenuPanel, this, imageStyleTab, "Style");
                 MenuPanel.Children.Add(imageStyleMenuButton);
+
                 imageMenuButton.SetSelected(true);
                 break;
             }
